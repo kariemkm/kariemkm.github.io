@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kareem | My Works</title>
     
+    <link rel="icon" type="image/png" href="LAST/logo"> 
+
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -16,10 +18,15 @@
             --card-bg: #0a0a0a;
             --text-main: #ffffff;
             --text-dim: #888;
+            --nav-height: 80px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body, a, button, .card { cursor: none !important; }
+        
+        /* إخفاء الماوس الأصلي على الكمبيوتر */
+        @media (min-width: 1025px) {
+            html.custom-cursor-active, html.custom-cursor-active * { cursor: none !important; }
+        }
 
         body {
             background-color: var(--bg);
@@ -27,145 +34,180 @@
             font-family: 'Segoe UI', Tahoma, sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
-        /* الماوس المخصص المربوط باللون */
-        #custom-cursor {
+        /* --- نظام الماوس المتطور --- */
+        #cursor-container {
             position: fixed;
             top: 0; left: 0;
-            width: 28px; height: 28px;
             pointer-events: none;
             z-index: 100000;
-            filter: drop-shadow(0 0 5px var(--primary-glow));
-            transition: transform 0.1s ease-out;
+            transition: transform 0.08s ease-out;
+            display: none;
         }
-
-        #cursor-path {
-            fill: var(--primary);
-            stroke: #ffffff;
-            stroke-width: 1.5px;
-            transition: fill 0.3s ease;
+        .cursor-lens {
+            width: 55px; height: 55px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            mix-blend-mode: difference;
+            background: rgba(255, 255, 255, 0.1);
         }
+        .cursor-arrow { width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--primary)); }
+        #cursor-path { fill: var(--primary); stroke: #fff; stroke-width: 1.5px; }
 
+        /* --- الهيدر --- */
         nav {
-            padding: 25px 8%; display: flex; justify-content: space-between;
-            align-items: center; position: fixed; width: 100%; z-index: 1000;
-            background: rgba(3, 3, 3, 0.8); backdrop-filter: blur(15px);
-            border-bottom: 2px solid var(--primary); /* مربوط باللون */
+            height: var(--nav-height);
+            padding: 0 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(3, 3, 3, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(160, 32, 240, 0.3);
         }
-        .logo { font-size: 1.4rem; font-weight: 900; color: var(--primary); text-decoration: none; }
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.9rem; transition: 0.3s; opacity: 0.7; }
+
+        .logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo-img-mask {
+            width: 35px; height: 35px; background-color: var(--primary);
+            -webkit-mask: url('LAST/logo') no-repeat center/contain;
+            mask: url('LAST/logo') no-repeat center/contain;
+        }
+        .logo-text { font-size: 1.2rem; font-weight: 900; color: #fff; letter-spacing: 1px; }
+
+        .nav-links { display: flex; gap: 25px; list-style: none; }
+        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: 0.3s; opacity: 0.7; }
         .nav-links a:hover, .nav-links a.active { color: var(--primary); opacity: 1; }
 
-        .works-header { padding: 150px 8% 50px; text-align: right; }
-        .works-header h1 { font-size: clamp(3rem, 8vw, 6rem); font-weight: 900; margin-bottom: 10px; }
+        .menu-toggle { display: none; font-size: 1.5rem; color: var(--primary); cursor: pointer; }
 
-        .work-section { padding: 50px 8% 100px; }
-        
-        /* شبكة الصور الموحدة */
+        /* --- عنوان الصفحة --- */
+        .works-header { 
+            padding: calc(var(--nav-height) + 60px) 8% 30px; 
+            text-align: right;
+            background: linear-gradient(to bottom, #0f0514 0%, #030303 100%);
+        }
+        .works-header h1 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900; line-height: 1; }
+
+        /* --- شبكة الأعمال --- */
+        .work-section { padding: 20px 8% 100px; }
         .grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-            gap: 30px; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 25px; 
         }
 
         .card { 
             background: var(--card-bg); 
-            border-radius: 20px; 
+            border-radius: 15px; 
             overflow: hidden; 
             border: 1px solid #151515; 
-            transition: 0.5s;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
         }
-        
         .card:hover { 
             border-color: var(--primary); 
             transform: translateY(-10px);
-            box-shadow: 0 10px 30px var(--primary-glow);
+            box-shadow: 0 15px 35px var(--primary-glow);
         }
 
-        /* حل مشكلة المقاسات المختلفة */
         .image-box { 
-            height: 400px; /* ارتفاع ثابت لكل الكروت */
+            aspect-ratio: 3/4;
             background: #111; 
             overflow: hidden; 
         }
-        
         .image-box img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; /* يقص الزيادات ويحافظ على النسبة */
-            object-position: center;
+            width: 100%; height: 100%; 
+            object-fit: cover; 
             transition: 0.8s ease;
-            opacity: 0.9;
+            opacity: 0.85;
         }
-        
-        .card:hover img { 
-            transform: scale(1.1); 
-            opacity: 1;
-        }
+        .card:hover img { transform: scale(1.1); opacity: 1; }
 
         .card-info { padding: 20px; text-align: center; border-top: 1px solid #151515; }
-        .card-info h3 { font-size: 1.1rem; margin-bottom: 5px; color: var(--text-main); }
-        .card-info p { font-size: 0.85rem; color: var(--primary); font-weight: bold; }
+        .card-info h3 { font-size: 1rem; margin-bottom: 5px; color: var(--text-main); text-transform: uppercase; }
+        .card-info p { font-size: 0.8rem; color: var(--primary); font-weight: bold; letter-spacing: 1px; }
 
+        /* --- الإعدادات --- */
         .settings-panel {
             position: fixed; left: -260px; top: 50%; transform: translateY(-50%);
             width: 260px; background: #0a0a0a; border: 1px solid var(--primary);
-            padding: 25px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0;
+            padding: 20px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0;
         }
         .settings-panel.active { left: 0; }
         #settingsToggle {
-            position: absolute; right: -45px; top: 0; width: 45px; height: 45px;
-            background: var(--primary); border: none; color: white; border-radius: 0 10px 10px 0;
+            position: absolute; right: -40px; top: 0; width: 40px; height: 40px;
+            background: var(--primary); border: none; color: white; border-radius: 0 8px 8px 0;
         }
 
-        footer { padding: 40px; text-align: center; color: #444; border-top: 1px solid #111; }
+        /* --- شاشات الموبايل --- */
+        @media (max-width: 1024px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed; top: var(--nav-height); right: -100%; width: 80%; height: 100vh;
+                background: #050505; flex-direction: column; padding: 50px 30px; transition: 0.4s;
+                border-left: 1px solid var(--primary);
+            }
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 1.3rem; }
+            .grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+            .works-header { text-align: center; }
+        }
+
+        footer { padding: 40px; text-align: center; color: #444; font-size: 0.8rem; border-top: 1px solid #111; }
     </style>
 </head>
 <body>
 
-    <div id="custom-cursor">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" />
-        </svg>
-    </div>
+    <div id="cursor-container"></div>
 
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
-        <h3 style="color: var(--primary); margin-bottom: 20px;">تخصيص الموقع</h3>
-        <input type="color" id="fullColorPicker" class="custom-color-input" style="width:100%; height:40px;" oninput="updateSiteColor(this.value)">
+        <h4 style="color: var(--primary); margin-bottom: 15px;">تخصيص العرض</h4>
+        <label style="font-size: 0.75rem; color: var(--text-dim);">لون الهوية:</label>
+        <input type="color" id="fullColorPicker" style="width:100%; height:30px; margin-bottom: 20px; border:none; background:none;" oninput="updateSiteColor(this.value)">
+        <div id="desktop-only-settings">
+            <label style="font-size: 0.75rem; color: var(--text-dim);">شكل المؤشر:</label>
+            <div onclick="setCursor('arrow')" style="cursor:pointer; padding:8px; background:#151515; margin-top:5px; border-radius:5px; font-size:0.8rem;">سهم نيون (أساسي)</div>
+            <div onclick="setCursor('lens')" style="cursor:pointer; padding:8px; background:#151515; margin-top:5px; border-radius:5px; font-size:0.8rem;">عدسة فنية</div>
+        </div>
     </div>
 
     <nav>
-        <a href="index.html" class="logo">KAREEM.DSGN</a>
-        <div class="nav-links">
-            <a href="index.html">الرئيسية</a> 
-            <a href="works.html" class="active">أعمالي</a>
-            <a href="about.html">عني</a>
-            <a href="contact.html">تواصل معي</a>
-        </div>
+        <a href="index.html" class="logo-container">
+            <div class="logo-img-mask"></div>
+            <span class="logo-text">KAREEM<span style="color: var(--primary);">.DSGN</span></span>
+        </a>
+        
+        <div class="menu-toggle" id="mobile-menu-btn"><i class="fas fa-bars"></i></div>
+
+        <ul class="nav-links" id="nav-menu">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="works.html" class="active">أعمالي</a></li>
+            <li><a href="about.html">عني</a></li>
+            <li><a href="contact.html">تواصل معي</a></li>
+        </ul>
     </nav>
 
     <header class="works-header">
         <h1 data-aos="fade-left">MY <span style="color: var(--primary);">PROJECTS</span></h1>
-        <p style="color: var(--text-dim);">هنا تجد نتاج شغفي في التصميم الجرافيكي والهويات البصرية.</p>
+        <p style="color: var(--text-dim); margin-top: 10px;">معرض التصاميم المختارة بعناية.</p>
     </header>
 
     <section class="work-section">
-        <div class="grid" id="projectsGrid">
-            </div>
+        <div class="grid" id="projectsGrid"></div>
     </section>
 
-    <footer><p>© 2026 KAREEM DESIGN.</p></footer>
+    <footer><p>© 2026 KAREEM DESIGN. All Rights Reserved.</p></footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000 });
+        AOS.init({ duration: 800, once: true });
 
-        // قائمة الصور التي أرسلتها
+        // البيانات
         const images = [
             "LAST/Green HoOdy design 2.jpg", "LAST/hoodie design.jpg", "LAST/My pack-051.jpg",
             "LAST/Orange juice.jpg", "LAST/SHOES1.jpg", "LAST/burber.jpg",
@@ -178,58 +220,83 @@
         ];
 
         const grid = document.getElementById('projectsGrid');
+        const cursorContainer = document.getElementById('cursor-container');
+        const isMobile = window.matchMedia("(max-width: 1024px)").matches;
 
-        // توليد الكروت أوتوماتيكياً
+        // توليد الكروت
         images.forEach((src, index) => {
             const fileName = src.split('/').pop().split('.')[0].replace(/%20/g, ' ');
-            const card = `
+            grid.innerHTML += `
                 <div class="card" data-aos="fade-up" data-aos-delay="${(index % 3) * 100}">
                     <div class="image-box">
                         <img src="${src}" alt="${fileName}" loading="lazy">
                     </div>
                     <div class="card-info">
-                        <h3>${fileName.toUpperCase()}</h3>
-                        <p>Graphic Design</p>
+                        <h3>${fileName}</h3>
+                        <p>GRAPHIC DESIGN</p>
                     </div>
                 </div>
             `;
-            grid.innerHTML += card;
         });
 
+        // المنيو
+        document.getElementById('mobile-menu-btn').onclick = function() {
+            document.getElementById('nav-menu').classList.toggle('active');
+            this.querySelector('i').classList.toggle('fa-bars');
+            this.querySelector('i').classList.toggle('fa-times');
+        };
+
+        // الألوان
         function updateSiteColor(color) {
             document.documentElement.style.setProperty('--primary', color);
             document.documentElement.style.setProperty('--primary-glow', color + '4d');
             localStorage.setItem('userThemeColor', color);
         }
 
+        // الماوس (الأساسي سهم نيون)
+        let currentCursorMode = localStorage.getItem('cursorMode') || 'arrow';
+
+        function setCursor(mode) {
+            if (isMobile) return;
+            currentCursorMode = mode;
+            localStorage.setItem('cursorMode', mode);
+            
+            if (mode === 'default') {
+                document.documentElement.classList.remove('custom-cursor-active');
+                cursorContainer.style.display = 'none';
+            } else {
+                document.documentElement.classList.add('custom-cursor-active');
+                cursorContainer.style.display = 'block';
+                renderCursor(mode);
+            }
+        }
+
+        function renderCursor(mode) {
+            if (mode === 'lens') {
+                cursorContainer.innerHTML = '<div class="cursor-lens"></div>';
+            } else {
+                cursorContainer.innerHTML = `<svg class="cursor-arrow" viewBox="0 0 24 24"><path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" /></svg>`;
+            }
+        }
+
+        if (!isMobile) {
+            document.addEventListener('mousemove', (e) => {
+                if (currentCursorMode !== 'default') {
+                    cursorContainer.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+                }
+            });
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             const savedColor = localStorage.getItem('userThemeColor');
             if (savedColor) {
                 updateSiteColor(savedColor);
-                if(document.getElementById('fullColorPicker')) {
-                    document.getElementById('fullColorPicker').value = savedColor;
-                }
+                if(document.getElementById('fullColorPicker')) document.getElementById('fullColorPicker').value = savedColor;
             }
-        });
-
-        const cursor = document.getElementById('custom-cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+            setCursor(currentCursorMode);
         });
 
         document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
-        
-        // تفاعل الماوس مع العناصر
-        document.addEventListener('mouseover', (e) => {
-            if (e.target.closest('a, button, .card')) {
-                cursor.style.transform += ' scale(1.5)';
-            }
-        });
-        document.addEventListener('mouseout', (e) => {
-            if (e.target.closest('a, button, .card')) {
-                cursor.style.transform = cursor.style.transform.replace(' scale(1.5)', '');
-            }
-        });
     </script>
 </body>
 </html>
