@@ -4,162 +4,275 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kareem | About Me</title>
+    
+    <link rel="icon" type="image/png" href="LAST/logo"> 
+
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        :root { 
-            --bg: #030303; 
-            --primary: #a020f0; 
-            --primary-glow: rgba(160, 32, 240, 0.3); 
-            --text-main: #ffffff; 
-            --text-dim: #888; 
+        :root {
+            --bg: #030303;
+            --primary: #a020f0;
+            --primary-glow: rgba(160, 32, 240, 0.3);
+            --text-main: #ffffff;
+            --text-dim: #888;
+            --nav-height: 80px;
         }
-        
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        @media (min-width: 1025px) {
+            html.custom-cursor-active, html.custom-cursor-active * { cursor: none !important; }
+        }
 
-        /* إخفاء الماوس الأصلي */
-        html, body, a, button, .skill-tag, input { cursor: none !important; }
-
-        body { 
-            background-color: var(--bg); 
-            color: var(--text-main); 
-            font-family: 'Segoe UI', sans-serif; 
-            line-height: 1.8;
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* ستايل الماوس المخصص (السهم) */
-        #custom-cursor {
+        /* --- نظام الماوس المتطور --- */
+        #cursor-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 28px;
-            height: 28px;
+            top: 0; left: 0;
             pointer-events: none;
             z-index: 100000;
-            filter: drop-shadow(0 0 5px var(--primary-glow));
-            transition: transform 0.1s ease-out;
+            transition: transform 0.08s ease-out;
+            display: none;
+        }
+        .cursor-lens {
+            width: 55px; height: 55px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            mix-blend-mode: difference;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .cursor-arrow { width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--primary)); }
+        #cursor-path { fill: var(--primary); stroke: #fff; stroke-width: 1.5px; }
+
+        /* --- الهيدر --- */
+        nav {
+            height: var(--nav-height);
+            padding: 0 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(3, 3, 3, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(160, 32, 240, 0.3);
         }
 
-        #cursor-path {
-            fill: var(--primary);
-            stroke: #ffffff; /* تحديد أبيض عشان يظهر على الأسود */
-            stroke-width: 1.5px;
-            transition: fill 0.3s ease;
+        .logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo-img-mask {
+            width: 35px; height: 35px; background-color: var(--primary);
+            -webkit-mask: url('LAST/logo') no-repeat center/contain;
+            mask: url('LAST/logo') no-repeat center/contain;
         }
+        .logo-text { font-size: 1.2rem; font-weight: 900; color: #fff; letter-spacing: 1px; }
 
-        /* تنسيق الهيدر */
-        nav { padding: 25px 8%; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; z-index: 1000; background: rgba(3, 3, 3, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(160, 32, 240, 0.1); }
-        .logo { font-size: 1.4rem; font-weight: 900; color: var(--primary); text-decoration: none; }
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.9rem; transition: 0.3s; opacity: 0.7; }
+        .nav-links { display: flex; gap: 25px; list-style: none; }
+        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: 0.3s; opacity: 0.7; }
         .nav-links a:hover, .nav-links a.active { color: var(--primary); opacity: 1; }
 
-        /* قسم عني */
-        .about-section { padding: 180px 8% 100px; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
-        .about-text h1 { font-size: 4rem; font-weight: 900; line-height: 1; margin-bottom: 30px; }
-        .about-text p { font-size: 1.1rem; color: var(--text-dim); margin-bottom: 20px; }
-        .stats { display: flex; gap: 30px; margin-top: 40px; }
-        .stat-item h3 { font-size: 2.5rem; color: var(--primary); }
-        .stat-item p { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
-        
-        .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 30px; }
-        .skill-tag { padding: 10px 20px; border: 1px solid #222; border-radius: 10px; text-align: center; transition: 0.3s; }
-        .skill-tag:hover { border-color: var(--primary); background: var(--primary-glow); }
+        .menu-toggle { display: none; font-size: 1.5rem; color: var(--primary); cursor: pointer; }
 
-        /* لوحة التحكم */
-        .settings-panel { position: fixed; left: -260px; top: 50%; transform: translateY(-50%); width: 260px; background: #0a0a0a; border: 1px solid var(--primary); padding: 25px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0; }
-        .settings-panel.active { left: 0; }
-        #settingsToggle { position: absolute; right: -45px; top: 0; width: 45px; height: 45px; background: var(--primary); border: none; color: white; border-radius: 0 10px 10px 0; }
+        /* --- قسم عني --- */
+        .about-hero {
+            min-height: 100vh;
+            padding: calc(var(--nav-height) + 60px) 8% 60px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+            align-items: center;
+            background: radial-gradient(circle at 0% 0%, #0f0514 0%, #030303 50%);
+        }
+
+        .about-content h1 { font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 900; line-height: 1.1; margin-bottom: 25px; }
+        .about-content p { font-size: 1.1rem; color: var(--text-dim); margin-bottom: 25px; max-width: 600px; text-align: justify; }
         
-        @media (max-width: 900px) { .about-section { grid-template-columns: 1fr; padding-top: 120px; } }
+        .stats-grid { display: flex; gap: 40px; margin: 40px 0; }
+        .stat-box h3 { font-size: 2.5rem; color: var(--primary); font-weight: 900; }
+        .stat-box p { font-size: 0.8rem; letter-spacing: 1px; color: var(--text-dim); text-transform: uppercase; margin: 0; }
+
+        /* --- المهارات --- */
+        .skills-container { background: #080808; padding: 40px; border-radius: 20px; border: 1px solid #151515; }
+        .skills-container h2 { margin-bottom: 25px; font-size: 1.5rem; border-right: 4px solid var(--primary); padding-right: 15px; }
+        .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .skill-item {
+            padding: 12px;
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .skill-item:hover { border-color: var(--primary); background: var(--primary-glow); transform: scale(1.05); }
+
+        /* --- الإعدادات --- */
+        .settings-panel {
+            position: fixed; left: -260px; top: 50%; transform: translateY(-50%);
+            width: 260px; background: #0a0a0a; border: 1px solid var(--primary);
+            padding: 20px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0;
+        }
+        .settings-panel.active { left: 0; }
+        #settingsToggle {
+            position: absolute; right: -40px; top: 0; width: 40px; height: 40px;
+            background: var(--primary); border: none; color: white; border-radius: 0 8px 8px 0;
+        }
+
+        /* --- شاشات الموبايل --- */
+        @media (max-width: 1024px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed; top: var(--nav-height); right: -100%; width: 80%; height: 100vh;
+                background: #050505; flex-direction: column; padding: 50px 30px; transition: 0.4s;
+                border-left: 1px solid var(--primary);
+            }
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 1.3rem; }
+            
+            .about-hero { grid-template-columns: 1fr; text-align: center; padding-top: 120px; }
+            .about-content p { margin-left: auto; margin-right: auto; }
+            .stats-grid { justify-content: center; }
+            .skills-container { margin-top: 20px; }
+        }
+
+        footer { padding: 40px; text-align: center; color: #444; font-size: 0.8rem; border-top: 1px solid #111; }
     </style>
 </head>
 <body>
 
-    <div id="custom-cursor">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" />
-        </svg>
-    </div>
+    <div id="cursor-container"></div>
 
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
-        <h3 style="color: var(--primary); margin-bottom: 20px;">تخصيص</h3>
-        <input type="color" id="fullColorPicker" style="width:100%; height:40px;" oninput="updateSiteColor(this.value)">
+        <h4 style="color: var(--primary); margin-bottom: 15px;">تخصيص الواجهة</h4>
+        <label style="font-size: 0.75rem; color: var(--text-dim);">لون الثيم:</label>
+        <input type="color" id="fullColorPicker" style="width:100%; height:30px; margin-bottom: 20px; border:none; background:none;" oninput="updateSiteColor(this.value)">
+        <div id="desktop-only-settings">
+            <label style="font-size: 0.75rem; color: var(--text-dim);">شكل المؤشر:</label>
+            <div onclick="setCursor('arrow')" style="cursor:pointer; padding:8px; background:#151515; margin-top:5px; border-radius:5px; font-size:0.8rem;">سهم نيون</div>
+            <div onclick="setCursor('lens')" style="cursor:pointer; padding:8px; background:#151515; margin-top:5px; border-radius:5px; font-size:0.8rem;">عدسة عاكسة</div>
+        </div>
     </div>
 
     <nav>
-        <a href="index.html" class="logo">KAREEM.DSGN</a>
-        <div class="nav-links">
-            <a href="index.html">الرئيسية</a>
-            <a href="works.html">أعمالي</a>
-            <a href="about.html" class="active">عني</a>
-            <a href="contact.html">تواصل معي</a>
-        </div>
+        <a href="index.html" class="logo-container">
+            <div class="logo-img-mask"></div>
+            <span class="logo-text">KAREEM<span style="color: var(--primary);">.DSGN</span></span>
+        </a>
+        
+        <div class="menu-toggle" id="mobile-menu-btn"><i class="fas fa-bars"></i></div>
+
+        <ul class="nav-links" id="nav-menu">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="works.html">أعمالي</a></li>
+            <li><a href="about.html" class="active">عني</a></li>
+            <li><a href="contact.html">تواصل معي</a></li>
+        </ul>
     </nav>
 
-    <section class="about-section">
-        <div class="about-text" data-aos="fade-right">
-            <h1>أنا <span style="color: var(--primary);">كريم</span>.</h1>
-            <p>مصمم جرافيك ومطور واجهات شغوف بخلق حلول بصرية تتجاوز التوقعات. أجمع بين الفن والتكنولوجيا لتحويل الأفكار المعقدة إلى تصاميم بسيطة ومؤثرة.</p>
-            <p>بعيداً عن الشاشة، أنا **Speedcuber** أسعى دائماً لتحطيم أرقامي القياسية، وأستمتع بعالم الـ Gaming الذي يلهمني.</p>
-            <div class="stats">
-                <div class="stat-item"><h3>+5</h3><p>سنوات خبرة</p></div>
-                <div class="stat-item"><h3>+50</h3><p>مشروع ناجح</p></div>
+    <section class="about-hero">
+        <div class="about-content" data-aos="fade-up">
+            <h1>أنا <span style="color: var(--primary);">كريم</span>. <br> مصمم ومبتكر.</h1>
+            <p>أهلاً بك! أنا كريم، مصمم جرافيك ومطور واجهات (UI/UX) أؤمن بأن التصميم ليس مجرد شكل جميل، بل هو لغة تواصل تحل المشكلات وتخلق تجارب مستخدم فريدة.</p>
+            <p>لدي شغف كبير بالتقنية، بجانب كوني <b>Speedcuber</b> محترف أهتم بالسرعة والدقة في كل شيء أفعله، تماماً كما أفعل في تصاميمي.</p>
+            
+            <div class="stats-grid">
+                <div class="stat-box"><h3>+5</h3><p>سنوات خبرة</p></div>
+                <div class="stat-box"><h3>+50</h3><p>مشروع منجز</p></div>
             </div>
         </div>
 
-        <div class="about-skills" data-aos="fade-left">
-            <h2 style="margin-bottom: 20px;">المهارات التقنية</h2>
+        <div class="skills-container" data-aos="fade-up" data-aos-delay="200">
+            <h2>المهارات الاحترافية</h2>
             <div class="skills-grid">
-                <div class="skill-tag">UI/UX Design</div>
-                <div class="skill-tag">Branding</div>
-                <div class="skill-tag">Python</div>
-                <div class="skill-tag">Motion Graphics</div>
-                <div class="skill-tag">Web Development</div>
-                <div class="skill-tag">Visual Identity</div>
+                <div class="skill-item">UI/UX Design</div>
+                <div class="skill-item">Branding</div>
+                <div class="skill-item">Visual Identity</div>
+                <div class="skill-item">AI Art Direction</div>
+                <div class="skill-item">Graphic Design</div>
+                <div class="skill-item">Python Programming</div>
+                <div class="skill-item">Frontend Logic</div>
+                <div class="skill-item">Concept Art</div>
             </div>
         </div>
     </section>
 
+    <footer><p>© 2026 KAREEM DESIGN. All Rights Reserved.</p></footer>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000 });
+        AOS.init({ duration: 800, once: true });
 
-        const cursor = document.getElementById('custom-cursor');
+        const cursorContainer = document.getElementById('cursor-container');
+        const isMobile = window.matchMedia("(max-width: 1024px)").matches;
 
-        // دالة تحديث اللون
+        // منيو الموبايل
+        document.getElementById('mobile-menu-btn').onclick = function() {
+            document.getElementById('nav-menu').classList.toggle('active');
+            this.querySelector('i').classList.toggle('fa-bars');
+            this.querySelector('i').classList.toggle('fa-times');
+        };
+
+        // الألوان
         function updateSiteColor(color) {
             document.documentElement.style.setProperty('--primary', color);
             document.documentElement.style.setProperty('--primary-glow', color + '4d');
             localStorage.setItem('userThemeColor', color);
         }
 
+        // الماوس
+        let currentCursorMode = localStorage.getItem('cursorMode') || 'arrow';
+
+        function setCursor(mode) {
+            if (isMobile) return;
+            currentCursorMode = mode;
+            localStorage.setItem('cursorMode', mode);
+            
+            if (mode === 'default') {
+                document.documentElement.classList.remove('custom-cursor-active');
+                cursorContainer.style.display = 'none';
+            } else {
+                document.documentElement.classList.add('custom-cursor-active');
+                cursorContainer.style.display = 'block';
+                renderCursor(mode);
+            }
+        }
+
+        function renderCursor(mode) {
+            if (mode === 'lens') {
+                cursorContainer.innerHTML = '<div class="cursor-lens"></div>';
+            } else {
+                cursorContainer.innerHTML = `<svg class="cursor-arrow" viewBox="0 0 24 24"><path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" /></svg>`;
+            }
+        }
+
+        if (!isMobile) {
+            document.addEventListener('mousemove', (e) => {
+                if (currentCursorMode !== 'default') {
+                    cursorContainer.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+                }
+            });
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             const savedColor = localStorage.getItem('userThemeColor');
             if (savedColor) {
                 updateSiteColor(savedColor);
-                if(document.getElementById('fullColorPicker')) {
-                    document.getElementById('fullColorPicker').value = savedColor;
-                }
+                if(document.getElementById('fullColorPicker')) document.getElementById('fullColorPicker').value = savedColor;
             }
+            setCursor(currentCursorMode);
         });
 
-        // تحريك الماوس
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-        });
-
-        document.getElementById('settingsToggle').onclick = () => {
-            document.getElementById('settingsPanel').classList.toggle('active');
-        };
-
-        // تأثير التكبير عند الوقوف على العناصر
-        document.querySelectorAll('a, button, .skill-tag').forEach(el => {
-            el.onmouseenter = () => { cursor.style.transform += ' scale(1.5)'; };
-            el.onmouseleave = () => { cursor.style.transform = cursor.style.transform.replace(' scale(1.5)', ''); };
-        });
+        document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
     </script>
 </body>
 </html>
