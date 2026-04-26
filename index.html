@@ -96,7 +96,7 @@
         .highlight { color: var(--primary); text-shadow: 0 0 20px var(--primary-glow); }
         .hero p { color: var(--text-dim); max-width: 600px; margin: 20px auto; font-size: clamp(0.9rem, 2vw, 1.1rem); }
 
-        /* --- معرض الأعمال (المقاسات المظبوطة) --- */
+        /* --- معرض الأعمال --- */
         .showcase-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -111,7 +111,7 @@
             overflow: hidden;
             background: #0a0a0a;
             border: 1px solid rgba(255,255,255,0.05);
-            aspect-ratio: 3/4; /* بيحافظ على تناسب الصور */
+            aspect-ratio: 3/4;
         }
         .neon-card img {
             width: 100%;
@@ -120,6 +120,52 @@
             transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .neon-card:hover img { transform: scale(1.08); filter: brightness(1.1); }
+
+        /* --- الزر الجديد --- */
+        .btn-container {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .view-more-btn {
+            position: relative;
+            padding: 15px 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--primary);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            overflow: hidden;
+            transition: 0.4s all ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+        }
+
+        .view-more-btn i { font-size: 0.9rem; transition: 0.4s; }
+
+        .view-more-btn:hover {
+            background: var(--primary);
+            box-shadow: 0 0 30px var(--primary-glow);
+            transform: translateY(-5px);
+            color: #fff;
+        }
+
+        .view-more-btn:hover i { transform: translateX(-5px); }
+
+        .view-more-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.5s;
+        }
+        .view-more-btn:hover::before { left: 100%; }
 
         /* --- الإعدادات --- */
         .settings-panel {
@@ -142,7 +188,6 @@
                 border-left: 1px solid var(--primary); box-shadow: -10px 0 30px rgba(0,0,0,0.5);
             }
             .nav-links.active { right: 0; }
-            .nav-links a { font-size: 1.3rem; }
             .hero { padding-top: 120px; }
             .showcase-container { grid-template-columns: 1fr; max-width: 350px; }
         }
@@ -169,9 +214,7 @@
             <div class="logo-img-mask"></div>
             <span class="logo-text">KAREEM<span style="color: var(--primary);">.DSGN</span></span>
         </a>
-        
         <div class="menu-toggle" id="mobile-menu-btn"><i class="fas fa-bars"></i></div>
-
         <ul class="nav-links" id="nav-menu">
             <li><a href="index.html" class="active">الرئيسية</a></li>
             <li><a href="works.html">أعمالي</a></li>
@@ -192,6 +235,13 @@
                 <img src="LAST/Green HoOdy design 2.jpg" alt="Work 2">
             </div>
         </div>
+
+        <div class="btn-container" data-aos="fade-up" data-aos-delay="500">
+            <a href="works.html" class="view-more-btn">
+                <span>عرض كافة الأعمال</span>
+                <i class="fas fa-arrow-left"></i>
+            </a>
+        </div>
     </section>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -203,21 +253,18 @@
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const isMobile = window.matchMedia("(max-width: 1024px)").matches;
 
-        // منيو الموبايل
         mobileMenuBtn.onclick = () => {
             navMenu.classList.toggle('active');
             mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
             mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
         };
 
-        // الألوان
         function updateSiteColor(color) {
             document.documentElement.style.setProperty('--primary', color);
             document.documentElement.style.setProperty('--primary-glow', color + '4d');
             localStorage.setItem('userThemeColor', color);
         }
 
-        // الماوس
         let currentCursorMode = localStorage.getItem('cursorMode') || 'arrow';
 
         function setCursor(mode) {
