@@ -4,151 +4,283 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kareem | Contact</title>
+    
+    <link rel="icon" type="image/png" href="LAST/logo"> 
+
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        :root { 
-            --bg: #030303; 
-            --primary: #a020f0; 
-            --primary-glow: rgba(160, 32, 240, 0.3); 
-            --text-main: #ffffff; 
-            --text-dim: #888; 
+        :root {
+            --bg: #030303;
+            --primary: #a020f0;
+            --primary-glow: rgba(160, 32, 240, 0.3);
+            --text-main: #ffffff;
+            --text-dim: #888;
+            --nav-height: 80px;
         }
-        
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* إخفاء الماوس الأصلي */
-        html, body, a, button, input, textarea { cursor: none !important; }
-
-        body { 
-            background-color: var(--bg); 
-            color: var(--text-main); 
-            font-family: 'Segoe UI', sans-serif; 
-            overflow-x: hidden; 
+        @media (min-width: 1025px) {
+            html.custom-cursor-active, html.custom-cursor-active * { cursor: none !important; }
         }
 
-        /* ستايل الماوس المخصص (السهم) */
-        #custom-cursor {
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* --- نظام الماوس --- */
+        #cursor-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 28px;
-            height: 28px;
+            top: 0; left: 0;
             pointer-events: none;
             z-index: 100000;
-            filter: drop-shadow(0 0 5px var(--primary-glow));
-            transition: transform 0.1s ease-out;
+            transition: transform 0.08s ease-out;
+            display: none;
+        }
+        .cursor-lens {
+            width: 55px; height: 55px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            mix-blend-mode: difference;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .cursor-arrow { width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--primary)); }
+        #cursor-path { fill: var(--primary); stroke: #fff; stroke-width: 1.5px; }
+
+        /* --- الهيدر --- */
+        nav {
+            height: var(--nav-height);
+            padding: 0 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(3, 3, 3, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(160, 32, 240, 0.3);
         }
 
-        #cursor-path {
-            fill: var(--primary);
-            stroke: #ffffff;
-            stroke-width: 1.5px;
-            transition: fill 0.3s ease;
+        .logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo-img-mask {
+            width: 35px; height: 35px; background-color: var(--primary);
+            -webkit-mask: url('LAST/logo') no-repeat center/contain;
+            mask: url('LAST/logo') no-repeat center/contain;
         }
+        .logo-text { font-size: 1.2rem; font-weight: 900; color: #fff; }
 
-        nav { 
-            padding: 25px 8%; display: flex; justify-content: space-between; 
-            align-items: center; position: fixed; width: 100%; z-index: 1000; 
-            background: rgba(3, 3, 3, 0.8); backdrop-filter: blur(15px); 
-            border-bottom: 1px solid rgba(160, 32, 240, 0.1); 
-        }
-        .logo { font-size: 1.4rem; font-weight: 900; color: var(--primary); text-decoration: none; }
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.9rem; transition: 0.3s; opacity: 0.7; }
+        .nav-links { display: flex; gap: 25px; list-style: none; }
+        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.95rem; opacity: 0.7; transition: 0.3s; }
         .nav-links a:hover, .nav-links a.active { color: var(--primary); opacity: 1; }
 
-        .contact-container { padding: 180px 8% 100px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; }
-        .info-box h2 { font-size: 3rem; margin-bottom: 20px; }
-        .social-links { display: flex; gap: 20px; margin-top: 30px; }
-        .social-links a { font-size: 1.5rem; color: var(--text-main); transition: 0.3s; }
-        .social-links a:hover { color: var(--primary); transform: translateY(-5px); }
+        .menu-toggle { display: none; font-size: 1.5rem; color: var(--primary); }
 
-        form { background: #0a0a0a; padding: 40px; border-radius: 20px; border: 1px solid #151515; }
+        /* --- حاوية التواصل --- */
+        .contact-page {
+            min-height: 100vh;
+            padding: calc(var(--nav-height) + 80px) 8% 80px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 80px;
+            background: radial-gradient(circle at 100% 100%, #0f0514 0%, #030303 40%);
+        }
+
+        .info-box h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; line-height: 1.2; margin-bottom: 20px; }
+        .info-box p { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 40px; }
+
+        .contact-method { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
+        .method-icon { width: 50px; height: 50px; background: #111; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.2rem; border: 1px solid #222; }
+
+        .social-links { display: flex; gap: 15px; margin-top: 20px; }
+        .social-links a { width: 45px; height: 45px; background: #0d0d0d; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; transition: 0.3s; border: 1px solid #1a1a1a; }
+        .social-links a:hover { background: var(--primary); transform: translateY(-5px); border-color: var(--primary); }
+
+        /* --- الفورم --- */
+        form { background: #080808; padding: 45px; border-radius: 24px; border: 1px solid #151515; position: relative; }
         .input-group { margin-bottom: 25px; }
-        label { display: block; margin-bottom: 10px; font-size: 0.9rem; color: var(--text-dim); }
-        input, textarea { width: 100%; background: #111; border: 1px solid #222; padding: 15px; color: white; border-radius: 10px; outline: none; transition: 0.3s; }
-        input:focus, textarea:focus { border-color: var(--primary); }
+        .input-group label { display: block; margin-bottom: 10px; font-size: 0.85rem; color: var(--primary); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        
+        input, textarea { 
+            width: 100%; background: #0d0d0d; border: 1px solid #1a1a1a; 
+            padding: 16px; color: white; border-radius: 12px; 
+            font-family: inherit; transition: 0.3s; 
+        }
+        input:focus, textarea:focus { border-color: var(--primary); background: #111; outline: none; box-shadow: 0 0 15px var(--primary-glow); }
 
-        .submit-btn { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: bold; transition: 0.3s; }
-        .submit-btn:hover { box-shadow: 0 0 20px var(--primary-glow); transform: scale(1.02); }
+        .submit-btn { 
+            width: 100%; padding: 18px; background: var(--primary); 
+            color: white; border: none; border-radius: 12px; 
+            font-weight: 900; font-size: 1rem; transition: 0.4s; 
+        }
+        .submit-btn:hover { box-shadow: 0 10px 20px var(--primary-glow); transform: translateY(-3px); }
 
-        @media (max-width: 900px) { .contact-container { grid-template-columns: 1fr; } }
+        /* --- الإعدادات --- */
+        .settings-panel {
+            position: fixed; left: -260px; top: 50%; transform: translateY(-50%);
+            width: 260px; background: #0a0a0a; border: 1px solid var(--primary);
+            padding: 20px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0;
+        }
+        .settings-panel.active { left: 0; }
+        #settingsToggle {
+            position: absolute; right: -40px; top: 0; width: 40px; height: 40px;
+            background: var(--primary); border: none; color: white; border-radius: 0 8px 8px 0;
+        }
+
+        /* --- الموبايل --- */
+        @media (max-width: 1024px) {
+            .menu-toggle { display: block; cursor: pointer; }
+            .nav-links {
+                position: fixed; top: var(--nav-height); right: -100%; width: 80%; height: 100vh;
+                background: #050505; flex-direction: column; padding: 50px 30px; transition: 0.4s;
+                border-left: 1px solid var(--primary);
+            }
+            .nav-links.active { right: 0; }
+            .contact-page { grid-template-columns: 1fr; padding-top: 120px; gap: 40px; }
+            form { padding: 30px 20px; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="custom-cursor">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" />
-        </svg>
+    <div id="cursor-container"></div>
+
+    <div id="settingsPanel" class="settings-panel">
+        <button id="settingsToggle"><i class="fas fa-cog"></i></button>
+        <h4 style="color: var(--primary); margin-bottom: 15px;">تخصيص</h4>
+        <input type="color" id="fullColorPicker" style="width:100%; height:30px; margin-bottom: 20px; border:none; background:none;" oninput="updateSiteColor(this.value)">
+        <div id="desktop-only-settings">
+            <div onclick="setCursor('arrow')" style="cursor:pointer; padding:8px; background:#151515; margin-top:5px; border-radius:5px; font-size:0.8rem;">سهم نيون</div>
+            <div onclick="setCursor('lens')" style="cursor:pointer; padding:8px; background:#151515; margin-top:5px; border-radius:5px; font-size:0.8rem;">عدسة عاكسة</div>
+        </div>
     </div>
 
     <nav>
-        <a href="index.html" class="logo">KAREEM.DSGN</a>
-        <div class="nav-links">
-            <a href="index.html">الرئيسية</a>
-            <a href="works.html">أعمالي</a>
-            <a href="about.html">عني</a>
-            <a href="contact.html" class="active">تواصل معي</a>
-        </div>
+        <a href="index.html" class="logo-container">
+            <div class="logo-img-mask"></div>
+            <span class="logo-text">KAREEM<span style="color: var(--primary);">.DSGN</span></span>
+        </a>
+        <div class="menu-toggle" id="mobile-menu-btn"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links" id="nav-menu">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="works.html">أعمالي</a></li>
+            <li><a href="about.html">عني</a></li>
+            <li><a href="contact.html" class="active">تواصل معي</a></li>
+        </ul>
     </nav>
 
-    <div class="contact-container">
-        <div class="info-box" data-aos="fade-up">
-            <h2>لنعمل <span style="color: var(--primary);">معاً</span>.</h2>
-            <p style="color: var(--text-dim);">لديك فكرة مشروع؟ أو تريد فقط إلقاء التحية؟ لا تتردد في التواصل معي.</p>
+    <div class="contact-page">
+        <div class="info-box" data-aos="fade-right">
+            <h1>لنصنع شيئاً <span style="color: var(--primary);">مذهلاً</span>.</h1>
+            <p>سواء كنت تبحث عن تصميم هوية بصرية، تطوير واجهة مستخدم، أو مجرد استشارة تقنية، أنا هنا للمساعدة.</p>
+            
+            <div class="contact-method">
+                <div class="method-icon"><i class="fas fa-envelope"></i></div>
+                <div>
+                    <h4 style="font-size: 0.8rem; color: var(--text-dim);">راسلني على</h4>
+                    <p style="font-size: 1rem;">hello@kareem.dsgn</p>
+                </div>
+            </div>
+
             <div class="social-links">
                 <a href="#"><i class="fab fa-behance"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
             </div>
         </div>
-        <form data-aos="fade-up" data-aos-delay="200">
+
+        <form data-aos="fade-left">
             <div class="input-group">
-                <label>الاسم بالكامل</label>
-                <input type="text" placeholder="مثلاً: كريم محمد">
+                <label>الاسم</label>
+                <input type="text" placeholder="اسمك الكريم">
             </div>
             <div class="input-group">
                 <label>البريد الإلكتروني</label>
-                <input type="email" placeholder="example@mail.com">
+                <input type="email" placeholder="email@example.com">
             </div>
             <div class="input-group">
-                <label>رسالتك</label>
-                <textarea rows="5" placeholder="اكتب تفاصيل مشروعك هنا..."></textarea>
+                <label>الموضوع</label>
+                <input type="text" placeholder="ما الذي يدور في ذهنك؟">
             </div>
-            <button type="submit" class="submit-btn">إرسال الرسالة</button>
+            <div class="input-group">
+                <label>الرسالة</label>
+                <textarea rows="4" placeholder="اشرح لي تفاصيل مشروعك..."></textarea>
+            </div>
+            <button type="submit" class="submit-btn">إرسال الآن</button>
         </form>
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000 });
+        AOS.init({ duration: 800, once: true });
 
-        const cursor = document.getElementById('custom-cursor');
+        const cursorContainer = document.getElementById('cursor-container');
+        const isMobile = window.matchMedia("(max-width: 1024px)").matches;
 
-        // تحديث اللون من الذاكرة
+        // منيو الموبايل
+        document.getElementById('mobile-menu-btn').onclick = function() {
+            document.getElementById('nav-menu').classList.toggle('active');
+            this.querySelector('i').classList.toggle('fa-bars');
+            this.querySelector('i').classList.toggle('fa-times');
+        };
+
+        // إدارة الألوان
         function updateSiteColor(color) {
             document.documentElement.style.setProperty('--primary', color);
             document.documentElement.style.setProperty('--primary-glow', color + '4d');
             localStorage.setItem('userThemeColor', color);
         }
 
+        // إدارة الماوس
+        let currentCursorMode = localStorage.getItem('cursorMode') || 'arrow';
+
+        function setCursor(mode) {
+            if (isMobile) return;
+            currentCursorMode = mode;
+            localStorage.setItem('cursorMode', mode);
+            
+            if (mode === 'default') {
+                document.documentElement.classList.remove('custom-cursor-active');
+                cursorContainer.style.display = 'none';
+            } else {
+                document.documentElement.classList.add('custom-cursor-active');
+                cursorContainer.style.display = 'block';
+                renderCursor(mode);
+            }
+        }
+
+        function renderCursor(mode) {
+            if (mode === 'lens') {
+                cursorContainer.innerHTML = '<div class="cursor-lens"></div>';
+            } else {
+                cursorContainer.innerHTML = `<svg class="cursor-arrow" viewBox="0 0 24 24"><path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" /></svg>`;
+            }
+        }
+
+        if (!isMobile) {
+            document.addEventListener('mousemove', (e) => {
+                if (currentCursorMode !== 'default') {
+                    cursorContainer.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+                }
+            });
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             const savedColor = localStorage.getItem('userThemeColor');
-            if (savedColor) updateSiteColor(savedColor);
+            if (savedColor) {
+                updateSiteColor(savedColor);
+                if(document.getElementById('fullColorPicker')) document.getElementById('fullColorPicker').value = savedColor;
+            }
+            setCursor(currentCursorMode);
         });
 
-        // حركة الماوس
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-        });
-
-        // تأثيرات التفاعل
-        document.querySelectorAll('a, button, input, textarea').forEach(el => {
-            el.onmouseenter = () => { cursor.style.transform += ' scale(1.5)'; };
-            el.onmouseleave = () => { cursor.style.transform = cursor.style.transform.replace(' scale(1.5)', ''); };
-        });
+        document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
     </script>
 </body>
 </html>
