@@ -3,147 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kareem | Creative Portfolio</title>
+    <title>Kareem | Graphic Designer Portfolio</title>
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            --bg: #050505;
+            --bg: #030303;
             --primary: #00f2ff;
-            --card-bg: #0f0f0f;
+            --card-bg: #0a0a0a;
+            --text-main: #ffffff;
+            --text-dim: #888;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
 
         body {
             background-color: var(--bg);
-            color: #fff;
+            color: var(--text-main);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* الماوس العاكس */
+        /* الماوس العاكس الذكي */
         #cursor {
-            width: 30px; height: 30px; background-color: white;
+            width: 25px; height: 25px; background-color: white;
             border-radius: 50%; position: fixed; pointer-events: none;
             z-index: 9999; mix-blend-mode: difference;
-            transition: transform 0.15s ease-out, opacity 0.3s;
+            transition: transform 0.15s ease-out, opacity 0.3s, width 0.3s, height 0.3s;
         }
 
-        .container { padding: 100px 10%; }
+        /* الهيدر */
+        nav {
+            padding: 30px 8%; display: flex; justify-content: space-between;
+            align-items: center; position: absolute; width: 100%; z-index: 100;
+        }
+        .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 2px; color: var(--primary); }
+
+        /* قسم الهيرو (التعريف) */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            background: radial-gradient(circle at 50% 50%, #111 0%, #030303 100%);
+            padding: 0 15%;
+        }
+        .hero h1 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900; margin-bottom: 15px; }
+        .hero p { color: var(--text-dim); font-size: 1.1rem; max-width: 600px; }
+
+        /* حاوية المشاريع */
+        .work-section { padding: 100px 8%; }
+        .section-title { margin-bottom: 60px; font-size: 2rem; border-right: 4px solid var(--primary); padding-right: 15px; }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
         }
 
         /* كارت المشروع */
         .card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid #1a1a1a;
-            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--card-bg); border-radius: 20px; overflow: hidden;
+            border: 1px solid #151515; transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
         }
+        .card:hover { border-color: var(--primary); transform: translateY(-10px); }
 
-        /* حاوية الصورة وعملية الزووم */
-        .image-container {
-            width: 100%;
-            height: 350px;
-            overflow: hidden; /* عشان الصورة متطلعش بره الكارت */
+        .image-box { width: 100%; height: 400px; overflow: hidden; }
+        .image-box img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            transition: transform 1s cubic-bezier(0.2, 1, 0.3, 1);
         }
+        .card:hover .image-box img { transform: scale(1.1); }
 
-        .image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* تحافظ على أبعاد الصورة */
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .card-info { padding: 25px; }
+        .card-info h3 { font-size: 1.3rem; margin-bottom: 10px; }
+        .card-info p { color: var(--text-dim); font-size: 0.9rem; }
 
-        /* لما الماوس ييجي على الكارت */
-        .card:hover {
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.1);
-        }
+        /* الفوتر */
+        footer { padding: 60px; text-align: center; border-top: 1px solid #111; color: #444; font-size: 0.8rem; }
 
-        .card:hover img {
-            transform: scale(1.15); /* تأثير الزووم اللي طلبته */
-        }
-
-        .project-info { padding: 20px; text-align: right; }
-        .project-info h3 { font-size: 1.2rem; margin-bottom: 5px; color: var(--primary); }
-        .project-info p { font-size: 0.9rem; color: #888; }
-
-        h1 { text-align: center; margin-top: 100px; font-size: 3rem; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
     <div id="cursor"></div>
 
-    <h1 data-aos="fade-down">MY BEST WORKS</h1>
+    <nav>
+        <div class="logo">KAREEM.DSGN</div>
+        <div style="font-size: 0.8rem; letter-spacing: 2px;">PORTFOLIO 2026</div>
+    </nav>
 
-    <section class="container">
+    <section class="hero">
+        <h1 data-aos="fade-up">Creative <br> Visual Designer</h1>
+        <p data-aos="fade-up" data-aos-delay="200">أحول الأفكار إلى واقع بصري ملموس من خلال تصميم الهويات البصرية والـ UI/UX بأحدث التقنيات.</p>
+    </section>
+
+    <section class="work-section" id="work">
+        <h2 class="section-title" data-aos="fade-right">Selected Projects</h2>
+        
         <div class="grid">
-            
             <div class="card" data-aos="fade-up">
-                <div class="image-container">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw-4-X3Z8qsSj8BQpRxPz1WGOgEDu9QrJwdQ&s" alt="Project 1">
+                <div class="image-box">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw-4-X3Z8qsSj8BQpRxPz1WGOgEDu9QrJwdQ&s" alt="Branding">
                 </div>
-                <div class="project-info">
-                    <h3>Strategic Branding</h3>
-                    <p>تصميم هوية بصرية تعتمد على القوة والتحليل.</p>
+                <div class="card-info">
+                    <h3>Strategic Identity</h3>
+                    <p>بناء هوية بصرية قوية تعتمد على التخطيط الاستراتيجي.</p>
                 </div>
             </div>
 
             <div class="card" data-aos="fade-up" data-aos-delay="200">
-                <div class="image-container">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSprE0Q8ueJz3OV4DiKD1vZUvz9A7hDhaACZA&s" alt="Project 2">
+                <div class="image-box">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSprE0Q8ueJz3OV4DiKD1vZUvz9A7hDhaACZA&s" alt="Digital Art">
                 </div>
-                <div class="project-info">
-                    <h3>Digital Art Concept</h3>
-                    <p>دمج فني وتلاعب بالألوان للخروج بتصميم غير تقليدي.</p>
+                <div class="card-info">
+                    <h3>Concept Art</h3>
+                    <p>تجربة فنية في دمج الألوان والظلال الرقمية.</p>
                 </div>
             </div>
 
             <div class="card" data-aos="fade-up" data-aos-delay="400">
-                <div class="image-container">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfI6-V7M9L_P9rM0m8m1rL7f-Q6P0f9qEwXw&s" alt="Project 3">
+                <div class="image-box">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfI6-V7M9L_P9rM0m8m1rL7f-Q6P0f9qEwXw&s" alt="UI Design">
                 </div>
-                <div class="project-info">
-                    <h3>Visual Identity</h3>
-                    <p>أقوى مشاريعي في مجال الجرافيك ديزاين لعام 2026.</p>
+                <div class="card-info">
+                    <h3>Visual Experience</h3>
+                    <p>تصميم واجهات مستخدم تركز على البساطة والجمال.</p>
                 </div>
             </div>
-
         </div>
     </section>
 
+    <footer>
+        <p>© 2026 KAREEM DESIGN. ALL RIGHTS RESERVED.</p>
+    </footer>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init();
+        AOS.init({ duration: 1000, once: true });
 
         const cursor = document.getElementById('cursor');
 
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX - 15 + 'px';
-            cursor.style.top = e.clientY - 15 + 'px';
+            cursor.style.left = e.clientX - 12 + 'px';
+            cursor.style.top = e.clientY - 12 + 'px';
         });
 
-        // حركة الماوس لما يقرب من الكلام (يعكسه)
-        document.querySelectorAll('h1, h3, p').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(3)');
+        // تأثيرات الماوس
+        document.querySelectorAll('h1, h2, h3, p, .logo').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(4)');
             el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
         });
 
-        // حركة الماوس لما يقرب من الصور (يختفي والزووم يشتغل)
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('mouseenter', () => {
-                cursor.style.opacity = '0'; // الماوس يختفي عشان الزووم يبان
+                cursor.style.width = '80px';
+                cursor.style.height = '80px';
+                cursor.style.opacity = '0.1';
             });
             card.addEventListener('mouseleave', () => {
-                cursor.style.opacity = '1'; // الماوس يرجع لما تخرج
+                cursor.style.width = '25px';
+                cursor.style.height = '25px';
+                cursor.style.opacity = '1';
             });
         });
     </script>
