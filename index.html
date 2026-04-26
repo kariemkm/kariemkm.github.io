@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Portfolio | Final Concept 2026</title>
+    <title>Designer Portfolio | Visual Identity 2026</title>
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,7 +19,7 @@
         * {
             margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Segoe UI', system-ui, sans-serif;
-            cursor: none; /* إخفاء الماوس الأصلي */
+            cursor: none;
         }
 
         body {
@@ -29,110 +29,75 @@
             scroll-behavior: smooth;
         }
 
-        /* الماوس العاكس (Inverse Cursor) */
+        /* الماوس العاكس الذكي */
         #cursor {
-            width: 30px;
-            height: 30px;
-            background-color: white;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: difference; /* السحر كله هنا للـ Inverse */
+            width: 30px; height: 30px; background-color: white;
+            border-radius: 50%; position: fixed; pointer-events: none;
+            z-index: 9999; mix-blend-mode: difference;
             transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
         }
 
-        /* الهيدر */
         nav {
-            padding: 30px 10%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            width: 100%;
-            z-index: 100;
+            padding: 30px 10%; display: flex; justify-content: space-between;
+            align-items: center; position: fixed; width: 100%; z-index: 100;
         }
 
         .logo { font-size: 1.5rem; font-weight: 900; color: var(--primary); letter-spacing: 3px; }
 
-        /* منطقة الهيرو */
         .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
             background: radial-gradient(circle at 50% 50%, #111 0%, #030303 100%);
         }
 
         .hero h1 {
-            font-size: clamp(3rem, 10vw, 7rem);
-            font-weight: 900;
-            margin-bottom: 20px;
-            text-transform: uppercase;
+            font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 900;
+            margin-bottom: 20px; line-height: 1.1;
         }
 
-        /* سيكشن المشاريع/المهارات */
-        .container { padding: 100px 10%; }
+        .container { padding: 80px 10%; }
         
         .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 40px;
         }
 
         .card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
+            background: var(--card-bg); border-radius: 12px;
+            overflow: hidden; position: relative;
             transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-            border: 1px solid #111;
+            border: 1px solid #151515;
         }
 
-        /* تأثير الزووم عند الاقتراب */
-        .card:hover {
-            transform: scale(1.03);
-            border-color: var(--primary);
+        .card:hover { transform: translateY(-10px); border-color: var(--primary); }
+
+        /* مكان فاضي لأقوى المشاريع (صور الـ Mockups) */
+        .project-display {
+            height: 400px; width: 100%;
+            background: #111; /* تقدر تغير ده بـ background-image لاحقاً */
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
         }
 
-        .card-img {
-            height: 250px;
-            background: linear-gradient(45deg, #111, #222);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: #333;
-            transition: 0.6s;
+        .project-display::after {
+            content: "PROJECT PREVIEW";
+            font-size: 0.7rem; letter-spacing: 5px; color: #333;
         }
 
-        .card:hover .card-img {
-            color: var(--primary);
-            transform: scale(1.1);
-        }
+        .card:hover .project-display { background: #1a1a1a; }
 
-        .card-info { padding: 30px; }
+        .project-info { padding: 25px; text-align: center; }
 
         .btn {
-            padding: 15px 40px;
-            border: 1px solid white;
-            background: transparent;
-            color: white;
-            border-radius: 50px;
-            margin-top: 30px;
-            font-weight: bold;
-            transition: 0.3s;
+            padding: 15px 45px; border: 1px solid white;
+            background: transparent; color: white; border-radius: 50px;
+            margin-top: 30px; font-weight: bold; transition: 0.3s;
+            text-decoration: none; display: inline-block;
         }
 
-        /* الفوتر */
         footer {
-            padding: 50px;
-            text-align: center;
-            border-top: 1px solid #111;
-            font-size: 0.9rem;
-            color: #555;
+            padding: 40px; text-align: center; border-top: 1px solid #111;
+            font-size: 0.8rem; color: #444; letter-spacing: 1px;
         }
 
     </style>
@@ -142,54 +107,56 @@
     <div id="cursor"></div>
 
     <nav>
-        <div class="logo">KAREEM.DEV</div>
-        <div style="font-size: 0.7rem; color: #555;">CONCEPT V.3</div>
+        <div class="logo">DESIGN.STUDIO</div>
+        <div style="font-size: 0.7rem; color: #444;">CREATIVE VISION 2026</div>
     </nav>
 
     <section class="hero">
-        <h1 data-aos="fade-up">Building <br> <span style="color: var(--primary)">Digital Logic</span></h1>
-        <p data-aos="fade-up" data-aos-delay="200" style="color: #888;">C++ | PHP | Modern JavaScript</p>
-        <a href="#projects" class="btn" data-aos="zoom-in" data-aos-delay="400">View Experience</a>
+        <h1 data-aos="fade-up">Visual <br> <span style="color: var(--primary)">Storytelling</span></h1>
+        <p data-aos="fade-up" data-aos-delay="200" style="color: #666; letter-spacing: 2px;">BRANDING | UI/UX | CREATIVE DIRECTION</p>
+        <a href="#work" class="btn" data-aos="zoom-in" data-aos-delay="400">EXPLORE WORK</a>
     </section>
 
-    <section class="container" id="projects">
+    <section class="container" id="work">
+        <h2 style="margin-bottom: 50px; font-weight: 300;" data-aos="fade-right">SELECTED PROJECTS</h2>
         <div class="grid">
+            
             <div class="card" data-aos="fade-up">
-                <div class="card-img"><i class="fas fa-terminal"></i></div>
-                <div class="card-info">
-                    <h3>Low-Level Systems</h3>
-                    <p>معالجة بيانات عالية السرعة باستخدام C++.</p>
+                <div class="project-display">
+                    </div>
+                <div class="project-info">
+                    <h3>Brand Identity</h3>
+                    <p style="color: #555; font-size: 0.9rem;">Modern identity for tech startups</p>
                 </div>
             </div>
 
             <div class="card" data-aos="fade-up" data-aos-delay="200">
-                <div class="card-img"><i class="fab fa-php"></i></div>
-                <div class="card-info">
-                    <h3>Backend Architecture</h3>
-                    <p>بناء قواعد بيانات وأنظمة إدارة معقدة.</p>
+                <div class="project-display"></div>
+                <div class="project-info">
+                    <h3>UI/UX Design</h3>
+                    <p style="color: #555; font-size: 0.9rem;">Mobile application for digital assets</p>
                 </div>
             </div>
 
             <div class="card" data-aos="fade-up" data-aos-delay="400">
-                <div class="card-img"><i class="fab fa-js"></i></div>
-                <div class="card-info">
-                    <h3>Interactive UI</h3>
-                    <p>واجهات مستخدم تتبع حركة العميل وتتفاعل معه.</p>
+                <div class="project-display"></div>
+                <div class="project-info">
+                    <h3>Commercial Art</h3>
+                    <p style="color: #555; font-size: 0.9rem;">Digital illustrations & poster design</p>
                 </div>
             </div>
+
         </div>
     </section>
 
     <footer>
-        <p>© 2026 Developed by Kareem - Ready for Execution</p>
+        <p>© 2026 GRAPHIC DESIGN PORTFOLIO | MINIMALIST CONCEPT</p>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // تشغيل أنميشن السكرول
         AOS.init({ duration: 1000, once: true });
 
-        // منطق الماوس الذكي
         const cursor = document.getElementById('cursor');
 
         document.addEventListener('mousemove', (e) => {
@@ -197,21 +164,18 @@
             cursor.style.top = e.clientY - 15 + 'px';
         });
 
-        // التفاعل عند الحوم فوق العناصر
-        document.querySelectorAll('h1, h3, p, .logo, .btn').forEach(text => {
-            text.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'scale(2.5)';
-            });
-            text.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'scale(1)';
-            });
+        // تأثير الماوس على النصوص (Inverse & Scale)
+        document.querySelectorAll('h1, h2, h3, p, .logo, .btn').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(3)');
+            el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
         });
 
+        // تأثير الماوس على كروت المشاريع
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('mouseenter', () => {
-                cursor.style.width = '80px';
-                cursor.style.height = '80px';
-                cursor.style.opacity = '0.1'; // خفت الماوس عشان يدي فرصة لزووم الكارت
+                cursor.style.width = '100px';
+                cursor.style.height = '100px';
+                cursor.style.opacity = '0.05'; 
             });
             card.addEventListener('mouseleave', () => {
                 cursor.style.width = '30px';
