@@ -17,14 +17,35 @@
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* تعديل الماوس هنا ليكون سهم ملون */
-        html, body { 
+        /* إخفاء الماوس الأصلي */
+        html, body, a, button, .skill-tag, input { cursor: none !important; }
+
+        body { 
             background-color: var(--bg); 
             color: var(--text-main); 
             font-family: 'Segoe UI', sans-serif; 
             line-height: 1.8;
-            /* الماوس الافتراضي هنا هيكون سهم بلون الـ primary */
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="%23' + 'a020f0'.replace('#','') + '"><path d="M7 2l12 11.857-6.391 1.108 3.974 7.102-4.657 2.621-3.908-7.308-4.018 3.821z"/></svg>'), auto !important;
+            overflow-x: hidden;
+        }
+
+        /* ستايل الماوس المخصص (السهم) */
+        #custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 28px;
+            height: 28px;
+            pointer-events: none;
+            z-index: 100000;
+            filter: drop-shadow(0 0 5px var(--primary-glow));
+            transition: transform 0.1s ease-out;
+        }
+
+        #cursor-path {
+            fill: var(--primary);
+            stroke: #ffffff; /* تحديد أبيض عشان يظهر على الأسود */
+            stroke-width: 1.5px;
+            transition: fill 0.3s ease;
         }
 
         /* تنسيق الهيدر */
@@ -43,23 +64,29 @@
         .stat-item p { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
         
         .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 30px; }
-        .skill-tag { padding: 10px 20px; border: 1px solid #222; border-radius: 10px; text-align: center; transition: 0.3s; cursor: inherit !important; }
+        .skill-tag { padding: 10px 20px; border: 1px solid #222; border-radius: 10px; text-align: center; transition: 0.3s; }
         .skill-tag:hover { border-color: var(--primary); background: var(--primary-glow); }
 
         /* لوحة التحكم */
         .settings-panel { position: fixed; left: -260px; top: 50%; transform: translateY(-50%); width: 260px; background: #0a0a0a; border: 1px solid var(--primary); padding: 25px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0; }
         .settings-panel.active { left: 0; }
-        #settingsToggle { position: absolute; right: -45px; top: 0; width: 45px; height: 45px; background: var(--primary); border: none; color: white; border-radius: 0 10px 10px 0; cursor: inherit !important; }
+        #settingsToggle { position: absolute; right: -45px; top: 0; width: 45px; height: 45px; background: var(--primary); border: none; color: white; border-radius: 0 10px 10px 0; }
         
         @media (max-width: 900px) { .about-section { grid-template-columns: 1fr; padding-top: 120px; } }
     </style>
 </head>
 <body>
 
+    <div id="custom-cursor">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" />
+        </svg>
+    </div>
+
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
         <h3 style="color: var(--primary); margin-bottom: 20px;">تخصيص</h3>
-        <input type="color" id="fullColorPicker" style="width:100%; height:40px; cursor:inherit;" oninput="updateSiteColor(this.value)">
+        <input type="color" id="fullColorPicker" style="width:100%; height:40px;" oninput="updateSiteColor(this.value)">
     </div>
 
     <nav>
@@ -76,7 +103,7 @@
         <div class="about-text" data-aos="fade-right">
             <h1>أنا <span style="color: var(--primary);">كريم</span>.</h1>
             <p>مصمم جرافيك ومطور واجهات شغوف بخلق حلول بصرية تتجاوز التوقعات. أجمع بين الفن والتكنولوجيا لتحويل الأفكار المعقدة إلى تصاميم بسيطة ومؤثرة.</p>
-            <p>بعيداً عن الشاشة، أنا "Speedcuber" أسعى دائماً لتحطيم أرقامي القياسية، وأستمتع بعالم الـ Gaming الذي يلهمني.</p>
+            <p>بعيداً عن الشاشة، أنا **Speedcuber** أسعى دائماً لتحطيم أرقامي القياسية، وأستمتع بعالم الـ Gaming الذي يلهمني.</p>
             <div class="stats">
                 <div class="stat-item"><h3>+5</h3><p>سنوات خبرة</p></div>
                 <div class="stat-item"><h3>+50</h3><p>مشروع ناجح</p></div>
@@ -100,20 +127,13 @@
     <script>
         AOS.init({ duration: 1000 });
 
-        // دالة تحديث اللون والماوس معاً
+        const cursor = document.getElementById('custom-cursor');
+
+        // دالة تحديث اللون
         function updateSiteColor(color) {
             document.documentElement.style.setProperty('--primary', color);
             document.documentElement.style.setProperty('--primary-glow', color + '4d');
             localStorage.setItem('userThemeColor', color);
-
-            // تحديث شكل السهم بلون الاختيار الجديد
-            const svgCursor = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="${encodeURIComponent(color)}"><path d="M7 2l12 11.857-6.391 1.108 3.974 7.102-4.657 2.621-3.908-7.308-4.018 3.821z"/></svg>`;
-            document.body.style.cursor = `url('${svgCursor}'), auto`;
-            
-            // تطبيق الماوس على كل العناصر التفاعلية لضمان الثبات
-            document.querySelectorAll('a, button, input, .skill-tag').forEach(el => {
-                el.style.cursor = `url('${svgCursor}'), auto`;
-            });
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -123,15 +143,23 @@
                 if(document.getElementById('fullColorPicker')) {
                     document.getElementById('fullColorPicker').value = savedColor;
                 }
-            } else {
-                // تطبيق اللون الافتراضي (البنفسجي) على الماوس لو مفيش حفظ
-                updateSiteColor('#a020f0');
             }
+        });
+
+        // تحريك الماوس
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
         });
 
         document.getElementById('settingsToggle').onclick = () => {
             document.getElementById('settingsPanel').classList.toggle('active');
         };
+
+        // تأثير التكبير عند الوقوف على العناصر
+        document.querySelectorAll('a, button, .skill-tag').forEach(el => {
+            el.onmouseenter = () => { cursor.style.transform += ' scale(1.5)'; };
+            el.onmouseleave = () => { cursor.style.transform = cursor.style.transform.replace(' scale(1.5)', ''); };
+        });
     </script>
 </body>
 </html>
