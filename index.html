@@ -18,8 +18,11 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        /* التحكم في الماوس برمجياً */
-        html.custom-cursor-active, html.custom-cursor-active * { cursor: none !important; }
+        
+        /* تفعيل الماوس المخصص فقط على الشاشات الكبيرة */
+        @media (min-width: 1025px) {
+            html.custom-cursor-active, html.custom-cursor-active * { cursor: none !important; }
+        }
 
         body {
             background-color: var(--bg);
@@ -36,19 +39,24 @@
             pointer-events: none;
             z-index: 100000;
             transition: transform 0.1s ease-out;
-            display: none; /* مخفي افتراضياً لحد ما نحدد النوع */
+            display: none;
         }
 
-        /* 1. شكل العدسة المحسنة */
+        /* إخفاء الماوس تماماً على الموبايل والتابلت */
+        @media (max-width: 1024px) {
+            #cursor-container { display: none !important; }
+            html, body, * { cursor: auto !important; }
+            .settings-panel { width: 240px; left: -240px; } /* تصغير اللوحة للموبايل */
+        }
+
         .cursor-lens {
             width: 40px; height: 40px;
             border: 2px solid #fff;
             border-radius: 50%;
             background: transparent;
-            mix-blend-mode: difference; /* عكس الألوان */
+            mix-blend-mode: difference;
         }
 
-        /* 2. شكل السهم الملون */
         .cursor-arrow {
             width: 28px; height: 28px;
             filter: drop-shadow(0 0 5px var(--primary-glow));
@@ -62,125 +70,111 @@
         /* --- الهوية والبناء --- */
         .logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
         .logo-img-mask {
-            width: 40px; height: 40px; background-color: var(--primary);
+            width: 35px; height: 35px; background-color: var(--primary);
             -webkit-mask-image: url('LAST/logo'); mask-image: url('LAST/logo');
             -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat;
-            filter: drop-shadow(0 0 5px var(--primary-glow));
         }
 
         nav {
-            padding: 15px 8%; display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
             position: fixed; width: 100%; z-index: 1000; background: rgba(3, 3, 3, 0.8);
             backdrop-filter: blur(15px); border-bottom: 2px solid var(--primary);
-            box-shadow: 0 5px 20px var(--primary-glow);
         }
         
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.9rem; transition: 0.3s; opacity: 0.8; }
-        .nav-links a:hover, .nav-links a.active { color: var(--primary); opacity: 1; }
+        .nav-links { display: flex; gap: 15px; } /* تقليل الفجوة للموبايل */
+        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.85rem; transition: 0.3s; }
 
         .hero {
-            min-height: 100vh; padding: 150px 8% 100px; display: flex; flex-direction: column;
+            min-height: 100vh; padding: 120px 5% 60px; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
-            background: radial-gradient(circle at 50% 50%, #0f0514 0%, #030303 100%);
         }
 
-        .highlight { color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); }
-        .hero h1 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900; text-transform: uppercase; }
+        .hero h1 { font-size: clamp(2rem, 8vw, 5rem); font-weight: 900; }
 
         .settings-panel {
             position: fixed; left: -280px; top: 50%; transform: translateY(-50%);
             width: 280px; background: #0a0a0a; border: 1px solid var(--primary);
-            padding: 25px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0;
+            padding: 20px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0;
         }
-        .settings-panel.active { left: 0; }
-        #settingsToggle {
-            position: absolute; right: -45px; top: 0; width: 45px; height: 45px;
-            background: var(--primary); border: none; color: white; border-radius: 0 10px 10px 0;
+        .settings-panel.active { left: 0 !important; }
+        
+        /* تعديل للموبايل عشان اللوحة متغطيش الشاشة كلها */
+        @media (max-width: 480px) {
+            .settings-panel { width: 200px; left: -200px; }
+            .nav-links { gap: 10px; }
+            .nav-links a { font-size: 0.75rem; }
         }
 
-        .cursor-option {
-            background: #111; border: 1px solid #333; color: #fff;
-            padding: 10px; margin-top: 10px; width: 100%; border-radius: 8px;
-            text-align: right; transition: 0.3s;
-        }
-        .cursor-option.active { border-color: var(--primary); background: var(--primary-glow); }
-
-        .showcase-container { display: flex; gap: 40px; margin-top: 50px; justify-content: center; flex-wrap: wrap; }
-        .neon-card { position: relative; border-radius: 20px; overflow: hidden; background: #0a0a0a; width: 320px; transition: 0.5s; border: 1px solid rgba(255,255,255,0.05); }
-        .neon-card img { width: 100%; height: 400px; object-fit: cover; opacity: 0.7; transition: 0.5s; }
-        .neon-card:hover img { opacity: 1; transform: scale(1.05); }
+        .showcase-container { display: flex; gap: 20px; margin-top: 30px; justify-content: center; flex-wrap: wrap; }
+        .neon-card { position: relative; border-radius: 15px; overflow: hidden; background: #0a0a0a; width: 90%; max-width: 320px; transition: 0.5s; border: 1px solid rgba(255,255,255,0.05); }
+        .neon-card img { width: 100%; height: auto; aspect-ratio: 1/1.2; object-fit: cover; opacity: 0.8; }
     </style>
 </head>
 <body>
 
-    <div id="cursor-container">
-        </div>
+    <div id="cursor-container"></div>
 
     <div id="settingsPanel" class="settings-panel">
-        <button id="settingsToggle"><i class="fas fa-cog"></i></button>
-        <h3 style="color: var(--primary); margin-bottom: 15px;">تخصيص التجربة</h3>
+        <button id="settingsToggle" style="position: absolute; right: -45px; top: 0; width: 45px; height: 45px; background: var(--primary); border: none; color: white; border-radius: 0 10px 10px 0;"><i class="fas fa-cog"></i></button>
+        <h3 style="color: var(--primary); margin-bottom: 15px; font-size: 1rem;">تخصيص الموقع</h3>
         
-        <label style="font-size: 0.8rem; color: var(--text-dim);">لون النظام:</label>
-        <input type="color" id="fullColorPicker" style="width:100%; height:35px; margin-bottom: 20px;" oninput="updateSiteColor(this.value)">
+        <label style="font-size: 0.75rem; color: var(--text-dim);">لون النظام:</label>
+        <input type="color" id="fullColorPicker" style="width:100%; height:30px; margin-bottom: 15px;" oninput="updateSiteColor(this.value)">
         
-        <label style="font-size: 0.8rem; color: var(--text-dim);">شكل المؤشر:</label>
-        <button class="cursor-option" onclick="setCursor('lens')">عدسة عكس الألوان</button>
-        <button class="cursor-option" onclick="setCursor('arrow')">سهم نيون ملون</button>
-        <button class="cursor-option" onclick="setCursor('default')">الماوس العادي</button>
+        <div id="cursor-settings-group">
+            <label style="font-size: 0.75rem; color: var(--text-dim);">شكل المؤشر (للكمبيوتر):</label>
+            <button class="cursor-option" style="background: #111; border: 1px solid #333; color: #fff; padding: 8px; margin-top: 5px; width: 100%; border-radius: 8px; font-size: 0.8rem;" onclick="setCursor('lens')">العدسة</button>
+            <button class="cursor-option" style="background: #111; border: 1px solid #333; color: #fff; padding: 8px; margin-top: 5px; width: 100%; border-radius: 8px; font-size: 0.8rem;" onclick="setCursor('arrow')">السهم الملون</button>
+            <button class="cursor-option" style="background: #111; border: 1px solid #333; color: #fff; padding: 8px; margin-top: 5px; width: 100%; border-radius: 8px; font-size: 0.8rem;" onclick="setCursor('default')">الماوس العادي</button>
+        </div>
     </div>
 
     <nav>
         <a href="index.html" class="logo-container">
             <div class="logo-img-mask"></div>
-            <span class="logo-text">KAREEM<span style="color: var(--primary);">.DSGN</span></span>
+            <span class="logo-text" style="font-weight: 900; font-size: 1rem;">KAREEM<span style="color: var(--primary);">.DSGN</span></span>
         </a>
         <div class="nav-links">
             <a href="index.html" class="active">الرئيسية</a>
             <a href="works.html">أعمالي</a>
-            <a href="about.html">عني</a>
-            <a href="contact.html">تواصل معي</a>
+            <a href="contact.html">تواصل</a>
         </div>
     </nav>
 
     <section class="hero">
-        <h1 data-aos="fade-up"><span class="highlight">Professional</span> <br> Graphic Designer</h1>
-        <p data-aos="fade-up" data-aos-delay="200" style="color: var(--text-dim);">أهلاً بك، أنا كريم. أحول الأفكار إلى واقع بصري ملموس.</p>
+        <h1 data-aos="fade-up"><span style="color: var(--primary);">Creative</span> <br> Designer</h1>
+        <p data-aos="fade-up" data-aos-delay="200" style="color: var(--text-dim); font-size: 0.9rem; margin-top: 10px;">أهلاً بك، أنا كريم محمد. مصمم جرافيك ومبرمج هاوٍ.</p>
         
         <div class="showcase-container">
-            <div class="neon-card" data-aos="zoom-in" data-aos-delay="400">
-                <img src="LAST/hoodie design.jpg" alt="Design">
+            <div class="neon-card" data-aos="zoom-in">
+                <img src="LAST/hoodie design.jpg" alt="Work">
             </div>
-            <div class="neon-card" data-aos="zoom-in" data-aos-delay="600">
-                <img src="LAST/Green HoOdy design 2.jpg" alt="Design">
+            <div class="neon-card" data-aos="zoom-in" data-aos-delay="200">
+                <img src="LAST/Green HoOdy design 2.jpg" alt="Work">
             </div>
         </div>
     </section>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000 });
+        AOS.init({ duration: 800, once: true });
 
         const cursorContainer = document.getElementById('cursor-container');
+        const isMobile = window.matchMedia("(max-width: 1024px)").matches;
         let currentCursorMode = localStorage.getItem('cursorMode') || 'lens';
 
-        // تحديث الألوان
         function updateSiteColor(color) {
             document.documentElement.style.setProperty('--primary', color);
             document.documentElement.style.setProperty('--primary-glow', color + '4d');
             localStorage.setItem('userThemeColor', color);
         }
 
-        // تحكم الماوس
         function setCursor(mode) {
+            if (isMobile) return; // لا تفعل شيئاً إذا كان المستخدم على الموبايل
+            
             currentCursorMode = mode;
             localStorage.setItem('cursorMode', mode);
             
-            // تحديث واجهة الإعدادات
-            document.querySelectorAll('.cursor-option').forEach(btn => {
-                btn.classList.toggle('active', btn.getAttribute('onclick').includes(mode));
-            });
-
             if (mode === 'default') {
                 document.documentElement.classList.remove('custom-cursor-active');
                 cursorContainer.style.display = 'none';
@@ -195,37 +189,26 @@
             if (mode === 'lens') {
                 cursorContainer.innerHTML = '<div class="cursor-lens"></div>';
             } else if (mode === 'arrow') {
-                cursorContainer.innerHTML = `
-                    <svg class="cursor-arrow" viewBox="0 0 24 24" fill="none">
-                        <path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" />
-                    </svg>`;
+                cursorContainer.innerHTML = `<svg class="cursor-arrow" viewBox="0 0 24 24" fill="none"><path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" /></svg>`;
             }
         }
 
-        // حركة الماوس
-        document.addEventListener('mousemove', (e) => {
-            if (currentCursorMode !== 'default') {
-                cursorContainer.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-            }
-        });
+        // تفعيل الحركة فقط للكمبيوتر
+        if (!isMobile) {
+            document.addEventListener('mousemove', (e) => {
+                if (currentCursorMode !== 'default') {
+                    cursorContainer.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+                }
+            });
+        } else {
+            // إخفاء خيارات الماوس من الإعدادات في الموبايل لعدم تشتيت المستخدم
+            document.getElementById('cursor-settings-group').style.display = 'none';
+        }
 
-        // تفاعلات العناصر
-        document.addEventListener('mouseover', (e) => {
-            if (currentCursorMode === 'lens' && (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.tagName === 'H1')) {
-                cursorContainer.style.transform += ' scale(1.5)';
-            }
-        });
-        document.addEventListener('mouseout', (e) => {
-            if (currentCursorMode === 'lens') {
-                cursorContainer.style.transform = cursorContainer.style.transform.replace(' scale(1.5)', '');
-            }
-        });
-
-        // تشغيل الإعدادات عند التحميل
         window.addEventListener('DOMContentLoaded', () => {
             const savedColor = localStorage.getItem('userThemeColor');
             if (savedColor) updateSiteColor(savedColor);
-            setCursor(currentCursorMode);
+            if (!isMobile) setCursor(currentCursorMode);
         });
 
         document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
