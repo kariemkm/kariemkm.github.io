@@ -3,167 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بورتفوليو احترافي | 2026</title>
+    <title>The Matrix Portfolio | 2026</title>
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* كل التنسيق هنا عشان مفيش حاجة تضيع */
         :root {
-            --bg: #050505;
-            --primary: #00f2ff;
-            --secondary: #7000ff;
-            --glass: rgba(255, 255, 255, 0.03);
+            --neon-blue: #00f2ff;
+            --neon-purple: #bc13fe;
+            --dark-space: #020205;
+            --card-bg: rgba(15, 15, 25, 0.7);
         }
 
         * {
             margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
             cursor: none;
         }
 
         body {
-            background-color: var(--bg);
-            color: white;
+            background-color: var(--dark-space);
+            color: #fff;
             overflow-x: hidden;
-            line-height: 1.6;
+            perspective: 1000px;
         }
 
-        /* الماوس المضيء */
-        #cursor {
-            width: 12px; height: 12px; background: var(--primary);
+        /* الماوس النيون المطور */
+        #cursor-dot {
+            width: 8px; height: 8px; background: #fff;
+            border-radius: 50%; position: fixed; z-index: 10000;
+            pointer-events: none; transition: transform 0.1s ease;
+        }
+        #cursor-outline {
+            width: 40px; height: 40px; border: 2px solid var(--neon-blue);
             border-radius: 50%; position: fixed; z-index: 9999;
-            pointer-events: none; box-shadow: 0 0 20px var(--primary);
-            transition: transform 0.1s; mix-blend-mode: difference;
+            pointer-events: none; transition: all 0.2s ease-out;
         }
 
-        /* خلفية متحركة بجد */
-        .bg-animate {
+        /* تأثير الخلفية (النجوم المتحركة) */
+        #bg-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #050505 100%);
+            z-index: -1;
         }
 
-        .blob {
-            position: absolute; width: 400px; height: 400px;
-            background: linear-gradient(var(--primary), var(--secondary));
-            filter: blur(100px); border-radius: 50%; opacity: 0.15;
-            animation: move 15s infinite alternate;
-        }
-
-        @keyframes move {
-            from { transform: translate(-10%, -10%); }
-            to { transform: translate(30%, 30%) scale(1.2); }
-        }
-
-        /* الهيدر */
+        /* الهيدر الزجاجي */
         nav {
-            padding: 25px 10%; display: flex; justify-content: space-between;
+            padding: 20px 8%; display: flex; justify-content: space-between;
             align-items: center; position: fixed; width: 100%; z-index: 100;
-            backdrop-filter: blur(10px);
+            background: rgba(2, 2, 5, 0.5); backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: 2px; }
-
-        /* منطقة الترحيب */
-        .hero {
-            height: 100vh; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center;
-        }
-
-        .hero h1 {
-            font-size: clamp(3rem, 10vw, 6rem); font-weight: 900; line-height: 1.1;
-        }
-
-        .gradient-text {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+        .logo { 
+            font-size: 1.8rem; font-weight: 900; 
+            text-transform: uppercase; letter-spacing: 4px;
+            background: linear-gradient(to right, var(--neon-blue), var(--neon-purple));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* كروت اللغات (C++, PHP, JS) */
-        .container { padding: 100px 10%; }
-        .grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px; margin-top: 50px;
+        /* الهيرو سيكشن - الانطباع الأول */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            padding: 0 15%;
         }
 
-        .skill-card {
-            background: var(--glass); border: 1px solid rgba(255,255,255,0.1);
-            padding: 40px; border-radius: 25px; transition: 0.5s;
-            position: relative; overflow: hidden; text-align: center;
+        .hero h1 {
+            font-size: clamp(3rem, 12vw, 8rem); font-weight: 900;
+            letter-spacing: -2px; margin-bottom: 1rem;
+            line-height: 0.9;
         }
 
-        .skill-card:hover {
-            transform: translateY(-15px); border-color: var(--primary);
-            background: rgba(255,255,255,0.07);
+        .outline-text {
+            color: transparent;
+            -webkit-text-stroke: 1px #fff;
+            opacity: 0.5;
         }
 
-        .skill-card i { font-size: 3.5rem; margin-bottom: 20px; color: var(--primary); }
-
-        .btn {
-            margin-top: 30px; padding: 15px 40px; border: 1px solid var(--primary);
-            background: transparent; color: var(--primary); border-radius: 50px;
-            font-weight: bold; transition: 0.3s;
+        /* كروت الخدمات - التصميم المستقبلي */
+        .grid-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px; padding: 100px 10%;
         }
 
-        .btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 30px var(--primary); }
+        .futuristic-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 50px 30px; border-radius: 0 40px 0 40px;
+            position: relative; transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden;
+        }
+
+        .futuristic-card::before {
+            content: ""; position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            opacity: 0; transition: 0.4s; z-index: -1;
+        }
+
+        .futuristic-card:hover {
+            transform: translateY(-20px) scale(1.05) rotateY(10deg);
+            border-color: transparent;
+            box-shadow: 0 20px 50px rgba(0, 242, 255, 0.2);
+        }
+
+        .futuristic-card:hover::before { opacity: 0.1; }
+
+        .icon-box {
+            font-size: 3.5rem; margin-bottom: 25px;
+            background: linear-gradient(var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .btn-glitch {
+            background: var(--neon-blue); color: #000;
+            padding: 20px 50px; border: none; font-weight: 900;
+            text-transform: uppercase; letter-spacing: 3px;
+            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+            transition: 0.3s; margin-top: 40px;
+        }
+
+        .btn-glitch:hover {
+            background: var(--neon-purple);
+            color: #fff; transform: scale(1.1);
+            box-shadow: 0 0 30px var(--neon-purple);
+        }
 
     </style>
 </head>
 <body>
 
-    <div id="cursor"></div>
-    <div class="bg-animate"><div class="blob"></div></div>
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
+    <canvas id="bg-canvas"></canvas>
 
     <nav>
-        <div class="logo">PORTFOLIO.26</div>
+        <div class="logo">ELITE.CODE</div>
+        <div style="font-size: 0.8rem; letter-spacing: 2px;">AVAILABLE FOR WORK</div>
     </nav>
 
     <section class="hero">
-        <h1 data-aos="fade-down">كود <span class="gradient-text">بلا حدود</span></h1>
-        <p data-aos="fade-up" data-aos-delay="300" style="font-size: 1.2rem; color: #ccc;">خبير في تطوير الأنظمة بـ C++ والويب بـ PHP & JS</p>
-        <div data-aos="zoom-in" data-aos-delay="500">
-            <button class="btn">استكشف مشاريعي</button>
-        </div>
+        <h1 data-aos="zoom-out" data-aos-duration="1500">I CODE <br> <span class="outline-text">THE IMPOSSIBLE</span></h1>
+        <p data-aos="fade-up" data-aos-delay="500" style="max-width: 600px; color: #888; font-size: 1.2rem;">
+            أنا لا أبرمج مجرد مواقع، أنا أبني إمبراطوريات رقمية باستخدام C++ و PHP المتقدمة.
+        </p>
+        <button class="btn-glitch" data-aos="flip-up" data-aos-delay="800">ابدأ مشروعك الآن</button>
     </section>
 
-    <section class="container">
-        <h2 style="text-align: center; font-size: 2.5rem;" data-aos="fade-up">اللغات التي أتقنها</h2>
-        <div class="grid">
-            <div class="skill-card" data-aos="flip-left">
-                <i class="fas fa-terminal"></i>
-                <h3>C++ Development</h3>
-                <p>تطوير برمجيات الأنظمة والأداء العالي.</p>
-            </div>
-            <div class="skill-card" data-aos="flip-left" data-aos-delay="200">
-                <i class="fab fa-php"></i>
-                <h3>PHP Backend</h3>
-                <p>بناء بوابات إلكترونية وقواعد بيانات ذكية.</p>
-            </div>
-            <div class="skill-card" data-aos="flip-left" data-aos-delay="400">
-                <i class="fab fa-js"></i>
-                <h3>Modern JS</h3>
-                <p>واجهات مستخدم تفاعلية وأنيميشن متقدم.</p>
-            </div>
+    <div class="grid-container">
+        <div class="futuristic-card" data-aos="fade-right">
+            <div class="icon-box"><i class="fas fa-microchip"></i></div>
+            <h3>C++ Hardcore</h3>
+            <p>برمجة الأنظمة التي لا تعرف المستحيل. سرعة، كفاءة، وقوة مطلقة.</p>
         </div>
-    </section>
+        <div class="futuristic-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="icon-box"><i class="fas fa-database"></i></div>
+            <h3>Architectural PHP</h3>
+            <p>قواعد بيانات وأنظمة خلفية تتحمل الملايين من الزوار بضغطة زر.</p>
+        </div>
+        <div class="futuristic-card" data-aos="fade-left" data-aos-delay="400">
+            <div class="icon-box"><i class="fas fa-layer-group"></i></div>
+            <h3>UI Hyperspace</h3>
+            <p>واجهات مستخدم سريعة لدرجة تجعل الزائر يقع في حب موقعك فوراً.</p>
+        </div>
+    </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: false });
+        AOS.init();
 
-        // الماوس
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
+        // Cursor Logic
+        const dot = document.getElementById('cursor-dot');
+        const outline = document.getElementById('cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            dot.style.left = e.clientX + 'px';
+            dot.style.top = e.clientY + 'px';
+            
+            outline.animate({
+                left: `${e.clientX}px`,
+                top: `${e.clientY}px`
+            }, { duration: 500, fill: "forwards" });
         });
 
-        // تأثير تكبير الماوس
-        document.querySelectorAll('.skill-card, .btn').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(4)');
-            el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
-        });
+        // Simple Background Particles (Canvas)
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        for(let i=0; i<80; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2,
+                speed: Math.random() * 0.5
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(0, 242, 255, 0.3)";
+            particles.forEach(p => {
+                p.y -= p.speed;
+                if(p.y < 0) p.y = canvas.height;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
     </script>
 </body>
 </html>
