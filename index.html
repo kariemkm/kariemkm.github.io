@@ -7,7 +7,6 @@
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
 
     <style>
         :root {
@@ -21,7 +20,7 @@
 
         /* الأساسيات */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body, * { cursor: none !important; }
+        html, body, * { cursor: none !important; } /* إخفاء الماوس العادي */
 
         body {
             background-color: var(--bg);
@@ -29,9 +28,10 @@
             font-family: 'Segoe UI', Tahoma, sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
+            scroll-behavior: smooth; /* عشان لما تدوس على زرار ينزل بنعومة */
         }
 
-        /* العدسة */
+        /* العدسة (الماوس المخصص) */
         #lens {
             width: 25px; height: 25px; background-color: white;
             border-radius: 50%; position: fixed; pointer-events: none;
@@ -39,29 +39,37 @@
             transition: transform 0.15s ease-out, opacity 0.3s;
         }
 
-        /* الهيدر */
+        /* الهيدر (القائمة العلوية) */
         nav {
-            padding: 30px 8%; display: flex; justify-content: space-between;
+            padding: 25px 8%; display: flex; justify-content: space-between;
             align-items: center; position: fixed; width: 100%; z-index: 1000;
-            background: rgba(3, 3, 3, 0.7); backdrop-filter: blur(15px);
+            background: rgba(3, 3, 3, 0.8); backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(160, 32, 240, 0.1);
         }
-        .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 2px; color: var(--primary); }
+        .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 2px; color: var(--primary); text-decoration: none; }
         .nav-links { display: flex; gap: 30px; }
         .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
         .nav-links a:hover, .nav-links a.active { color: var(--primary); text-shadow: 0 0 8px var(--primary); }
 
-        /* قسم الهيرو */
+        /* قسم الهيرو (واجهة الموقع) */
         .hero {
-            height: 80vh; display: flex; flex-direction: column;
+            height: 100vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
             background: radial-gradient(circle at 50% 50%, #0f0514 0%, #030303 100%);
             padding: 0 15%;
         }
-        .hero h1 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900; margin-bottom: 15px; }
-        .hero p { color: var(--text-dim); font-size: 1.1rem; }
+        .hero h1 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900; margin-bottom: 15px; line-height: 1.2; }
+        .hero p { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 30px; }
+        
+        /* زرار استعرض أعمالي */
+        .btn-work {
+            padding: 12px 35px; background: var(--primary); color: white;
+            text-decoration: none; border-radius: 50px; font-weight: bold;
+            transition: 0.3s; box-shadow: 0 0 20px var(--primary-glow);
+        }
+        .btn-work:hover { transform: scale(1.1); box-shadow: 0 0 30px var(--primary); }
 
-        /* لوحة التحكم */
+        /* لوحة التحكم (الإعدادات) */
         .settings-panel {
             position: fixed; left: -240px; top: 50%; transform: translateY(-50%);
             width: 240px; background: #0a0a0a; border: 1px solid var(--primary);
@@ -73,19 +81,21 @@
             background: var(--primary); border: none; color: white; border-radius: 0 10px 10px 0;
         }
 
-        /* كروت المشاريع */
-        .work-section { padding: 50px 8% 100px; }
+        /* كروت المشاريع (قسم الأعمال) */
+        .work-section { padding: 100px 8%; background: #050505; }
+        .section-title { font-size: 2.5rem; margin-bottom: 50px; text-align: center; color: var(--primary); }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
         .card {
             background: var(--card-bg); border-radius: 20px; overflow: hidden;
             border: 1px solid #151515; transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
         }
         .card:hover { border-color: var(--primary); transform: translateY(-10px); box-shadow: 0 10px 30px var(--primary-glow); }
-        .image-box { width: 100%; height: 400px; overflow: hidden; }
-        .image-box img { width: 100%; height: 100%; object-fit: cover; transition: 1s; }
-        .card-info { padding: 20px; }
+        .image-box { width: 100%; height: 400px; overflow: hidden; background: #111; }
+        .image-box img { width: 100%; height: 100%; object-fit: cover; transition: 1s; opacity: 0.8; }
+        .card:hover img { opacity: 1; transform: scale(1.1); }
+        .card-info { padding: 25px; }
 
-        /* الـ Popup */
+        /* الـ Popup (نافذة عرض التفاصيل) */
         .popup-overlay {
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
             backdrop-filter: blur(15px); z-index: 99999;
@@ -101,7 +111,7 @@
         .popup-img img { width: 100%; border-radius: 12px; }
         .close-btn { position: absolute; right: 20px; top: 10px; font-size: 40px; color: var(--primary); }
 
-        footer { padding: 60px; text-align: center; color: #444; font-size: 0.8rem; }
+        footer { padding: 60px; text-align: center; color: #444; font-size: 0.8rem; border-top: 1px solid #111; }
     </style>
 </head>
 <body>
@@ -111,7 +121,6 @@
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
         <h3 style="font-size: 1.1rem; margin-bottom: 20px; color: var(--primary);">تخصيص الواجهة</h3>
-        
         <div style="margin-bottom: 20px;">
             <p style="font-size: 0.85rem; margin-bottom: 10px;">ثيم الهوية:</p>
             <div style="display: flex; gap: 12px;">
@@ -120,39 +129,49 @@
                 <div onclick="changeColor('#ff0055')" style="width: 25px; height: 25px; border-radius: 50%; background: #ff0055;"></div>
             </div>
         </div>
-
         <div style="border-top: 1px solid #222; padding-top: 20px;">
-            <p style="font-size: 0.85rem; margin-bottom: 10px;">وضع العدسة:</p>
-            <button id="toggleLensBtn" onclick="toggleLens()" style="background: #111; color: #fff; border: 1px solid var(--primary); padding: 8px; border-radius: 8px; width: 100%; font-size: 0.8rem; transition: 0.3s;">
+            <button id="toggleLensBtn" onclick="toggleLens()" style="background: #111; color: #fff; border: 1px solid var(--primary); padding: 8px; border-radius: 8px; width: 100%; font-size: 0.8rem;">
                 إيقاف العدسة
             </button>
         </div>
     </div>
 
     <nav>
-        <div class="logo">KAREEM.DSGN</div>
+        <a href="index.html" class="logo">KAREEM.DSGN</a>
         <div class="nav-links">
-            <a href="index.html" class="active">أعمالي</a>
-            <a href="about.html">عني</a>
+            <a href="#work" class="active">أعمالي</a> <a href="about.html">عني</a>
             <a href="contact.html">تواصل معي</a>
         </div>
     </nav>
 
     <section class="hero">
-        <h1 data-aos="fade-up">MY <span style="color: var(--primary);">WORKS</span></h1>
-        <p data-aos="fade-up" data-aos-delay="200">استعرض أحدث المشاريع والتصاميم البصرية.</p>
+        <h1 data-aos="fade-up">Creative <br> Visual Designer</h1>
+        <p data-aos="fade-up" data-aos-delay="200">تصميم بصري بلمسة فنية فريدة تجمع بين الفن والتكنولوجيا.</p>
+        <div data-aos="fade-up" data-aos-delay="400">
+            <a href="#work" class="btn-work">استعرض أعمالي</a>
+        </div>
     </section>
 
     <section class="work-section" id="work">
+        <h2 class="section-title" data-aos="fade-up">Selected Works</h2>
         <div class="grid">
-            <div class="card" data-aos="fade-up" onclick="openPopup('Strategic Identity', 'https://via.placeholder.com/600x800', 'تفاصيل بناء الهوية البصرية لهذا المشروع...')">
-                <div class="image-box"><img src="https://via.placeholder.com/600x800"></div>
-                <div class="card-info"><h3>Strategic Identity</h3><p>UI/UX Design</p></div>
+            
+            <div class="card" data-aos="fade-up" onclick="openPopup('Strategic Identity', 'https://via.placeholder.com/600x800', 'بناء هوية بصرية كاملة تركز على البساطة والقوة البصرية.')">
+                <div class="image-box"><img src="https://via.placeholder.com/600x800" alt="Work 1"></div>
+                <div class="card-info">
+                    <h3>Strategic Identity</h3>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">Branding & Design</p>
+                </div>
             </div>
-            <div class="card" data-aos="fade-up" data-aos-delay="200" onclick="openPopup('Branding Concept', 'https://via.placeholder.com/600x800', 'شرح فكرة البراندينج وتنسيق الألوان...')">
-                <div class="image-box"><img src="https://via.placeholder.com/600x800"></div>
-                <div class="card-info"><h3>Branding Concept</h3><p>Graphic Design</p></div>
+
+            <div class="card" data-aos="fade-up" data-aos-delay="200" onclick="openPopup('Digital Art Concept', 'https://via.placeholder.com/600x800', 'استكشاف الأبعاد الرقمية من خلال تصاميم جرافيكية مبتكرة.')">
+                <div class="image-box"><img src="https://via.placeholder.com/600x800" alt="Work 2"></div>
+                <div class="card-info">
+                    <h3>Digital Art Concept</h3>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">Creative Art</p>
+                </div>
             </div>
+
         </div>
     </section>
 
@@ -163,18 +182,22 @@
                 <div class="popup-img"><img id="modalImg" src=""></div>
                 <div class="popup-info">
                     <h2 id="modalTitle" style="color: var(--primary); margin-bottom: 20px;"></h2>
-                    <p id="modalDesc" style="color: #ccc;"></p>
+                    <p id="modalDesc" style="color: #ccc; line-height: 1.8;"></p>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer><p>© 2026 KAREEM DESIGN.</p></footer>
+    <footer>
+        <p>© 2026 KAREEM DESIGN. All rights reserved.</p>
+    </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        // تفعيل الأنيميشن عند التمرير
         AOS.init({ duration: 1000, once: true });
 
+        // منطق العدسة (الماوس)
         const lens = document.getElementById('lens');
         const lensBtn = document.getElementById('toggleLensBtn');
         let lensActive = true;
@@ -192,38 +215,40 @@
                 lens.style.display = 'block';
                 document.querySelectorAll('*').forEach(el => el.style.setProperty('cursor', 'none', 'important'));
                 lensBtn.innerText = "إيقاف العدسة";
-                lensBtn.style.background = "#111";
             } else {
                 lens.style.display = 'none';
                 document.querySelectorAll('*').forEach(el => el.style.setProperty('cursor', 'auto', 'important'));
                 lensBtn.innerText = "تشغيل العدسة";
-                lensBtn.style.background = "var(--primary)";
             }
         }
 
+        // تكبير الماوس عند لمس العناصر
         document.querySelectorAll('a, .card, button, .close-btn').forEach(el => {
             el.onmouseenter = () => { if(lensActive) lens.style.transform = 'scale(4)'; };
             el.onmouseleave = () => { if(lensActive) lens.style.transform = 'scale(1)'; };
         });
 
+        // فتح وإغلاق لوحة الإعدادات
         document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
 
+        // تغيير اللون الرئيسي للموقع
         function changeColor(color) {
             document.documentElement.style.setProperty('--primary', color);
             document.documentElement.style.setProperty('--primary-glow', color + '4d');
         }
 
+        // التحكم بالـ Popup
         function openPopup(title, img, desc) {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalImg').src = img;
             document.getElementById('modalDesc').innerText = desc;
             document.getElementById('projectPopup').style.display = 'block';
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; // منع السكرول عند فتح النافذة
         }
 
         function closePopup() {
             document.getElementById('projectPopup').style.display = 'none';
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = 'auto'; // إعادة السكرول
         }
     </script>
 </body>
