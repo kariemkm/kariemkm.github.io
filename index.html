@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kareem | Graphic Designer Portfolio</title>
+    <title>Kareem | Purple Portfolio</title>
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -11,23 +11,26 @@
     <style>
         :root {
             --bg: #030303;
-            --primary: #00f2ff;
+            /* اللون البنفسجي الجديد (Neon Purple) */
+            --primary: #a020f0;   /* اللون البنفسجي الأساسي */
+            --primary-glow: rgba(160, 32, 240, 0.3); /* توهج بنفسجي بسيط */
             --card-bg: #0a0a0a;
             --text-main: #ffffff;
             --text-dim: #888;
         }
 
+        /* الماوس والأساسيات */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
 
         body {
             background-color: var(--bg);
             color: var(--text-main);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* الماوس العاكس الذكي */
+        /* الماوس العاكس */
         #cursor {
             width: 25px; height: 25px; background-color: white;
             border-radius: 50%; position: fixed; pointer-events: none;
@@ -35,26 +38,42 @@
             transition: transform 0.15s ease-out, opacity 0.3s, width 0.3s, height 0.3s;
         }
 
-        /* الهيدر */
+        /* الهيدر والزراير */
         nav {
             padding: 30px 8%; display: flex; justify-content: space-between;
-            align-items: center; position: absolute; width: 100%; z-index: 100;
+            align-items: center; position: fixed; width: 100%; z-index: 100;
+            background: rgba(3, 3, 3, 0.7);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(160, 32, 240, 0.1); /* خط بنفسجي خفيف جدا تحت المنيو */
         }
         .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 2px; color: var(--primary); }
+        
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { 
+            color: var(--text-main); text-decoration: none; 
+            font-size: 0.9rem; font-weight: 500; transition: 0.3s;
+            letter-spacing: 1px;
+        }
+        /* تأثير عند الوقوف على زرار المنيو */
+        .nav-links a:hover { color: var(--primary); text-shadow: 0 0 8px var(--primary); }
 
-        /* قسم الهيرو (التعريف) */
+        /* قسم الهيرو */
         .hero {
             height: 100vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
-            background: radial-gradient(circle at 50% 50%, #111 0%, #030303 100%);
+            /* تدرج لوني يعطي لمسة بنفسجية خفيفة في الخلفية */
+            background: radial-gradient(circle at 50% 50%, #0f0514 0%, #030303 100%);
             padding: 0 15%;
         }
         .hero h1 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900; margin-bottom: 15px; }
         .hero p { color: var(--text-dim); font-size: 1.1rem; max-width: 600px; }
 
-        /* حاوية المشاريع */
+        /* قسم الأعمال */
         .work-section { padding: 100px 8%; }
-        .section-title { margin-bottom: 60px; font-size: 2rem; border-right: 4px solid var(--primary); padding-right: 15px; }
+        .section-title { 
+            margin-bottom: 60px; font-size: 2rem; 
+            border-right: 4px solid var(--primary); padding-right: 15px; 
+        }
 
         .grid {
             display: grid;
@@ -67,22 +86,25 @@
             background: var(--card-bg); border-radius: 20px; overflow: hidden;
             border: 1px solid #151515; transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
         }
-        .card:hover { border-color: var(--primary); transform: translateY(-10px); }
+        /* تأثير التوهج البنفسجي عند الوقوف على الكارت */
+        .card:hover { 
+            border-color: var(--primary); 
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px var(--primary-glow); 
+        }
 
         .image-box { width: 100%; height: 400px; overflow: hidden; }
         .image-box img { 
             width: 100%; height: 100%; object-fit: cover; 
             transition: transform 1s cubic-bezier(0.2, 1, 0.3, 1);
         }
-        .card:hover .image-box img { transform: scale(1.1); }
+        .card:hover .image-box img { transform: scale(1.1); } /* زووم الصور */
 
         .card-info { padding: 25px; }
         .card-info h3 { font-size: 1.3rem; margin-bottom: 10px; }
         .card-info p { color: var(--text-dim); font-size: 0.9rem; }
 
-        /* الفوتر */
         footer { padding: 60px; text-align: center; border-top: 1px solid #111; color: #444; font-size: 0.8rem; }
-
     </style>
 </head>
 <body>
@@ -91,12 +113,17 @@
 
     <nav>
         <div class="logo">KAREEM.DSGN</div>
-        <div style="font-size: 0.8rem; letter-spacing: 2px;">PORTFOLIO 2026</div>
+        <div class="nav-links">
+            <a href="#">الرئيسية</a>
+            <a href="#work">أعمالي</a>
+            <a href="#">عني</a>
+            <a href="#">تواصل معي</a>
+        </div>
     </nav>
 
     <section class="hero">
         <h1 data-aos="fade-up">Creative <br> Visual Designer</h1>
-        <p data-aos="fade-up" data-aos-delay="200">أحول الأفكار إلى واقع بصري ملموس من خلال تصميم الهويات البصرية والـ UI/UX بأحدث التقنيات.</p>
+        <p data-aos="fade-up" data-aos-delay="200">تصميم بصري بلمسة فنية فريدة تعبر عن هويتك.</p>
     </section>
 
     <section class="work-section" id="work">
@@ -105,7 +132,7 @@
         <div class="grid">
             <div class="card" data-aos="fade-up">
                 <div class="image-box">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw-4-X3Z8qsSj8BQpRxPz1WGOgEDu9QrJwdQ&s" alt="Branding">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw-4-X3Z8qsSj8BQpRxPz1WGOgEDu9QrJwdQ&s" alt="Design 1">
                 </div>
                 <div class="card-info">
                     <h3>Strategic Identity</h3>
@@ -115,7 +142,7 @@
 
             <div class="card" data-aos="fade-up" data-aos-delay="200">
                 <div class="image-box">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSprE0Q8ueJz3OV4DiKD1vZUvz9A7hDhaACZA&s" alt="Digital Art">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSprE0Q8ueJz3OV4DiKD1vZUvz9A7hDhaACZA&s" alt="Design 2">
                 </div>
                 <div class="card-info">
                     <h3>Concept Art</h3>
@@ -125,7 +152,7 @@
 
             <div class="card" data-aos="fade-up" data-aos-delay="400">
                 <div class="image-box">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfI6-V7M9L_P9rM0m8m1rL7f-Q6P0f9qEwXw&s" alt="UI Design">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfI6-V7M9L_P9rM0m8m1rL7f-Q6P0f9qEwXw&s" alt="Design 3">
                 </div>
                 <div class="card-info">
                     <h3>Visual Experience</h3>
@@ -150,8 +177,7 @@
             cursor.style.top = e.clientY - 12 + 'px';
         });
 
-        // تأثيرات الماوس
-        document.querySelectorAll('h1, h2, h3, p, .logo').forEach(el => {
+        document.querySelectorAll('h1, h2, h3, p, .logo, .nav-links a').forEach(el => {
             el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(4)');
             el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
         });
