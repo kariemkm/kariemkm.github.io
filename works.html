@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Works | معرض أعمال كريم</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* تنسيقات خاصة بصفحة الأعمال فقط لزيادة الفخامة */
+        .works-header {
+            padding: 150px 8% 50px;
+            text-align: right;
+        }
+        .works-header h1 {
+            font-size: clamp(3rem, 10vw, 7rem);
+            line-height: 1;
+            text-transform: uppercase;
+            -webkit-text-stroke: 1px var(--primary);
+            color: transparent;
+            margin-bottom: 20px;
+        }
+        .works-header h1 span {
+            color: var(--text-main);
+            -webkit-text-stroke: 0;
+        }
+        
+        /* فلتر المشاريع (اختياري لو حبيت تقسمهم جرافيك / UI) */
+        .filter-nav {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+        .filter-btn {
+            background: none;
+            border: 1px solid #222;
+            color: var(--text-dim);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .filter-btn.active, .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="lens"></div>
+
+    <div id="settingsPanel" class="settings-panel">
+        <button id="settingsToggle"><i class="fas fa-cog"></i></button>
+        <h3 style="color: var(--primary); margin-bottom: 15px;">الإعدادات</h3>
+        <button onclick="toggleLens()" id="toggleLensBtn" style="width: 100%; padding: 10px; background: #111; color: #fff; border: 1px solid var(--primary); border-radius: 8px;">إيقاف العدسة</button>
+    </div>
+
+    <nav>
+        <div class="logo">KAREEM.DSGN</div>
+        <div class="nav-links">
+            <a href="index.html">الرئيسية</a>
+            <a href="works.html" class="active">أعمالي</a>
+            <a href="about.html">عني</a>
+            <a href="contact.html">تواصل معي</a>
+        </div>
+    </nav>
+
+    <header class="works-header">
+        <h1 data-aos="fade-right">MY <span>WORKS</span></h1>
+        <p style="color: var(--text-dim); max-width: 500px;" data-aos="fade-up" data-aos-delay="200">
+            مجموعة من المشاريع المختارة التي تعكس شغفي في التصميم البصري وتحويل الأفكار إلى واقع رقمي جذاب.
+        </p>
+    </header>
+
+    <section class="work-section">
+        <div class="grid">
+            <div class="card" data-aos="fade-up" onclick="openPopup('Branding Concept', 'https://via.placeholder.com/800x1000', 'تصميم هوية بصرية كاملة تركز على البساطة واستخدام المساحات السلبية لإيصال فكرة العلامة التجارية.')">
+                <div class="image-box">
+                    <img src="https://via.placeholder.com/800x1000" alt="Work 1">
+                </div>
+                <div class="card-info">
+                    <span style="color: var(--primary); font-size: 0.8rem;">GRAPHIC DESIGN</span>
+                    <h3>Strategic Branding</h3>
+                </div>
+            </div>
+
+            <div class="card" data-aos="fade-up" data-aos-delay="100" onclick="openPopup('Mobile App UI', 'https://via.placeholder.com/800x1000', 'واجهة مستخدم لتطبيق رياضي يعتمد على الألوان الجريئة والخطوط القوية لتحفيز المستخدمين.')">
+                <div class="image-box">
+                    <img src="https://via.placeholder.com/800x1000" alt="Work 2">
+                </div>
+                <div class="card-info">
+                    <span style="color: var(--primary); font-size: 0.8rem;">UI/UX DESIGN</span>
+                    <h3>Fitness App Concept</h3>
+                </div>
+            </div>
+
+            <div class="card" data-aos="fade-up" data-aos-delay="200" onclick="openPopup('Architectural Texture', 'https://via.placeholder.com/800x1000', 'استكشاف الأنماط المعمارية من خلال التصميم الجرافيكي ثلاثي الأبعاد.')">
+                <div class="image-box">
+                    <img src="https://via.placeholder.com/800x1000" alt="Work 3">
+                </div>
+                <div class="card-info">
+                    <span style="color: var(--primary); font-size: 0.8rem;">3D ART</span>
+                    <h3>Geometric Structures</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="projectPopup" class="popup-overlay">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <div class="popup-grid">
+                <div class="popup-img"><img id="modalImg" src=""></div>
+                <div class="popup-info">
+                    <h2 id="modalTitle" style="color: var(--primary);"></h2>
+                    <p id="modalDesc" style="margin-top: 20px; line-height: 1.8; color: #ccc;"></p>
+                    <button class="btn-primary" style="margin-top: 30px; padding: 10px 25px; background: var(--primary); border: none; border-radius: 5px; color: white;">مشاهدة المشروع كاملاً</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 KAREEM DESIGN. مصمم بكل شغف.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
