@@ -1,40 +1,56 @@
-// تشغيل أنميشن الظهور
-AOS.init({ duration: 1000 });
+// تفعيل الأنيميشن
+AOS.init({ duration: 1000, once: true });
 
-// حركة الماوس
+// التحكم في الماوس
 const cursor = document.getElementById('cursor');
+let isCursorEnabled = true;
+
 document.addEventListener('mousemove', (e) => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
+    if(!isCursorEnabled) return;
+    cursor.style.left = e.clientX - 12 + 'px';
+    cursor.style.top = e.clientY - 12 + 'px';
 });
 
-// تأثير الضغط (Click effect)
-document.addEventListener('mousedown', () => {
-    cursor.style.transform = 'scale(0.5)';
-});
-document.addEventListener('mouseup', () => {
-    cursor.style.transform = 'scale(1)';
-});
-
-// محاكاة تحميل بيانات (عشان يبان إن فيه PHP وكدة)
-console.log("PHP Script Initialized...");
-console.log("C++ Core Engine Running...");
-
-// تتبع حركة الماوس داخل الكروت لعمل تأثير 3D
-document.querySelectorAll('.skill-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
-        
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+// تأثيرات الماوس على العناصر
+function addCursorEvents() {
+    document.querySelectorAll('a, button, .card, .close-btn').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(3)');
+        el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
     });
-    
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)`;
-    });
+}
+addCursorEvents();
+
+// لوحة الإعدادات
+const settingsToggle = document.getElementById('settingsToggle');
+const settingsPanel = document.getElementById('settingsPanel');
+
+settingsToggle.addEventListener('click', () => {
+    settingsPanel.classList.toggle('active');
 });
+
+// تغيير اللون الأساسي
+function changeColor(color) {
+    document.documentElement.style.setProperty('--primary', color);
+    document.documentElement.style.setProperty('--primary-glow', color + '4d'); // إضافة شفافية للتوهج
+}
+
+// تشغيل/إيقاف الماوس
+function toggleCursor() {
+    isCursorEnabled = !isCursorEnabled;
+    cursor.style.display = isCursorEnabled ? 'block' : 'none';
+    document.body.style.cursor = isCursorEnabled ? 'none' : 'auto';
+}
+
+// وظائف الـ Popup
+function openPopup(title, img, desc) {
+    document.getElementById('popupTitle').innerText = title;
+    document.getElementById('popupImg').src = img;
+    document.getElementById('popupDesc').innerText = desc;
+    document.getElementById('projectPopup').style.display = 'block';
+    document.body.style.overflow = 'hidden'; // منع السكرول
+}
+
+function closePopup() {
+    document.getElementById('projectPopup').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
