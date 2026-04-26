@@ -19,7 +19,9 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body, * { cursor: none !important; }
+        
+        /* إخفاء الماوس الأصلي تماماً */
+        html, body, a, button, .card { cursor: none !important; }
 
         body {
             background-color: var(--bg);
@@ -30,18 +32,25 @@
             scroll-behavior: smooth;
         }
 
-        /* تعديل الماوس (العدسة) ليتفاعل مع اللون المختار */
-        #lens {
-            width: 20px; 
-            height: 20px; 
-            background-color: var(--primary); /* اللون المختار */
-            border: 2px solid rgba(255, 255, 255, 0.8); /* البوردر اللي طلبته */
-            border-radius: 50%; 
-            position: fixed; 
+        /* ستايل الماوس الحقيقي المخصص */
+        #custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 28px;
+            height: 28px;
             pointer-events: none;
-            z-index: 100000; 
-            transition: transform 0.15s ease-out, background-color 0.3s ease;
-            box-shadow: 0 0 15px var(--primary-glow); /* وهج بسيط حول الماوس */
+            z-index: 100000;
+            filter: drop-shadow(0 0 5px var(--primary-glow));
+            transition: transform 0.1s ease-out;
+        }
+
+        /* التحكم في لون السهم والبورد */
+        #cursor-path {
+            fill: var(--primary); /* لون الماوس بيتغير مع الموقع */
+            stroke: #ffffff;      /* بوردر أبيض عشان يبان */
+            stroke-width: 1.5px;
+            transition: fill 0.3s ease;
         }
 
         nav {
@@ -83,15 +92,16 @@
 </head>
 <body>
 
-    <div id="lens"></div>
+    <div id="custom-cursor">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" />
+        </svg>
+    </div>
 
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
         <h3 style="color: var(--primary); margin-bottom: 20px;">تخصيص الموقع</h3>
         <input type="color" id="fullColorPicker" class="custom-color-input" value="#a020f0" oninput="updateSiteColor(this.value)">
-        <div style="margin-top: 20px; border-top: 1px solid #222; padding-top: 15px;">
-            <button onclick="toggleLens()" id="toggleLensBtn" style="background: #111; color: #fff; border: 1px solid var(--primary); padding: 10px; border-radius: 8px; width: 100%;">إيقاف العدسة</button>
-        </div>
     </div>
 
     <nav>
@@ -128,14 +138,12 @@
     <script>
         AOS.init({ duration: 1000 });
 
-        // تحديث اللون وحفظه في الذاكرة
         function updateSiteColor(color) {
             document.documentElement.style.setProperty('--primary', color);
             document.documentElement.style.setProperty('--primary-glow', color + '4d');
             localStorage.setItem('userThemeColor', color);
         }
 
-        // استعادة اللون عند تحميل الصفحة
         window.addEventListener('DOMContentLoaded', () => {
             const savedColor = localStorage.getItem('userThemeColor');
             if (savedColor) {
@@ -146,28 +154,19 @@
             }
         });
 
-        const lens = document.getElementById('lens');
-        let lensActive = true;
-
+        // كود تحريك الماوس الحقيقي
+        const cursor = document.getElementById('custom-cursor');
+        
         document.addEventListener('mousemove', (e) => {
-            if (lensActive) {
-                lens.style.left = e.clientX - 10 + 'px';
-                lens.style.top = e.clientY - 10 + 'px';
-            }
+            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
         });
-
-        function toggleLens() {
-            lensActive = !lensActive;
-            lens.style.display = lensActive ? 'block' : 'none';
-            document.querySelectorAll('*').forEach(el => el.style.setProperty('cursor', lensActive ? 'none' : 'auto', 'important'));
-            document.getElementById('toggleLensBtn').innerText = lensActive ? "إيقاف العدسة" : "تشغيل العدسة";
-        }
 
         document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
         
+        // تأثير الماوس عند الوقوف على الروابط
         document.querySelectorAll('a, button, .card').forEach(el => {
-            el.onmouseenter = () => { if(lensActive) lens.style.transform = 'scale(3)'; };
-            el.onmouseleave = () => { if(lensActive) lens.style.transform = 'scale(1)'; };
+            el.onmouseenter = () => { cursor.style.transform += ' scale(1.4)'; };
+            el.onmouseleave = () => { cursor.style.transform = cursor.style.transform.replace(' scale(1.4)', ''); };
         });
     </script>
 </body>
