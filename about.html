@@ -7,38 +7,61 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --bg: #030303; --primary: #a020f0; --primary-glow: rgba(160, 32, 240, 0.3); --text-main: #ffffff; --text-dim: #888; }
+        :root { 
+            --bg: #030303; 
+            --primary: #a020f0; 
+            --primary-glow: rgba(160, 32, 240, 0.3); 
+            --text-main: #ffffff; 
+            --text-dim: #888; 
+        }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body, * { cursor: none !important; }
-        body { background-color: var(--bg); color: var(--text-main); font-family: 'Segoe UI', sans-serif; line-height: 1.8; }
-        #lens { width: 25px; height: 25px; background-color: white; border-radius: 50%; position: fixed; pointer-events: none; z-index: 100000; mix-blend-mode: difference; transition: transform 0.15s ease-out; }
+
+        /* تعديل الماوس هنا ليكون سهم ملون */
+        html, body { 
+            background-color: var(--bg); 
+            color: var(--text-main); 
+            font-family: 'Segoe UI', sans-serif; 
+            line-height: 1.8;
+            /* الماوس الافتراضي هنا هيكون سهم بلون الـ primary */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="%23' + 'a020f0'.replace('#','') + '"><path d="M7 2l12 11.857-6.391 1.108 3.974 7.102-4.657 2.621-3.908-7.308-4.018 3.821z"/></svg>'), auto !important;
+        }
+
+        /* تنسيق الهيدر */
         nav { padding: 25px 8%; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; z-index: 1000; background: rgba(3, 3, 3, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(160, 32, 240, 0.1); }
         .logo { font-size: 1.4rem; font-weight: 900; color: var(--primary); text-decoration: none; }
         .nav-links { display: flex; gap: 30px; }
         .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.9rem; transition: 0.3s; opacity: 0.7; }
         .nav-links a:hover, .nav-links a.active { color: var(--primary); opacity: 1; }
+
+        /* قسم عني */
         .about-section { padding: 180px 8% 100px; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
         .about-text h1 { font-size: 4rem; font-weight: 900; line-height: 1; margin-bottom: 30px; }
         .about-text p { font-size: 1.1rem; color: var(--text-dim); margin-bottom: 20px; }
         .stats { display: flex; gap: 30px; margin-top: 40px; }
         .stat-item h3 { font-size: 2.5rem; color: var(--primary); }
         .stat-item p { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
+        
         .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 30px; }
-        .skill-tag { padding: 10px 20px; border: 1px solid #222; border-radius: 10px; text-align: center; transition: 0.3s; }
+        .skill-tag { padding: 10px 20px; border: 1px solid #222; border-radius: 10px; text-align: center; transition: 0.3s; cursor: inherit !important; }
         .skill-tag:hover { border-color: var(--primary); background: var(--primary-glow); }
+
+        /* لوحة التحكم */
         .settings-panel { position: fixed; left: -260px; top: 50%; transform: translateY(-50%); width: 260px; background: #0a0a0a; border: 1px solid var(--primary); padding: 25px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0; }
         .settings-panel.active { left: 0; }
-        #settingsToggle { position: absolute; right: -45px; top: 0; width: 45px; height: 45px; background: var(--primary); border: none; color: white; border-radius: 0 10px 10px 0; }
+        #settingsToggle { position: absolute; right: -45px; top: 0; width: 45px; height: 45px; background: var(--primary); border: none; color: white; border-radius: 0 10px 10px 0; cursor: inherit !important; }
+        
         @media (max-width: 900px) { .about-section { grid-template-columns: 1fr; padding-top: 120px; } }
     </style>
 </head>
 <body>
-    <div id="lens"></div>
+
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
         <h3 style="color: var(--primary); margin-bottom: 20px;">تخصيص</h3>
-        <input type="color" id="fullColorPicker" style="width:100%; height:40px; cursor:pointer;" oninput="updateSiteColor(this.value)">
+        <input type="color" id="fullColorPicker" style="width:100%; height:40px; cursor:inherit;" oninput="updateSiteColor(this.value)">
     </div>
+
     <nav>
         <a href="index.html" class="logo">KAREEM.DSGN</a>
         <div class="nav-links">
@@ -48,16 +71,18 @@
             <a href="contact.html">تواصل معي</a>
         </div>
     </nav>
+
     <section class="about-section">
         <div class="about-text" data-aos="fade-right">
             <h1>أنا <span style="color: var(--primary);">كريم</span>.</h1>
             <p>مصمم جرافيك ومطور واجهات شغوف بخلق حلول بصرية تتجاوز التوقعات. أجمع بين الفن والتكنولوجيا لتحويل الأفكار المعقدة إلى تصاميم بسيطة ومؤثرة.</p>
-            <p>بعيداً عن الشاشة، أنا "Speedcuber" أسعى دائماً لتحطيم أرقامي القياسية، وأستمتع بعالم الـ Gaming الذي يلهمني في فهم حركية وتوزيع العناصر البصرية.</p>
+            <p>بعيداً عن الشاشة، أنا "Speedcuber" أسعى دائماً لتحطيم أرقامي القياسية، وأستمتع بعالم الـ Gaming الذي يلهمني.</p>
             <div class="stats">
                 <div class="stat-item"><h3>+5</h3><p>سنوات خبرة</p></div>
                 <div class="stat-item"><h3>+50</h3><p>مشروع ناجح</p></div>
             </div>
         </div>
+
         <div class="about-skills" data-aos="fade-left">
             <h2 style="margin-bottom: 20px;">المهارات التقنية</h2>
             <div class="skills-grid">
@@ -70,28 +95,43 @@
             </div>
         </div>
     </section>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 1000 });
+
+        // دالة تحديث اللون والماوس معاً
         function updateSiteColor(color) {
             document.documentElement.style.setProperty('--primary', color);
             document.documentElement.style.setProperty('--primary-glow', color + '4d');
             localStorage.setItem('userThemeColor', color);
+
+            // تحديث شكل السهم بلون الاختيار الجديد
+            const svgCursor = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="${encodeURIComponent(color)}"><path d="M7 2l12 11.857-6.391 1.108 3.974 7.102-4.657 2.621-3.908-7.308-4.018 3.821z"/></svg>`;
+            document.body.style.cursor = `url('${svgCursor}'), auto`;
+            
+            // تطبيق الماوس على كل العناصر التفاعلية لضمان الثبات
+            document.querySelectorAll('a, button, input, .skill-tag').forEach(el => {
+                el.style.cursor = `url('${svgCursor}'), auto`;
+            });
         }
+
         window.addEventListener('DOMContentLoaded', () => {
             const savedColor = localStorage.getItem('userThemeColor');
             if (savedColor) {
                 updateSiteColor(savedColor);
-                if(document.getElementById('fullColorPicker')) document.getElementById('fullColorPicker').value = savedColor;
+                if(document.getElementById('fullColorPicker')) {
+                    document.getElementById('fullColorPicker').value = savedColor;
+                }
+            } else {
+                // تطبيق اللون الافتراضي (البنفسجي) على الماوس لو مفيش حفظ
+                updateSiteColor('#a020f0');
             }
         });
-        const lens = document.getElementById('lens');
-        document.addEventListener('mousemove', (e) => { lens.style.left = e.clientX - 12 + 'px'; lens.style.top = e.clientY - 12 + 'px'; });
-        document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
-        document.querySelectorAll('a, button, .skill-tag').forEach(el => {
-            el.onmouseenter = () => lens.style.transform = 'scale(4)';
-            el.onmouseleave = () => lens.style.transform = 'scale(1)';
-        });
+
+        document.getElementById('settingsToggle').onclick = () => {
+            document.getElementById('settingsPanel').classList.toggle('active');
+        };
     </script>
 </body>
 </html>
