@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kareem | Professional Graphic Designer</title>
+    <title>Kareem | My Works</title>
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -13,12 +13,13 @@
             --bg: #030303;
             --primary: #a020f0;
             --primary-glow: rgba(160, 32, 240, 0.3);
+            --card-bg: #0a0a0a;
             --text-main: #ffffff;
             --text-dim: #888;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body, * { cursor: none !important; }
+        html, body, a, button, .card { cursor: none !important; }
 
         body {
             background-color: var(--bg);
@@ -26,81 +27,89 @@
             font-family: 'Segoe UI', Tahoma, sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* العدسة المحسنة */
-        #lens {
-            width: 25px; height: 25px; 
-            background-color: white;
-            border-radius: 50%; position: fixed; pointer-events: none;
-            z-index: 100000; 
-            /* شلنا الـ mix-blend-mode عشان ميعكسش اللون على الصور */
-            transition: transform 0.15s ease-out;
-            border: 1px solid rgba(255,255,255,0.2);
+        /* الماوس المخصص المربوط باللون */
+        #custom-cursor {
+            position: fixed;
+            top: 0; left: 0;
+            width: 28px; height: 28px;
+            pointer-events: none;
+            z-index: 100000;
+            filter: drop-shadow(0 0 5px var(--primary-glow));
+            transition: transform 0.1s ease-out;
         }
 
-        /* تطبيق التأثير فقط على النصوص وليس الصور */
-        .blend-mode { mix-blend-mode: difference; }
+        #cursor-path {
+            fill: var(--primary);
+            stroke: #ffffff;
+            stroke-width: 1.5px;
+            transition: fill 0.3s ease;
+        }
 
         nav {
             padding: 25px 8%; display: flex; justify-content: space-between;
             align-items: center; position: fixed; width: 100%; z-index: 1000;
             background: rgba(3, 3, 3, 0.8); backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(160, 32, 240, 0.1);
+            border-bottom: 2px solid var(--primary); /* مربوط باللون */
         }
         .logo { font-size: 1.4rem; font-weight: 900; color: var(--primary); text-decoration: none; }
         .nav-links { display: flex; gap: 30px; }
-        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); }
+        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.9rem; transition: 0.3s; opacity: 0.7; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); opacity: 1; }
 
-        .hero {
-            min-height: 100vh; padding: 150px 8% 100px; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center;
-            background: radial-gradient(circle at 50% 50%, #0f0514 0%, #030303 100%);
-        }
-        .hero h1 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900; margin-bottom: 20px; text-transform: uppercase; }
+        .works-header { padding: 150px 8% 50px; text-align: right; }
+        .works-header h1 { font-size: clamp(3rem, 8vw, 6rem); font-weight: 900; margin-bottom: 10px; }
 
-        .showcase-container {
-            display: flex; gap: 40px; margin-top: 50px; justify-content: center; flex-wrap: wrap;
-        }
-
-        .neon-card {
-            position: relative; border-radius: 20px; overflow: hidden;
-            background: #0a0a0a; border: 2px solid rgba(255, 255, 255, 0.05);
-            transition: 0.5s; width: 320px;
+        .work-section { padding: 50px 8% 100px; }
+        
+        /* شبكة الصور الموحدة */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 30px; 
         }
 
-        .neon-card::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: conic-gradient(transparent, transparent, transparent, var(--primary));
-            animation: rotateNeon 4s linear infinite;
+        .card { 
+            background: var(--card-bg); 
+            border-radius: 20px; 
+            overflow: hidden; 
+            border: 1px solid #151515; 
+            transition: 0.5s;
+            position: relative;
+        }
+        
+        .card:hover { 
+            border-color: var(--primary); 
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px var(--primary-glow);
         }
 
-        @keyframes rotateNeon {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        /* حل مشكلة المقاسات المختلفة */
+        .image-box { 
+            height: 400px; /* ارتفاع ثابت لكل الكروت */
+            background: #111; 
+            overflow: hidden; 
+        }
+        
+        .image-box img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* يقص الزيادات ويحافظ على النسبة */
+            object-position: center;
+            transition: 0.8s ease;
+            opacity: 0.9;
+        }
+        
+        .card:hover img { 
+            transform: scale(1.1); 
+            opacity: 1;
         }
 
-        .neon-card::after {
-            content: ''; position: absolute; inset: 4px; background: #0a0a0a; border-radius: 16px;
-        }
-
-        .inner-content { position: relative; z-index: 1; overflow: hidden; }
-
-        .neon-card img {
-            width: 100%; height: 400px; object-fit: cover; border-radius: 15px;
-            transition: 0.5s; opacity: 0.8;
-        }
-
-        .neon-card:hover { transform: translateY(-15px); box-shadow: 0 0 40px var(--primary-glow); }
-        .neon-card:hover img { opacity: 1; transform: scale(1.08); }
-
-        .btn-main {
-            padding: 15px 40px; background: var(--primary); color: white;
-            text-decoration: none; border-radius: 50px; font-weight: bold;
-            transition: 0.3s; border: none; box-shadow: 0 0 20px var(--primary-glow);
-            margin-top: 50px; display: inline-block;
-        }
+        .card-info { padding: 20px; text-align: center; border-top: 1px solid #151515; }
+        .card-info h3 { font-size: 1.1rem; margin-bottom: 5px; color: var(--text-main); }
+        .card-info p { font-size: 0.85rem; color: var(--primary); font-weight: bold; }
 
         .settings-panel {
             position: fixed; left: -260px; top: 50%; transform: translateY(-50%);
@@ -112,58 +121,80 @@
             position: absolute; right: -45px; top: 0; width: 45px; height: 45px;
             background: var(--primary); border: none; color: white; border-radius: 0 10px 10px 0;
         }
+
+        footer { padding: 40px; text-align: center; color: #444; border-top: 1px solid #111; }
     </style>
 </head>
 <body>
 
-    <div id="lens"></div>
+    <div id="custom-cursor">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" />
+        </svg>
+    </div>
 
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
         <h3 style="color: var(--primary); margin-bottom: 20px;">تخصيص الموقع</h3>
-        <input type="color" id="fullColorPicker" style="width:100%; height:40px;" oninput="updateSiteColor(this.value)">
-        <button onclick="toggleLens()" id="toggleLensBtn" style="margin-top:15px; background: #111; color: #fff; border: 1px solid var(--primary); padding: 10px; border-radius: 8px; width: 100%;">إيقاف العدسة</button>
+        <input type="color" id="fullColorPicker" class="custom-color-input" style="width:100%; height:40px;" oninput="updateSiteColor(this.value)">
     </div>
 
     <nav>
         <a href="index.html" class="logo">KAREEM.DSGN</a>
         <div class="nav-links">
-            <a href="index.html" class="active">الرئيسية</a>
-            <a href="works.html">أعمالي</a>
+            <a href="index.html">الرئيسية</a> 
+            <a href="works.html" class="active">أعمالي</a>
             <a href="about.html">عني</a>
             <a href="contact.html">تواصل معي</a>
         </div>
     </nav>
 
-    <section class="hero">
-        <h1 data-aos="fade-up" class="blend-mode">Professional <br> Graphic Designer</h1>
-        <p data-aos="fade-up" data-aos-delay="200" style="color: var(--text-dim);" class="blend-mode">أهلاً بك، أنا كريم. أحول الأفكار إلى واقع بصري ملموس.</p>
+    <header class="works-header">
+        <h1 data-aos="fade-left">MY <span style="color: var(--primary);">PROJECTS</span></h1>
+        <p style="color: var(--text-dim);">هنا تجد نتاج شغفي في التصميم الجرافيكي والهويات البصرية.</p>
+    </header>
 
-        <div class="showcase-container">
-            <div class="neon-card" data-aos="zoom-in" data-aos-delay="400">
-                <div class="inner-content">
-                    <img src="LAST/hoodie design.jpg" alt="Hoodie Design">
-                </div>
+    <section class="work-section">
+        <div class="grid" id="projectsGrid">
             </div>
-
-            <div class="neon-card" data-aos="zoom-in" data-aos-delay="600">
-                <div class="inner-content">
-                    <img src="LAST/Green HoOdy design 2.jpg" alt="Green Hoodie Design">
-                </div>
-            </div>
-        </div>
-
-        <div data-aos="fade-up" data-aos-delay="800">
-            <a href="works.html" class="btn-main">استعرض كافة الأعمال</a>
-        </div>
     </section>
+
+    <footer><p>© 2026 KAREEM DESIGN.</p></footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true });
+        AOS.init({ duration: 1000 });
 
-        const lens = document.getElementById('lens');
-        let lensActive = true;
+        // قائمة الصور التي أرسلتها
+        const images = [
+            "LAST/Green HoOdy design 2.jpg", "LAST/hoodie design.jpg", "LAST/My pack-051.jpg",
+            "LAST/Orange juice.jpg", "LAST/SHOES1.jpg", "LAST/burber.jpg",
+            "LAST/burger 2.jpg", "LAST/competition 1.jpg", "LAST/eid adha 2025.jpg",
+            "LAST/eid farha 2026.jpg", "LAST/eid farha(1).jpg", "LAST/fanta ad-Recovered.jpg",
+            "LAST/fanta ad2.jpg", "LAST/nike ad.jpg", "LAST/nike yellow shoes.jpg",
+            "LAST/nike.jpg", "LAST/ramdan 2026.jpg", "LAST/ramdan 2026 2.jpg",
+            "LAST/ramdan 2026 3.jpg", "LAST/ramdan 2026 4.jpg", "LAST/ramdan 2026 5.jpg",
+            "LAST/spark energy drink.jpg", "LAST/v7 ad ثيهف 2.jpg"
+        ];
+
+        const grid = document.getElementById('projectsGrid');
+
+        // توليد الكروت أوتوماتيكياً
+        images.forEach((src, index) => {
+            const fileName = src.split('/').pop().split('.')[0].replace(/%20/g, ' ');
+            const card = `
+                <div class="card" data-aos="fade-up" data-aos-delay="${(index % 3) * 100}">
+                    <div class="image-box">
+                        <img src="${src}" alt="${fileName}" loading="lazy">
+                    </div>
+                    <div class="card-info">
+                        <h3>${fileName.toUpperCase()}</h3>
+                        <p>Graphic Design</p>
+                    </div>
+                </div>
+            `;
+            grid.innerHTML += card;
+        });
 
         function updateSiteColor(color) {
             document.documentElement.style.setProperty('--primary', color);
@@ -175,49 +206,29 @@
             const savedColor = localStorage.getItem('userThemeColor');
             if (savedColor) {
                 updateSiteColor(savedColor);
-                document.getElementById('fullColorPicker').value = savedColor;
+                if(document.getElementById('fullColorPicker')) {
+                    document.getElementById('fullColorPicker').value = savedColor;
+                }
             }
         });
 
+        const cursor = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', (e) => {
-            if (lensActive) {
-                lens.style.left = e.clientX - 12 + 'px';
-                lens.style.top = e.clientY - 12 + 'px';
-            }
+            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
         });
-
-        function toggleLens() {
-            lensActive = !lensActive;
-            lens.style.display = lensActive ? 'block' : 'none';
-            document.querySelectorAll('*').forEach(el => el.style.setProperty('cursor', lensActive ? 'none' : 'auto', 'important'));
-            document.getElementById('toggleLensBtn').innerText = lensActive ? "إيقاف العدسة" : "تشغيل العدسة";
-        }
 
         document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
-
-        // تحكم ذكي في العدسة:
-        document.querySelectorAll('a, button, h1, p').forEach(el => {
-            el.onmouseenter = () => { 
-                if(lensActive) {
-                    lens.style.transform = 'scale(4)';
-                    // إضافة تأثير العكس فقط عند ملامسة النصوص والروابط
-                    if(el.classList.contains('blend-mode') || el.tagName === 'A') {
-                        lens.style.mixBlendMode = 'difference';
-                    }
-                }
-            };
-            el.onmouseleave = () => { 
-                if(lensActive) {
-                    lens.style.transform = 'scale(1)';
-                    lens.style.mixBlendMode = 'normal';
-                }
-            };
+        
+        // تفاعل الماوس مع العناصر
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest('a, button, .card')) {
+                cursor.style.transform += ' scale(1.5)';
+            }
         });
-
-        // تأثير العدسة على الصور (بدون عكس ألوان)
-        document.querySelectorAll('.neon-card').forEach(card => {
-            card.onmouseenter = () => { if(lensActive) lens.style.transform = 'scale(3)'; };
-            card.onmouseleave = () => { if(lensActive) lens.style.transform = 'scale(1)'; };
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.closest('a, button, .card')) {
+                cursor.style.transform = cursor.style.transform.replace(' scale(1.5)', '');
+            }
         });
     </script>
 </body>
