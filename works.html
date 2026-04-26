@@ -30,14 +30,20 @@
             scroll-behavior: smooth;
         }
 
+        /* تعديل الماوس (العدسة) ليتفاعل مع اللون المختار */
         #lens {
-            width: 25px; height: 25px; background-color: white;
-            border-radius: 50%; position: fixed; pointer-events: none;
-            z-index: 100000; mix-blend-mode: difference;
-            transition: transform 0.15s ease-out;
+            width: 20px; 
+            height: 20px; 
+            background-color: var(--primary); /* اللون المختار */
+            border: 2px solid rgba(255, 255, 255, 0.8); /* البوردر اللي طلبته */
+            border-radius: 50%; 
+            position: fixed; 
+            pointer-events: none;
+            z-index: 100000; 
+            transition: transform 0.15s ease-out, background-color 0.3s ease;
+            box-shadow: 0 0 15px var(--primary-glow); /* وهج بسيط حول الماوس */
         }
 
-        /* الهيدر الموحد */
         nav {
             padding: 25px 8%; display: flex; justify-content: space-between;
             align-items: center; position: fixed; width: 100%; z-index: 1000;
@@ -49,7 +55,6 @@
         .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.9rem; transition: 0.3s; opacity: 0.7; }
         .nav-links a:hover, .nav-links a.active { color: var(--primary); opacity: 1; }
 
-        /* ستايل صفحة الأعمال */
         .works-header { padding: 150px 8% 50px; text-align: right; }
         .works-header h1 { font-size: clamp(3rem, 8vw, 6rem); font-weight: 900; margin-bottom: 10px; }
 
@@ -61,7 +66,6 @@
         .image-box img { width: 100%; height: 100%; object-fit: cover; }
         .card-info { padding: 25px; }
 
-        /* لوحة التحكم */
         .settings-panel {
             position: fixed; left: -260px; top: 50%; transform: translateY(-50%);
             width: 260px; background: #0a0a0a; border: 1px solid var(--primary);
@@ -93,7 +97,8 @@
     <nav>
         <a href="index.html" class="logo">KAREEM.DSGN</a>
         <div class="nav-links">
-            <a href="index.html">الرئيسية</a> <a href="works.html" class="active">أعمالي</a>
+            <a href="index.html">الرئيسية</a> 
+            <a href="works.html" class="active">أعمالي</a>
             <a href="about.html">عني</a>
             <a href="contact.html">تواصل معي</a>
         </div>
@@ -123,17 +128,31 @@
     <script>
         AOS.init({ duration: 1000 });
 
+        // تحديث اللون وحفظه في الذاكرة
         function updateSiteColor(color) {
             document.documentElement.style.setProperty('--primary', color);
             document.documentElement.style.setProperty('--primary-glow', color + '4d');
+            localStorage.setItem('userThemeColor', color);
         }
+
+        // استعادة اللون عند تحميل الصفحة
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedColor = localStorage.getItem('userThemeColor');
+            if (savedColor) {
+                updateSiteColor(savedColor);
+                if(document.getElementById('fullColorPicker')) {
+                    document.getElementById('fullColorPicker').value = savedColor;
+                }
+            }
+        });
 
         const lens = document.getElementById('lens');
         let lensActive = true;
+
         document.addEventListener('mousemove', (e) => {
             if (lensActive) {
-                lens.style.left = e.clientX - 12 + 'px';
-                lens.style.top = e.clientY - 12 + 'px';
+                lens.style.left = e.clientX - 10 + 'px';
+                lens.style.top = e.clientY - 10 + 'px';
             }
         });
 
@@ -147,7 +166,7 @@
         document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
         
         document.querySelectorAll('a, button, .card').forEach(el => {
-            el.onmouseenter = () => { if(lensActive) lens.style.transform = 'scale(4)'; };
+            el.onmouseenter = () => { if(lensActive) lens.style.transform = 'scale(3)'; };
             el.onmouseleave = () => { if(lensActive) lens.style.transform = 'scale(1)'; };
         });
     </script>
