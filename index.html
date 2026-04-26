@@ -3,159 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Designer Portfolio | Visual Identity 2026</title>
+    <title>Kareem | Creative Portfolio</title>
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
         :root {
-            --bg: #030303;
+            --bg: #050505;
             --primary: #00f2ff;
-            --text: #ffffff;
-            --card-bg: #0a0a0a;
+            --card-bg: #0f0f0f;
         }
 
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            cursor: none;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
 
         body {
             background-color: var(--bg);
-            color: var(--text);
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
-        /* الماوس العاكس الذكي */
+        /* الماوس العاكس */
         #cursor {
             width: 30px; height: 30px; background-color: white;
             border-radius: 50%; position: fixed; pointer-events: none;
             z-index: 9999; mix-blend-mode: difference;
-            transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+            transition: transform 0.15s ease-out, opacity 0.3s;
         }
 
-        nav {
-            padding: 30px 10%; display: flex; justify-content: space-between;
-            align-items: center; position: fixed; width: 100%; z-index: 100;
-        }
+        .container { padding: 100px 10%; }
 
-        .logo { font-size: 1.5rem; font-weight: 900; color: var(--primary); letter-spacing: 3px; }
-
-        .hero {
-            height: 100vh; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center;
-            background: radial-gradient(circle at 50% 50%, #111 0%, #030303 100%);
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 900;
-            margin-bottom: 20px; line-height: 1.1;
-        }
-
-        .container { padding: 80px 10%; }
-        
         .grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
 
+        /* كارت المشروع */
         .card {
-            background: var(--card-bg); border-radius: 12px;
-            overflow: hidden; position: relative;
-            transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-            border: 1px solid #151515;
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #1a1a1a;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .card:hover { transform: translateY(-10px); border-color: var(--primary); }
-
-        /* مكان فاضي لأقوى المشاريع (صور الـ Mockups) */
-        .project-display {
-            height: 400px; width: 100%;
-            background: #111; /* تقدر تغير ده بـ background-image لاحقاً */
-            display: flex; align-items: center; justify-content: center;
-            position: relative; overflow: hidden;
+        /* حاوية الصورة وعملية الزووم */
+        .image-container {
+            width: 100%;
+            height: 350px;
+            overflow: hidden; /* عشان الصورة متطلعش بره الكارت */
         }
 
-        .project-display::after {
-            content: "PROJECT PREVIEW";
-            font-size: 0.7rem; letter-spacing: 5px; color: #333;
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* تحافظ على أبعاد الصورة */
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .card:hover .project-display { background: #1a1a1a; }
-
-        .project-info { padding: 25px; text-align: center; }
-
-        .btn {
-            padding: 15px 45px; border: 1px solid white;
-            background: transparent; color: white; border-radius: 50px;
-            margin-top: 30px; font-weight: bold; transition: 0.3s;
-            text-decoration: none; display: inline-block;
+        /* لما الماوس ييجي على الكارت */
+        .card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.1);
         }
 
-        footer {
-            padding: 40px; text-align: center; border-top: 1px solid #111;
-            font-size: 0.8rem; color: #444; letter-spacing: 1px;
+        .card:hover img {
+            transform: scale(1.15); /* تأثير الزووم اللي طلبته */
         }
 
+        .project-info { padding: 20px; text-align: right; }
+        .project-info h3 { font-size: 1.2rem; margin-bottom: 5px; color: var(--primary); }
+        .project-info p { font-size: 0.9rem; color: #888; }
+
+        h1 { text-align: center; margin-top: 100px; font-size: 3rem; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
     <div id="cursor"></div>
 
-    <nav>
-        <div class="logo">DESIGN.STUDIO</div>
-        <div style="font-size: 0.7rem; color: #444;">CREATIVE VISION 2026</div>
-    </nav>
+    <h1 data-aos="fade-down">MY BEST WORKS</h1>
 
-    <section class="hero">
-        <h1 data-aos="fade-up">Visual <br> <span style="color: var(--primary)">Storytelling</span></h1>
-        <p data-aos="fade-up" data-aos-delay="200" style="color: #666; letter-spacing: 2px;">BRANDING | UI/UX | CREATIVE DIRECTION</p>
-        <a href="#work" class="btn" data-aos="zoom-in" data-aos-delay="400">EXPLORE WORK</a>
-    </section>
-
-    <section class="container" id="work">
-        <h2 style="margin-bottom: 50px; font-weight: 300;" data-aos="fade-right">SELECTED PROJECTS</h2>
+    <section class="container">
         <div class="grid">
             
             <div class="card" data-aos="fade-up">
-                <div class="project-display">
-                    </div>
+                <div class="image-container">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw-4-X3Z8qsSj8BQpRxPz1WGOgEDu9QrJwdQ&s" alt="Project 1">
+                </div>
                 <div class="project-info">
-                    <h3>Brand Identity</h3>
-                    <p style="color: #555; font-size: 0.9rem;">Modern identity for tech startups</p>
+                    <h3>Strategic Branding</h3>
+                    <p>تصميم هوية بصرية تعتمد على القوة والتحليل.</p>
                 </div>
             </div>
 
             <div class="card" data-aos="fade-up" data-aos-delay="200">
-                <div class="project-display"></div>
+                <div class="image-container">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSprE0Q8ueJz3OV4DiKD1vZUvz9A7hDhaACZA&s" alt="Project 2">
+                </div>
                 <div class="project-info">
-                    <h3>UI/UX Design</h3>
-                    <p style="color: #555; font-size: 0.9rem;">Mobile application for digital assets</p>
+                    <h3>Digital Art Concept</h3>
+                    <p>دمج فني وتلاعب بالألوان للخروج بتصميم غير تقليدي.</p>
                 </div>
             </div>
 
             <div class="card" data-aos="fade-up" data-aos-delay="400">
-                <div class="project-display"></div>
+                <div class="image-container">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfI6-V7M9L_P9rM0m8m1rL7f-Q6P0f9qEwXw&s" alt="Project 3">
+                </div>
                 <div class="project-info">
-                    <h3>Commercial Art</h3>
-                    <p style="color: #555; font-size: 0.9rem;">Digital illustrations & poster design</p>
+                    <h3>Visual Identity</h3>
+                    <p>أقوى مشاريعي في مجال الجرافيك ديزاين لعام 2026.</p>
                 </div>
             </div>
 
         </div>
     </section>
 
-    <footer>
-        <p>© 2026 GRAPHIC DESIGN PORTFOLIO | MINIMALIST CONCEPT</p>
-    </footer>
-
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true });
+        AOS.init();
 
         const cursor = document.getElementById('cursor');
 
@@ -164,23 +131,19 @@
             cursor.style.top = e.clientY - 15 + 'px';
         });
 
-        // تأثير الماوس على النصوص (Inverse & Scale)
-        document.querySelectorAll('h1, h2, h3, p, .logo, .btn').forEach(el => {
+        // حركة الماوس لما يقرب من الكلام (يعكسه)
+        document.querySelectorAll('h1, h3, p').forEach(el => {
             el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(3)');
             el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
         });
 
-        // تأثير الماوس على كروت المشاريع
+        // حركة الماوس لما يقرب من الصور (يختفي والزووم يشتغل)
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('mouseenter', () => {
-                cursor.style.width = '100px';
-                cursor.style.height = '100px';
-                cursor.style.opacity = '0.05'; 
+                cursor.style.opacity = '0'; // الماوس يختفي عشان الزووم يبان
             });
             card.addEventListener('mouseleave', () => {
-                cursor.style.width = '30px';
-                cursor.style.height = '30px';
-                cursor.style.opacity = '1';
+                cursor.style.opacity = '1'; // الماوس يرجع لما تخرج
             });
         });
     </script>
