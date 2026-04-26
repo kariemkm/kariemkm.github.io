@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kareem | Creative Portfolio</title>
+    <title>Kareem | Creative Visual Designer</title>
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -13,7 +13,6 @@
             --bg: #030303;
             --primary: #a020f0;
             --primary-glow: rgba(160, 32, 240, 0.3);
-            --card-bg: #0a0a0a;
             --text-main: #ffffff;
             --text-dim: #888;
         }
@@ -27,10 +26,8 @@
             font-family: 'Segoe UI', Tahoma, sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
-        /* الماوس */
         #lens {
             width: 25px; height: 25px; background-color: white;
             border-radius: 50%; position: fixed; pointer-events: none;
@@ -38,7 +35,7 @@
             transition: transform 0.15s ease-out;
         }
 
-        /* الهيدر */
+        /* الهيدر الموحد لكل الصفحات */
         nav {
             padding: 25px 8%; display: flex; justify-content: space-between;
             align-items: center; position: fixed; width: 100%; z-index: 1000;
@@ -48,9 +45,10 @@
         .logo { font-size: 1.4rem; font-weight: 900; color: var(--primary); text-decoration: none; }
         .nav-links { display: flex; gap: 30px; }
         .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
-        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-links a.active { color: var(--primary); font-weight: bold; }
 
-        /* الواجهة */
+        /* الهيرو */
         .hero {
             height: 100vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
@@ -58,7 +56,7 @@
         }
         .hero h1 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900; margin-bottom: 20px; }
         
-        /* زرار استعرض أعمالي المفقود */
+        /* تصحيح زرار الانتقال لصفحة الأعمال */
         .btn-main {
             padding: 15px 40px; background: var(--primary); color: white;
             text-decoration: none; border-radius: 50px; font-weight: bold;
@@ -67,7 +65,7 @@
         }
         .btn-main:hover { transform: translateY(-5px); box-shadow: 0 0 30px var(--primary); }
 
-        /* لوحة الإعدادات المتطورة */
+        /* لوحة الإعدادات */
         .settings-panel {
             position: fixed; left: -260px; top: 50%; transform: translateY(-50%);
             width: 260px; background: #0a0a0a; border: 1px solid var(--primary);
@@ -78,37 +76,7 @@
             position: absolute; right: -45px; top: 0; width: 45px; height: 45px;
             background: var(--primary); border: none; color: white; border-radius: 0 10px 10px 0;
         }
-
-        /* منتقي الألوان بالكامل */
-        .color-picker-wrapper { margin-bottom: 25px; }
-        .custom-color-input {
-            width: 100%; height: 40px; border: none; background: none; 
-            cursor: pointer; margin-top: 10px;
-        }
-
-        /* قسم الأعمال */
-        .work-section { padding: 100px 8%; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
-        .card {
-            background: var(--card-bg); border-radius: 20px; overflow: hidden;
-            border: 1px solid #151515; transition: 0.5s;
-        }
-        .card:hover { border-color: var(--primary); transform: scale(1.02); }
-        .image-box { height: 350px; background: #111; overflow: hidden; }
-        .image-box img { width: 100%; height: 100%; object-fit: cover; }
-        .card-info { padding: 20px; }
-
-        /* الـ Popup */
-        .popup-overlay {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(20px); z-index: 99999;
-        }
-        .popup-content {
-            width: 90%; max-width: 800px; margin: 10vh auto; background: #080808;
-            border: 1px solid var(--primary); border-radius: 20px; padding: 30px;
-            position: relative;
-        }
-        .close-btn { position: absolute; right: 20px; top: 10px; font-size: 40px; color: var(--primary); }
+        .custom-color-input { width: 100%; height: 40px; border: none; background: none; cursor: pointer; margin-top: 10px; }
 
         footer { padding: 40px; text-align: center; color: #444; border-top: 1px solid #111; }
     </style>
@@ -120,14 +88,9 @@
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
         <h3 style="color: var(--primary); margin-bottom: 20px;">تخصيص الموقع</h3>
-        
-        <div class="color-picker-wrapper">
-            <p style="font-size: 0.85rem;">اختر لونك المفضل:</p>
-            <input type="color" id="fullColorPicker" class="custom-color-input" value="#a020f0" oninput="updateSiteColor(this.value)">
-            <p id="colorCode" style="font-size: 0.7rem; color: var(--text-dim); margin-top: 5px; text-align: center;">#a020f0</p>
-        </div>
-
-        <div style="border-top: 1px solid #222; padding-top: 15px;">
+        <p style="font-size: 0.85rem;">اختر لونك بالكامل:</p>
+        <input type="color" id="fullColorPicker" class="custom-color-input" value="#a020f0" oninput="updateSiteColor(this.value)">
+        <div style="margin-top: 20px; border-top: 1px solid #222; padding-top: 15px;">
             <button onclick="toggleLens()" id="toggleLensBtn" style="background: #111; color: #fff; border: 1px solid var(--primary); padding: 10px; border-radius: 8px; width: 100%;">إيقاف العدسة</button>
         </div>
     </div>
@@ -135,7 +98,8 @@
     <nav>
         <a href="index.html" class="logo">KAREEM.DSGN</a>
         <div class="nav-links">
-            <a href="#work" class="active">أعمالي</a>
+            <a href="index.html" class="active">الرئيسية</a>
+            <a href="works.html">أعمالي</a>
             <a href="about.html">عني</a>
             <a href="contact.html">تواصل معي</a>
         </div>
@@ -143,36 +107,11 @@
 
     <section class="hero">
         <h1 data-aos="fade-up">Creative <br> Visual Designer</h1>
-        <p data-aos="fade-up" data-aos-delay="200" style="color: var(--text-dim);">أهلاً بك، أنا كريم. أصمم تجارب بصرية لا تُنسى.</p>
+        <p data-aos="fade-up" data-aos-delay="200" style="color: var(--text-dim);">أهلاً بك، أنا كريم. أصمم تجارب بصريّة مبهرة.</p>
         <div data-aos="fade-up" data-aos-delay="400">
-            <a href="#work" class="btn-main">استعرض أعمالي</a>
+            <a href="works.html" class="btn-main">استعرض أعمالي</a>
         </div>
     </section>
-
-    <section class="work-section" id="work">
-        <h2 style="margin-bottom: 40px; font-size: 2rem;">Selected Work</h2>
-        <div class="grid">
-            <div class="card" data-aos="fade-up" onclick="openPopup('Branding Project', 'https://via.placeholder.com/600x800', 'هذا المشروع يمثل هوية بصرية قوية.')">
-                <div class="image-box"><img src="https://via.placeholder.com/600x800"></div>
-                <div class="card-info"><h3>Strategic Branding</h3><p>Design</p></div>
-            </div>
-            <div class="card" data-aos="fade-up" data-aos-delay="200" onclick="openPopup('UI/UX Concept', 'https://via.placeholder.com/600x800', 'تصميم واجهة مستخدم مبتكرة.')">
-                <div class="image-box"><img src="https://via.placeholder.com/600x800"></div>
-                <div class="card-info"><h3>Mobile Interface</h3><p>UI/UX</p></div>
-            </div>
-        </div>
-    </section>
-
-    <div id="projectPopup" class="popup-overlay">
-        <div class="popup-content">
-            <span class="close-btn" onclick="closePopup()">&times;</span>
-            <div style="text-align: center;">
-                <img id="modalImg" src="" style="width: 100%; max-height: 400px; object-fit: contain; border-radius: 10px;">
-                <h2 id="modalTitle" style="color: var(--primary); margin: 20px 0;"></h2>
-                <p id="modalDesc" style="color: #ccc;"></p>
-            </div>
-        </div>
-    </div>
 
     <footer><p>© 2026 KAREEM DESIGN.</p></footer>
 
@@ -180,19 +119,11 @@
     <script>
         AOS.init({ duration: 1000, once: true });
 
-        // منتقي الألوان الشامل
         function updateSiteColor(color) {
             document.documentElement.style.setProperty('--primary', color);
-            document.documentElement.style.setProperty('--primary-glow', color + '4d'); // لون شفاف للوهج
-            document.getElementById('colorCode').innerText = color.toUpperCase();
-            
-            // تحديث لون الماوس ليكون متناسق مع اللون المختار
-            const settingsToggle = document.getElementById('settingsToggle');
-            const btnMain = document.querySelector('.btn-main');
-            // التعديل بيتم تلقائياً بفضل الـ variables
+            document.documentElement.style.setProperty('--primary-glow', color + '4d');
         }
 
-        // الماوس
         const lens = document.getElementById('lens');
         let lensActive = true;
         document.addEventListener('mousemove', (e) => {
@@ -211,20 +142,7 @@
 
         document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
 
-        function openPopup(title, img, desc) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalImg').src = img;
-            document.getElementById('modalDesc').innerText = desc;
-            document.getElementById('projectPopup').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closePopup() {
-            document.getElementById('projectPopup').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        document.querySelectorAll('a, button, .card').forEach(el => {
+        document.querySelectorAll('a, button').forEach(el => {
             el.onmouseenter = () => { if(lensActive) lens.style.transform = 'scale(4)'; };
             el.onmouseleave = () => { if(lensActive) lens.style.transform = 'scale(1)'; };
         });
