@@ -28,36 +28,54 @@
             overflow-x: hidden;
         }
 
-        /* العدسة المحسنة */
+        /* العدسة الشفافة والمحسنة */
         #lens {
             width: 25px; height: 25px; 
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.1); /* شفافة */
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 50%; position: fixed; pointer-events: none;
             z-index: 100000; 
-            /* شلنا الـ mix-blend-mode عشان ميعكسش اللون على الصور */
-            transition: transform 0.15s ease-out;
-            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.15s ease-out, background-color 0.3s ease, border 0.3s ease;
+            backdrop-filter: blur(2px);
         }
 
-        /* تطبيق التأثير فقط على النصوص وليس الصور */
         .blend-mode { mix-blend-mode: difference; }
 
+        /* الشريط العلوي المربوط باللون المتغير */
         nav {
-            padding: 25px 8%; display: flex; justify-content: space-between;
+            padding: 20px 8%; display: flex; justify-content: space-between;
             align-items: center; position: fixed; width: 100%; z-index: 1000;
             background: rgba(3, 3, 3, 0.8); backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(160, 32, 240, 0.1);
+            border-bottom: 2px solid var(--primary); /* مربوط باللون */
+            box-shadow: 0 5px 20px var(--primary-glow);
+            transition: 0.3s;
         }
-        .logo { font-size: 1.4rem; font-weight: 900; color: var(--primary); text-decoration: none; }
+        .logo { font-size: 1.4rem; font-weight: 900; color: var(--primary); text-decoration: none; transition: 0.3s; }
+        
         .nav-links { display: flex; gap: 30px; }
-        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); }
+        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.9rem; transition: 0.3s; position: relative;}
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+        
+        /* تأثير الخط تحت اللينك */
+        .nav-links a::after {
+            content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; right: 0;
+            background: var(--primary); transition: 0.3s;
+        }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
         .hero {
             min-height: 100vh; padding: 150px 8% 100px; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
             background: radial-gradient(circle at 50% 50%, #0f0514 0%, #030303 100%);
         }
+
+        /* كلمة بروفيشنال المتغيرة */
+        .highlight {
+            color: var(--primary);
+            text-shadow: 0 0 15px var(--primary-glow);
+            transition: 0.3s;
+        }
+
         .hero h1 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900; margin-bottom: 20px; text-transform: uppercase; }
 
         .showcase-container {
@@ -125,7 +143,7 @@
         <button onclick="toggleLens()" id="toggleLensBtn" style="margin-top:15px; background: #111; color: #fff; border: 1px solid var(--primary); padding: 10px; border-radius: 8px; width: 100%;">إيقاف العدسة</button>
     </div>
 
-    <nav>
+    <nav id="mainNav">
         <a href="index.html" class="logo">KAREEM.DSGN</a>
         <div class="nav-links">
             <a href="index.html" class="active">الرئيسية</a>
@@ -136,7 +154,9 @@
     </nav>
 
     <section class="hero">
-        <h1 data-aos="fade-up" class="blend-mode">Professional <br> Graphic Designer</h1>
+        <h1 data-aos="fade-up" class="blend-mode">
+            <span class="highlight">Professional</span> <br> Graphic Designer
+        </h1>
         <p data-aos="fade-up" data-aos-delay="200" style="color: var(--text-dim);" class="blend-mode">أهلاً بك، أنا كريم. أحول الأفكار إلى واقع بصري ملموس.</p>
 
         <div class="showcase-container">
@@ -195,12 +215,12 @@
 
         document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
 
-        // تحكم ذكي في العدسة:
+        // تفاعل العدسة الذكي
         document.querySelectorAll('a, button, h1, p').forEach(el => {
             el.onmouseenter = () => { 
                 if(lensActive) {
                     lens.style.transform = 'scale(4)';
-                    // إضافة تأثير العكس فقط عند ملامسة النصوص والروابط
+                    lens.style.backgroundColor = 'white';
                     if(el.classList.contains('blend-mode') || el.tagName === 'A') {
                         lens.style.mixBlendMode = 'difference';
                     }
@@ -209,15 +229,26 @@
             el.onmouseleave = () => { 
                 if(lensActive) {
                     lens.style.transform = 'scale(1)';
+                    lens.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
                     lens.style.mixBlendMode = 'normal';
                 }
             };
         });
 
-        // تأثير العدسة على الصور (بدون عكس ألوان)
         document.querySelectorAll('.neon-card').forEach(card => {
-            card.onmouseenter = () => { if(lensActive) lens.style.transform = 'scale(3)'; };
-            card.onmouseleave = () => { if(lensActive) lens.style.transform = 'scale(1)'; };
+            card.onmouseenter = () => { 
+                if(lensActive) {
+                    lens.style.transform = 'scale(3)';
+                    lens.style.backgroundColor = 'rgba(255, 255, 255, 0.05)'; /* شفافة جدا فوق الصور */
+                    lens.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+                }
+            };
+            card.onmouseleave = () => { 
+                if(lensActive) {
+                    lens.style.transform = 'scale(1)';
+                    lens.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                }
+            };
         });
     </script>
 </body>
