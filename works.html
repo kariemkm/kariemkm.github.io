@@ -19,7 +19,25 @@
             --text-dim: #888;
             --nav-height: 80px;
         }
+      :root {
+            --bg: #030303;
+            --primary: #a020f0;
+            --primary-glow: rgba(160, 32, 240, 0.3);
+            --text-main: #ffffff;
+            --text-dim: #888;
+            --nav-bg: rgba(3, 3, 3, 0.85);
+            --nav-height: 80px;
+            --card-bg: #0a0a0a;
+        }
 
+        /* متغيرات الوضع الفاتح */
+        [data-theme="light"] {
+            --bg: #f5f5f5;
+            --text-main: #1a1a1a;
+            --text-dim: #555;
+            --nav-bg: rgba(245, 245, 245, 0.85);
+            --card-bg: #ffffff;
+        }
         /* --- وضع التركيز (Focus Mode) --- */
         body.focus-active .works-header, 
         body.focus-active .card-info,
