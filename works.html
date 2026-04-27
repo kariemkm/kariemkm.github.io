@@ -19,6 +19,7 @@
             --text-dim: #888;
             --nav-bg: rgba(3, 3, 3, 0.85);
             --nav-height: 80px;
+            --modal-overlay: rgba(0, 0, 0, 0.9);
         }
 
         /* متغيرات الوضع الفاتح */
@@ -28,6 +29,7 @@
             --text-dim: #555;
             --nav-bg: rgba(245, 245, 245, 0.85);
             --card-bg: #ffffff;
+            --modal-overlay: rgba(255, 255, 255, 0.95);
         }
 
         /* --- وضع التركيز (Focus Mode) --- */
@@ -73,6 +75,53 @@
         }
         .cursor-arrow { width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--primary)); }
         #cursor-path { fill: var(--primary); stroke: #fff; stroke-width: 1.5px; }
+
+        /* --- [جديد] استايلات الـ Pop-up --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--modal-overlay); backdrop-filter: blur(15px);
+            z-index: 20000; display: none; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.4s ease;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        
+        .modal-card {
+            position: relative; width: 90%; max-width: 1100px; height: 80vh;
+            background: var(--card-bg); border-radius: 20px; overflow: hidden;
+            display: flex; border: 1px solid var(--primary-glow);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        .modal-img-container {
+            flex: 2; position: relative; overflow: hidden; background: #000;
+            cursor: crosshair; display: flex; align-items: center; justify-content: center;
+        }
+        .modal-img-container img {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+            transition: transform 0.1s ease-out; transform-origin: center;
+        }
+
+        .modal-details {
+            flex: 1; padding: 40px; display: flex; flex-direction: column;
+            justify-content: center; border-right: 1px solid rgba(160,32,240,0.1);
+        }
+        .modal-details h2 { font-size: 2rem; color: var(--primary); margin-bottom: 15px; }
+        .modal-details p { color: var(--text-dim); margin-bottom: 25px; }
+        
+        .modal-close-btn {
+            position: absolute; top: 20px; right: 20px; width: 45px; height: 45px;
+            background: var(--primary); color: white; border: none; border-radius: 50%;
+            cursor: pointer; z-index: 20001; display: flex; align-items: center;
+            justify-content: center; font-size: 1.2rem; transition: 0.3s;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+        .modal-close-btn:hover { transform: rotate(90deg) scale(1.1); }
+
+        @media (max-width: 900px) {
+            .modal-card { flex-direction: column; height: 90vh; width: 95%; }
+            .modal-details { padding: 20px; order: 2; }
+            .modal-img-container { flex: 1.5; order: 1; }
+        }
 
         /* --- التنقل --- */
         nav {
@@ -125,6 +174,7 @@
             overflow: hidden; 
             border: 1px solid rgba(160,32,240,0.1); 
             transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
         }
         .card:hover { 
             border-color: var(--primary); 
@@ -177,6 +227,23 @@
 <body class="dark-theme">
 
     <div id="cursor-container"></div>
+
+    <div class="modal-overlay" id="workModal">
+        <button class="modal-close-btn" onclick="closePop()"><i class="fas fa-times"></i></button>
+        <div class="modal-card" data-aos="zoom-in">
+            <div class="modal-img-container" id="zoomArea">
+                <img src="" id="popImg" alt="Detail View">
+            </div>
+            <div class="modal-details">
+                <h2 id="popTitle">اسم العمل</h2>
+                <p>تصميم جرافيك احترافي يركز على التفاصيل الدقيقة واستخدام الإضاءة بشكل فني لإبراز جودة العمل النهائي.</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <span style="padding: 5px 15px; background: var(--primary-glow); border: 1px solid var(--primary); border-radius: 20px; font-size: 0.8rem;">Photoshop</span>
+                    <span style="padding: 5px 15px; background: var(--primary-glow); border: 1px solid var(--primary); border-radius: 20px; font-size: 0.8rem;">Blender</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
@@ -239,7 +306,6 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // مصفوفة الصور
         const images = [
             "LAST/Green HoOdy design 2.jpg", "LAST/hoodie design.jpg", "LAST/My pack-051.jpg",
             "LAST/Orange juice.jpg", "LAST/SHOES1.jpg", "LAST/burber.jpg",
@@ -255,7 +321,7 @@
         images.forEach((src, index) => {
             const fileName = src.split('/').pop().split('.')[0].replace(/%20/g, ' ');
             grid.innerHTML += `
-                <div class="card" data-aos="fade-up" data-aos-delay="${(index % 3) * 100}">
+                <div class="card" data-aos="fade-up" data-aos-delay="${(index % 3) * 100}" onclick="openPop('${src}', '${fileName}')">
                     <div class="image-box"><img src="${src}" alt="${fileName}" loading="lazy"></div>
                     <div class="card-info">
                         <h3>${fileName}</h3>
@@ -264,12 +330,46 @@
                 </div>`;
         });
 
+        // --- ميكانيكية الـ Pop-up ---
+        const modal = document.getElementById('workModal');
+        const popImg = document.getElementById('popImg');
+        const popTitle = document.getElementById('popTitle');
+        const zoomArea = document.getElementById('zoomArea');
+
+        function openPop(src, title) {
+            popImg.src = src;
+            popTitle.innerText = title;
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePop() {
+            modal.classList.remove('active');
+            setTimeout(() => modal.style.display = 'none', 400);
+            document.body.style.overflow = 'auto';
+            popImg.style.transform = 'scale(1)';
+        }
+
+        // زووم تفاعلي
+        zoomArea.addEventListener('mousemove', (e) => {
+            if(window.innerWidth < 1025) return;
+            const { left, top, width, height } = zoomArea.getBoundingClientRect();
+            const x = ((e.clientX - left) / width) * 100;
+            const y = ((e.clientY - top) / height) * 100;
+            popImg.style.transformOrigin = `${x}% ${y}%`;
+            popImg.style.transform = "scale(2.5)";
+        });
+
+        zoomArea.addEventListener('mouseleave', () => {
+            popImg.style.transform = "scale(1)";
+        });
+
         // --- ميزة تبديل الثيم ---
         function toggleTheme() {
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
             const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
             html.setAttribute('data-theme', targetTheme);
             localStorage.setItem('theme', targetTheme);
             updateThemeUI(targetTheme);
@@ -327,24 +427,23 @@
 
         // عند التحميل
         window.addEventListener('DOMContentLoaded', () => {
-            // 1. تحميل الثيم
             const savedTheme = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeUI(savedTheme);
 
-            // 2. تحميل اللون
             const savedColor = localStorage.getItem('userThemeColor');
             if (savedColor) updateSiteColor(savedColor);
             
-            // 3. تحميل الماوس
             setCursor(currentCursorMode);
         });
 
-        // أزرار التحكم
         document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
         document.getElementById('mobile-menu-btn').onclick = () => {
             document.getElementById('nav-menu').classList.toggle('active');
         };
+        
+        // إغلاق المودال بالضغط خارج الكارت
+        modal.onclick = (e) => { if(e.target === modal) closePop(); };
     </script>
 </body>
 </html>
