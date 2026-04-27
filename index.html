@@ -11,16 +11,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* المتغيرات الأساسية (الوضع الداكن هو الافتراضي) */
         :root {
             --bg: #030303;
             --primary: #a020f0;
             --primary-glow: rgba(160, 32, 240, 0.3);
             --text-main: #ffffff;
             --text-dim: #888;
+            --nav-bg: rgba(3, 3, 3, 0.85);
             --nav-height: 80px;
+            --card-bg: #0a0a0a;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* متغيرات الوضع الفاتح */
+        [data-theme="light"] {
+            --bg: #f5f5f5;
+            --text-main: #1a1a1a;
+            --text-dim: #555;
+            --nav-bg: rgba(245, 245, 245, 0.85);
+            --card-bg: #ffffff;
+        }
+
+        /* وضع التركيز (Focus Mode) */
+        body.focus-active .showcase-container, 
+        body.focus-active nav, 
+        body.focus-active .btn-container,
+        body.focus-active .hero p {
+            opacity: 0.05;
+            filter: blur(8px);
+            pointer-events: none;
+        }
+        body.focus-active .hero h1 { transform: scale(1.1); transition: 0.8s ease; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, color 0.3s; }
         
         @media (min-width: 1025px) {
             html.custom-cursor-active, html.custom-cursor-active * { cursor: none !important; }
@@ -45,7 +68,7 @@
         }
         .cursor-lens {
             width: 50px; height: 50px;
-            border: 2px solid #fff;
+            border: 2px solid var(--text-main);
             border-radius: 50%;
             mix-blend-mode: difference;
         }
@@ -62,9 +85,9 @@
             position: fixed;
             width: 100%;
             z-index: 1000;
-            background: rgba(3, 3, 3, 0.85);
+            background: var(--nav-bg);
             backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(160, 32, 240, 0.3);
+            border-bottom: 1px solid rgba(160, 32, 240, 0.2);
         }
 
         .logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
@@ -73,7 +96,7 @@
             -webkit-mask: url('LAST/logo') no-repeat center/contain;
             mask: url('LAST/logo') no-repeat center/contain;
         }
-        .logo-text { font-size: 1.2rem; font-weight: 900; color: #fff; letter-spacing: 1px; }
+        .logo-text { font-size: 1.2rem; font-weight: 900; color: var(--text-main); letter-spacing: 1px; }
 
         .nav-links { display: flex; gap: 25px; list-style: none; }
         .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: 0.3s; }
@@ -90,7 +113,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: radial-gradient(circle at 50% 50%, #0f0514 0%, #030303 100%);
+            background: radial-gradient(circle at 50% 50%, var(--primary-glow) 0%, var(--bg) 100%);
         }
         .hero h1 { font-size: clamp(2.2rem, 8vw, 5rem); line-height: 1.2; max-width: 1000px; }
         .highlight { color: var(--primary); text-shadow: 0 0 20px var(--primary-glow); }
@@ -109,45 +132,32 @@
             position: relative;
             border-radius: 15px;
             overflow: hidden;
-            background: #0a0a0a;
-            border: 1px solid rgba(255,255,255,0.05);
+            background: var(--card-bg);
+            border: 1px solid rgba(160,32,240,0.1);
             aspect-ratio: 3/4;
         }
         .neon-card img {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             object-fit: cover;
             transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .neon-card:hover img { transform: scale(1.08); filter: brightness(1.1); }
 
-        /* --- الزر الجديد --- */
-        .btn-container {
-            margin-top: 50px;
-            display: flex;
-            justify-content: center;
-        }
-
+        /* --- الأزرار --- */
+        .btn-container { margin-top: 50px; display: flex; justify-content: center; }
         .view-more-btn {
-            position: relative;
-            padding: 15px 40px;
-            background: rgba(255, 255, 255, 0.03);
+            position: relative; padding: 15px 40px;
+            background: rgba(160, 32, 240, 0.05);
             border: 1px solid var(--primary);
-            color: #fff;
+            color: var(--text-main);
             text-decoration: none;
             font-weight: 600;
             border-radius: 50px;
             overflow: hidden;
-            transition: 0.4s all ease;
+            transition: 0.4s;
             backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1rem;
+            display: flex; align-items: center; gap: 12px;
         }
-
-        .view-more-btn i { font-size: 0.9rem; transition: 0.4s; }
-
         .view-more-btn:hover {
             background: var(--primary);
             box-shadow: 0 0 30px var(--primary-glow);
@@ -155,40 +165,35 @@
             color: #fff;
         }
 
-        .view-more-btn:hover i { transform: translateX(-5px); }
-
-        .view-more-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: 0.5s;
-        }
-        .view-more-btn:hover::before { left: 100%; }
-
-        /* --- الإعدادات --- */
+        /* --- الإعدادات المحدثة --- */
         .settings-panel {
             position: fixed; left: -260px; top: 50%; transform: translateY(-50%);
-            width: 260px; background: #0a0a0a; border: 1px solid var(--primary);
+            width: 260px; background: var(--card-bg); border: 1px solid var(--primary);
             padding: 20px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
         .settings-panel.active { left: 0; }
         #settingsToggle {
             position: absolute; right: -40px; top: 0; width: 40px; height: 40px;
             background: var(--primary); border: none; color: white; border-radius: 0 8px 8px 0;
+            cursor: pointer;
+        }
+        .setting-row { margin-bottom: 15px; }
+        .setting-btn {
+            width: 100%; padding: 8px; background: rgba(160,32,240,0.1); 
+            border: 1px solid var(--primary); color: var(--text-main);
+            border-radius: 5px; cursor: pointer; font-size: 0.8rem;
+            display: flex; justify-content: space-between; align-items: center;
         }
 
-        /* --- الموبايل --- */
         @media (max-width: 1024px) {
             .menu-toggle { display: block; }
             .nav-links {
                 position: fixed; top: var(--nav-height); right: -100%; width: 80%; height: 100vh;
-                background: #050505; flex-direction: column; padding: 50px 30px; transition: 0.4s;
-                border-left: 1px solid var(--primary); box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+                background: var(--bg); flex-direction: column; padding: 50px 30px; transition: 0.4s;
+                border-left: 1px solid var(--primary);
             }
             .nav-links.active { right: 0; }
-            .hero { padding-top: 120px; }
             .showcase-container { grid-template-columns: 1fr; max-width: 350px; }
         }
     </style>
@@ -199,13 +204,33 @@
 
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
-        <h4 style="color: var(--primary); margin-bottom: 15px;">إعدادات المظهر</h4>
-        <label style="font-size: 0.75rem; color: var(--text-dim);">لون الثيم:</label>
-        <input type="color" id="fullColorPicker" style="width:100%; height:30px; margin-bottom: 20px; border:none; background:none; cursor:pointer;" oninput="updateSiteColor(this.value)">
+        <h4 style="color: var(--primary); margin-bottom: 15px;">تخصيص الواجهة</h4>
+        
+        <div class="setting-row">
+            <label style="font-size: 0.75rem; color: var(--text-dim);">النمط العام:</label>
+            <button class="setting-btn" onclick="toggleTheme()">
+                <span id="theme-text">الوضع الداكن</span>
+                <i id="theme-icon" class="fas fa-moon"></i>
+            </button>
+        </div>
+
+        <div class="setting-row">
+            <label style="font-size: 0.75rem; color: var(--text-dim);">وضع التركيز:</label>
+            <button class="setting-btn" onclick="toggleFocusMode()">
+                <span>تشغيل الوضع</span>
+                <i class="fas fa-eye-slash"></i>
+            </button>
+        </div>
+
+        <div class="setting-row">
+            <label style="font-size: 0.75rem; color: var(--text-dim);">لون الثيم:</label>
+            <input type="color" id="fullColorPicker" style="width:100%; height:30px; border:none; background:none; cursor:pointer;" oninput="updateSiteColor(this.value)">
+        </div>
+
         <div id="desktop-only-settings">
             <label style="font-size: 0.75rem; color: var(--text-dim);">شكل الماوس:</label>
-            <div onclick="setCursor('arrow')" style="cursor:pointer; padding:8px; background:#151515; margin-top:5px; border-radius:5px; font-size:0.8rem;">سهم نيون</div>
-            <div onclick="setCursor('lens')" style="cursor:pointer; padding:8px; background:#151515; margin-top:5px; border-radius:5px; font-size:0.8rem;">عدسة عاكسة</div>
+            <div onclick="setCursor('arrow')" style="cursor:pointer; padding:8px; background:rgba(160,32,240,0.05); margin-top:5px; border-radius:5px; font-size:0.8rem;">سهم نيون</div>
+            <div onclick="setCursor('lens')" style="cursor:pointer; padding:8px; background:rgba(160,32,240,0.05); margin-top:5px; border-radius:5px; font-size:0.8rem;">عدسة عاكسة</div>
         </div>
     </div>
 
@@ -253,11 +278,45 @@
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const isMobile = window.matchMedia("(max-width: 1024px)").matches;
 
+        // تبديل المنيو للموبايل
         mobileMenuBtn.onclick = () => {
             navMenu.classList.toggle('active');
             mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
             mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
         };
+
+        // تبديل الثيم
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', targetTheme);
+            localStorage.setItem('theme', targetTheme);
+            updateThemeUI(targetTheme);
+        }
+
+        function updateThemeUI(theme) {
+            const text = document.getElementById('theme-text');
+            const icon = document.getElementById('theme-icon');
+            if (theme === 'light') {
+                text.innerText = "الوضع الفاتح";
+                icon.className = "fas fa-sun";
+            } else {
+                text.innerText = "الوضع الداكن";
+                icon.className = "fas fa-moon";
+            }
+        }
+
+        // وضع التركيز (معطل حالياً)
+        let isFocusEnabled = false; // لا تقم بتغييرها يدوياً إلا بأمري
+        function toggleFocusMode() {
+            if (!isFocusEnabled) {
+                alert("سيتم تفعيل هذا الوضع قريباً بناءً على طلب كريم!");
+                return;
+            }
+            document.body.classList.toggle('focus-active');
+        }
 
         function updateSiteColor(color) {
             document.documentElement.style.setProperty('--primary', color);
@@ -271,14 +330,9 @@
             if (isMobile) return;
             currentCursorMode = mode;
             localStorage.setItem('cursorMode', mode);
-            if (mode === 'default') {
-                document.documentElement.classList.remove('custom-cursor-active');
-                cursorContainer.style.display = 'none';
-            } else {
-                document.documentElement.classList.add('custom-cursor-active');
-                cursorContainer.style.display = 'block';
-                renderCursor(mode);
-            }
+            document.documentElement.classList.add('custom-cursor-active');
+            cursorContainer.style.display = 'block';
+            renderCursor(mode);
         }
 
         function renderCursor(mode) {
@@ -291,15 +345,20 @@
 
         if (!isMobile) {
             document.addEventListener('mousemove', (e) => {
-                if (currentCursorMode !== 'default') {
-                    cursorContainer.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-                }
+                cursorContainer.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
             });
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            // استرجاع الثيم
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeUI(savedTheme);
+
+            // استرجاع اللون
             const savedColor = localStorage.getItem('userThemeColor');
             if (savedColor) updateSiteColor(savedColor);
+            
             setCursor(currentCursorMode);
         });
 
