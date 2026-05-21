@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kareem | My Works</title>
     
-    <link rel="icon" type="image/png" href="LAST/logo"> 
+    <link rel="icon" type="image/png" sizes="32x32" href="LAST/logo.png"> 
+    <link rel="icon" type="image/png" sizes="16x16" href="LAST/logo.png">
+    <link rel="apple-touch-icon" href="LAST/logo.png">
+
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -76,7 +79,7 @@
         .cursor-arrow { width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--primary)); }
         #cursor-path { fill: var(--primary); stroke: #fff; stroke-width: 1.5px; }
 
-        /* --- [جديد] استايلات الـ Pop-up --- */
+        /* --- استايلات الـ Pop-up --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--modal-overlay); backdrop-filter: blur(15px);
@@ -141,8 +144,8 @@
         .logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
         .logo-img-mask {
             width: 35px; height: 35px; background-color: var(--primary);
-            -webkit-mask: url('LAST/logo') no-repeat center/contain;
-            mask: url('LAST/logo') no-repeat center/contain;
+            -webkit-mask: url('LAST/logo.png') no-repeat center/contain;
+            mask: url('LAST/logo.png') no-repeat center/contain;
         }
         .logo-text { font-size: 1.2rem; font-weight: 900; color: var(--text-main); letter-spacing: 1px; }
 
