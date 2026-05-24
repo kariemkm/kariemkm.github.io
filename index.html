@@ -93,11 +93,19 @@
         }
 
         .logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .logo-img-mask {
-            width: 40px; height: 40px; background-color: var(--primary);
-            -webkit-mask: url('LAST/logo.png') no-repeat center/contain;
-            mask: url('LAST/logo.png') no-repeat center/contain;
+        
+        /* تظبيط أبعاد اللوجو الجديد ومنع اختفائه تماماً */
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+        .logo-img {
+            width: 50px; /* <--- غير المقاس من هنا براحتك (مثلاً 60px أو 70px) ومستحيل يختفي تاني */
+            height: auto;
+            object-fit: contain;
+        }
+
         .logo-text { font-size: 1.2rem; font-weight: 900; color: var(--text-main); letter-spacing: 1px; }
 
         .nav-links { display: flex; gap: 25px; list-style: none; }
@@ -238,7 +246,10 @@
 
     <nav>
         <a href="index.html" class="logo-container">
-            <div class="logo-img-mask"></div>
+            <!-- استخدام وسم img عادي ومباشر للوجو لمنع الاختفاء والربط العشوائي بالألوان -->
+            <div class="logo-wrapper">
+                <img src="LAST/logo.png" alt="Kareem Logo" class="logo-img">
+            </div>
             <span class="logo-text">KAREEM<span style="color: var(--primary);">.DSGN</span></span>
         </a>
         <div class="menu-toggle" id="mobile-menu-btn"><i class="fas fa-bars"></i></div>
@@ -311,7 +322,7 @@
         }
 
         // وضع التركيز (معطل حالياً)
-        let isFocusEnabled = false; // لا تقم بتغييرها يدوياً إلا بأمري
+        let isFocusEnabled = false;
         function toggleFocusMode() {
             if (!isFocusEnabled) {
                 alert("! هذا الوضع مخصص لصفحة المعرض لتركيز الانتباه على التصاميم");
@@ -352,12 +363,10 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            // استرجاع الثيم
             const savedTheme = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeUI(savedTheme);
 
-            // استرجاع اللون
             const savedColor = localStorage.getItem('userThemeColor');
             if (savedColor) updateSiteColor(savedColor);
             
