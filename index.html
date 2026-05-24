@@ -21,7 +21,7 @@
             --text-main: #ffffff;
             --text-dim: #888;
             --nav-bg: rgba(3, 3, 3, 0.85);
-            --nav-height: 80px;
+            --nav-height: 90px; /* زودنا الارتفاع سنة عشان اللوجو ياخد راحته الكبرى */
             --card-bg: #0a0a0a;
         }
 
@@ -77,7 +77,7 @@
         .cursor-arrow { width: 35px; height: 35px; filter: drop-shadow(0 0 8px var(--primary)); }
         #cursor-path { fill: var(--primary); stroke: #fff; stroke-width: 1.5px; }
 
-        /* --- الهيدر (تم التعديل والتنسيق للـ RTL) --- */
+        /* --- الهيدر --- */
         nav {
             height: var(--nav-height);
             padding: 0 8%;
@@ -92,30 +92,29 @@
             border-bottom: 1px solid rgba(160, 32, 240, 0.2);
         }
 
-        /* تنسيق الحاوية لترتيب اللوجو يمين التكست بسلاسة */
         .logo-container { 
             display: flex; 
             align-items: center; 
-            gap: 12px; 
+            gap: 15px; 
             text-decoration: none;
-            flex-direction: row-reverse; /* يجبر اللوجو يفضل يمين الكلمة بشكل سليم */
+            flex-direction: row-reverse; /* اللوجو يمين والكلام شمال بشكل صريح */
         }
         
-        /* تكبير حجم اللوجو ومنعه من الاختفاء أو التداخل */
+        /* التعديل العملاق لحجم اللوجو */
         .logo-img {
             display: block !important;
             width: auto;
-            height: 52px; /* حجم مثالي يملى العين ومتناسق مع الـ nav */
-            max-width: 120px;
+            height: 70px; /* تكبير واضح ومباشر للوجو */
+            max-width: 200px; /* فتح المساحة العرضية عشان ما يتضغطش */
             object-fit: contain;
         }
 
         .logo-text { 
-            font-size: 1.3rem; 
+            font-size: 1.4rem; 
             font-weight: 900; 
             color: var(--text-main); 
-            letter-spacing: 1px;
-            white-space: nowrap; /* يمنع النص من النزول لسطر جديد */
+            letter-spacing: 0.5px;
+            white-space: nowrap; 
         }
 
         .nav-links { display: flex; gap: 25px; list-style: none; }
@@ -257,7 +256,7 @@
     <nav>
         <a href="index.html" class="logo-container">
             <img src="LAST/logo.png" alt="Kareem Logo" class="logo-img">
-            <span class="logo-text">KAREEM<span style="color: var(--primary);">.DSGN</span></span>
+            <span class="logo-text">Kareem <span style="color: var(--primary);">Portfolio</span></span>
         </a>
         <div class="menu-toggle" id="mobile-menu-btn"><i class="fas fa-bars"></i></div>
         <ul class="nav-links" id="nav-menu">
