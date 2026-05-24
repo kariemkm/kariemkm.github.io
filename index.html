@@ -94,15 +94,12 @@
 
         .logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
         
-        /* تظبيط عرض لوجو واحد ثابت ومستقر */
-        .logo-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        /* كود مباشر وصريح لإظهار اللوجو غصب عن أي كاش قديم */
         .logo-img {
-            width: 45px; /* مقاس مناسب جداً ومتناسق مع الهيدر */
-            height: auto;
+            display: block !important;
+            width: auto;
+            height: 45px; /* تحكم كامل في الارتفاع ليتناسق مع الـ الهيدر */
+            max-width: 120px;
             object-fit: contain;
         }
 
@@ -246,10 +243,8 @@
 
     <nav>
         <a href="index.html" class="logo-container">
-            <!-- استخدام ملف لوجو موحد وثابت يتماشى مع البساطة والـ UX السلس -->
-            <div class="logo-wrapper">
-                <img src="LAST/logo.png" alt="Kareem Logo" class="logo-img">
-            </div>
+            <!-- استدعاء مباشر من غير wrapper عشان نضمن الإنعاش الفوري للمتصفح -->
+            <img src="LAST/logo.png" alt="Kareem Logo" class="logo-img">
             <span class="logo-text">KAREEM<span style="color: var(--primary);">.DSGN</span></span>
         </a>
         <div class="menu-toggle" id="mobile-menu-btn"><i class="fas fa-bars"></i></div>
