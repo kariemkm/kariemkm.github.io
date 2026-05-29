@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kareem | My Works</title>
+    <title>Kareem Portfolio | My Works</title>
     
     <link rel="icon" type="image/png" sizes="192x192" href="./LAST/logo.png?v=2.0">
     <link rel="icon" type="image/png" sizes="96x96" href="./LAST/logo.png?v=2.0">
@@ -16,15 +16,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* المتغيرات الأساسية (الوضع الداكن هو الافتراضي) */
         :root {
             --bg: #030303;
             --primary: #a020f0;
             --primary-glow: rgba(160, 32, 240, 0.3);
             --card-bg: #0a0a0a;
+            --item-bg: #0d0d0d;
             --text-main: #ffffff;
             --text-dim: #888;
-            --nav-bg: rgba(3, 3, 3, 0.85);
-            --nav-height: 90px; /* تم توحيد الارتفاع مع الصفحة الرئيسية */
+            --nav-bg: rgba(3, 3, 3, 0.9);
+            --nav-height: 90px;
+            --border-color: rgba(160, 32, 240, 0.1);
             --modal-overlay: rgba(0, 0, 0, 0.9);
         }
 
@@ -33,24 +36,30 @@
             --bg: #f5f5f5;
             --text-main: #1a1a1a;
             --text-dim: #555;
-            --nav-bg: rgba(245, 245, 245, 0.85);
+            --nav-bg: rgba(245, 245, 245, 0.9);
             --card-bg: #ffffff;
+            --item-bg: #eeeeee;
+            --border-color: #dddddd;
             --modal-overlay: rgba(255, 255, 255, 0.95);
         }
 
-        /* --- وضع التركيز (Focus Mode) --- */
+        /* --- وضع التركيز المطور (Focus Mode) --- */
         body.focus-active .works-header, 
         body.focus-active .card-info,
         body.focus-active footer,
-        body.focus-active nav {
-            opacity: 0.1;
-            filter: blur(5px);
+        body.focus-active nav,
+        body.focus-active .settings-panel {
+            opacity: 0.05;
+            filter: blur(8px);
             pointer-events: none;
         }
         body.focus-active .work-section { padding-top: 20px; }
-        body.focus-active .card { border-color: transparent; }
+        body.focus-active .card { 
+            border-color: var(--primary); 
+            box-shadow: 0 0 30px var(--primary-glow);
+        }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s, border 0.3s; }
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
         
         @media (min-width: 1025px) {
             html.custom-cursor-active, html.custom-cursor-active * { cursor: none !important; }
@@ -64,7 +73,7 @@
             overflow-x: hidden;
         }
 
-        /* --- المؤشر --- */
+        /* --- المؤشر الموحد بدقة --- */
         #cursor-container {
             position: fixed;
             top: 0; left: 0;
@@ -74,12 +83,12 @@
             display: none;
         }
         .cursor-lens {
-            width: 55px; height: 55px;
+            width: 50px; height: 50px;
             border: 2px solid var(--text-main);
             border-radius: 50%;
             mix-blend-mode: difference;
         }
-        .cursor-arrow { width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--primary)); }
+        .cursor-arrow { width: 35px; height: 35px; filter: drop-shadow(0 0 8px var(--primary)); }
         #cursor-path { fill: var(--primary); stroke: #fff; stroke-width: 1.5px; }
 
         /* --- استايلات الـ Pop-up --- */
@@ -129,7 +138,7 @@
             .modal-img-container { flex: 1.5; order: 1; }
         }
 
-        /* --- استايلات الـ Nav المستوردة والموحدة مع الأساسية لتنسيق الصورة بشكل مثالي --- */
+        /* --- شريط التنقل الموحد --- */
         nav {
             height: var(--nav-height);
             padding: 0 4%; 
@@ -175,14 +184,14 @@
 
         /* --- الهيدر --- */
         .works-header { 
-            padding: calc(var(--nav-height) + 60px) 8% 30px; 
+            padding: calc(var(--nav-height) + 40px) 4% 30px; 
             text-align: right;
             background: linear-gradient(to bottom, var(--primary-glow) 0%, var(--bg) 100%);
         }
-        .works-header h1 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900; line-height: 1; }
+        .works-header h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); font-weight: 900; line-height: 1.2; }
 
         /* --- الجريد --- */
-        .work-section { padding: 20px 8% 100px; }
+        .work-section { padding: 20px 4% 100px; }
         .grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
@@ -193,7 +202,7 @@
             background: var(--card-bg); 
             border-radius: 15px; 
             overflow: hidden; 
-            border: 1px solid rgba(160,32,240,0.1); 
+            border: 1px solid var(--border-color); 
             transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
@@ -211,12 +220,12 @@
         .card-info h3 { font-size: 1rem; color: var(--text-main); margin-bottom: 5px; }
         .card-info p { font-size: 0.8rem; color: var(--text-dim); }
 
-        /* --- لوحة الإعدادات --- */
+        /* --- لوحة التحكم الموحدة --- */
         .settings-panel {
             position: fixed; left: -260px; top: 50%; transform: translateY(-50%);
             width: 260px; background: var(--card-bg); border: 1px solid var(--primary);
             padding: 20px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0;
-            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
         .settings-panel.active { left: 0; }
         #settingsToggle {
@@ -225,10 +234,10 @@
         }
         .setting-row { margin-bottom: 15px; }
         .setting-btn {
-            width: 100%; padding: 10px; background: rgba(160,32,240,0.1); 
+            width: 100%; padding: 8px; background: rgba(160,32,240,0.1); 
             border: 1px solid var(--primary); color: var(--text-main);
             border-radius: 5px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         @media (max-width: 1024px) {
@@ -239,13 +248,14 @@
                 border-left: 1px solid var(--primary);
             }
             .nav-links.active { right: 0; }
-            .grid { grid-template-columns: 1fr; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+            .works-header { text-align: center; }
         }
 
-        footer { padding: 40px; text-align: center; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid rgba(160,32,240,0.1); }
+        footer { padding: 40px; text-align: center; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border-color); }
     </style>
 </head>
-<body class="dark-theme">
+<body>
 
     <div id="cursor-container"></div>
 
@@ -268,7 +278,7 @@
 
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
-        <h4 style="color: var(--primary); margin-bottom: 15px;">تخصيص العرض</h4>
+        <h4 style="color: var(--primary); margin-bottom: 15px;">تخصيص الواجهة</h4>
         
         <div class="setting-row">
             <label style="font-size: 0.75rem; color: var(--text-dim);">النمط العام:</label>
@@ -287,14 +297,14 @@
         </div>
 
         <div class="setting-row">
-            <label style="font-size: 0.75rem; color: var(--text-dim);">لون الهوية:</label>
+            <label style="font-size: 0.75rem; color: var(--text-dim);">لون الثيم:</label>
             <input type="color" id="fullColorPicker" style="width:100%; height:30px; border:none; background:none; cursor:pointer;" oninput="updateSiteColor(this.value)">
         </div>
         
         <div id="desktop-only-settings">
             <label style="font-size: 0.75rem; color: var(--text-dim);">شكل الماوس:</label>
             <div onclick="setCursor('arrow')" style="cursor:pointer; padding:8px; background:rgba(160,32,240,0.05); margin-top:5px; border-radius:5px; font-size:0.8rem;">سهم نيون</div>
-            <div onclick="setCursor('lens')" style="cursor:pointer; padding:8px; background:rgba(160,32,240,0.05); margin-top:5px; border-radius:5px; font-size:0.8rem;">عدسة فنية</div>
+            <div onclick="setCursor('lens')" style="cursor:pointer; padding:8px; background:rgba(160,32,240,0.05); margin-top:5px; border-radius:5px; font-size:0.8rem;">عدسة عاكسة</div>
         </div>
     </div>
 
@@ -408,10 +418,23 @@
             }
         }
 
-        // --- ميزة وضع التركيز ---
+        // --- وضع التركيز (Focus Mode) التفاعلي والذكي بالـ Escape ---
+        let isFocusActive = false;
         function toggleFocusMode() {
-            const isActive = document.body.classList.toggle('focus-active');
-            document.getElementById('focus-status').innerText = isActive ? "إيقاف الوضع" : "تشغيل الوضع";
+            isFocusActive = !isFocusActive;
+            document.body.classList.toggle('focus-active');
+            const statusText = document.getElementById('focus-status');
+            statusText.innerText = isFocusActive ? "إلغاء وضع التركيز" : "تشغيل الوضع";
+            
+            if(isFocusActive) {
+                const escHandler = (e) => {
+                    if (e.key === 'Escape') {
+                        toggleFocusMode();
+                        document.removeEventListener('keydown', escHandler);
+                    }
+                };
+                document.addEventListener('keydown', escHandler);
+            }
         }
 
         function updateSiteColor(color) {
@@ -420,10 +443,9 @@
             localStorage.setItem('userThemeColor', color);
         }
 
-        // --- الماوس المخصص ---
+        // --- الماوس المخصص الموحد ---
         let currentCursorMode = localStorage.getItem('cursorMode') || 'arrow';
         const cursorContainer = document.getElementById('cursor-container');
-        const isMobile = window.matchMedia("(max-width: 1024px)").matches;
 
         function setCursor(mode) {
             if (isMobile) return;
@@ -435,9 +457,11 @@
         }
 
         function renderCursor(mode) {
-            cursorContainer.innerHTML = mode === 'lens' ? 
-                '<div class="cursor-lens"></div>' : 
-                `<svg class="cursor-arrow" viewBox="0 0 24 24"><path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" /></svg>`;
+            if (mode === 'lens') {
+                cursorContainer.innerHTML = '<div class="cursor-lens"></div>';
+            } else {
+                cursorContainer.innerHTML = `<svg class="cursor-arrow" viewBox="0 0 24 24"><path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" /></svg>`;
+            }
         }
 
         if (!isMobile) {
@@ -453,18 +477,14 @@
             updateThemeUI(savedTheme);
 
             const savedColor = localStorage.getItem('userThemeColor');
-            if (savedColor) updateSiteColor(savedColor);
+            if (savedColor) {
+                updateSiteColor(savedColor);
+                if(document.getElementById('fullColorPicker')) document.getElementById('fullColorPicker').value = savedColor;
+            }
             
             setCursor(currentCursorMode);
         });
 
         document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
         document.getElementById('mobile-menu-btn').onclick = () => {
-            document.getElementById('nav-menu').classList.toggle('active');
-        };
-        
-        // إغلاق المودال بالضغط خارج الكارت
-        modal.onclick = (e) => { if(e.target === modal) closePop(); };
-    </script>
-</body>
-</html>
+            document.getElementById('
