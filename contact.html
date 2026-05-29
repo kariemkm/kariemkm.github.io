@@ -379,6 +379,10 @@
                 
                 <input type="hidden" name="access_key" value="addc97b3-989a-4407-989e-d1905ea92cb8">
                 <input type="hidden" name="subject" value="رسالة جديدة من معرض أعمالك!">
+                
+                <!-- حقول الرد التلقائي وإدخال اسم المرسل (Auto Responder) -->
+                <input type="hidden" name="from_name" value="Kareem Portfolio">
+                <input type="hidden" name="replyto" value="تم استلام طلبك بنجاح! شكراً لتواصلك معي يا فنان، لقد تلقيت تفاصيل فكرتك وسيتم الرد عليك والتواصل معك خلال 24 ساعة كحد أقصى.">
 
                 <div class="form-group">
                     <label>الاسم الكامل</label>
@@ -422,7 +426,7 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // --- 🌟 كود الإرسال الخلفي (AJAX API) والتحكم بالبوب أب 🌟 ---
+        // --- كود الإرسال الخلفي (AJAX API) والتحكم بالبوب أب ---
         const contactForm = document.getElementById('contactForm');
         const submitBtn = document.getElementById('submitBtn');
         const successPopup = document.getElementById('successPopup');
@@ -452,16 +456,22 @@
                     // إظهار البوب أب بنجاح وتفريغ المدخلات
                     successPopup.classList.add('active');
                     contactForm.reset();
+                    
+                    // قفل الزر وتغيير لونه للأخضر مؤقتاً في الجلسة الحالية لمنع "التكليك" العشوائي المباشر
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = 'تم إرسال رسالتك بنجاح! <i class="fas fa-check-circle"></i>';
+                    submitBtn.style.background = '#25d366';
+                    submitBtn.style.boxShadow = '0 4px 15px rgba(37, 211, 102, 0.4)';
                 } else {
                     alert("نعتذر منك، حدث خطأ أثناء الإرسال: " + resultData.message);
+                    // إعادة الزر لحالته الطبيعية فقط في حالة الفشل ليحاول مرة أخرى
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>';
                 }
             })
             .catch(error => {
                 console.error(error);
                 alert("تعذر الاتصال بالسيرفر، يرجى التحقق من شبكة الإنترنت لديك.");
-            })
-            .then(() => {
-                // إعادة الزر لحالته الطبيعية وجعله قابلاً للضغط مرة أخرى
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>';
             });
@@ -482,15 +492,16 @@
             updateThemeUI(targetTheme);
         }
 
+        // تحديث واجهة أزرار الثيم
         function updateThemeUI(theme) {
             const text = document.getElementById('theme-text');
             const icon = document.getElementById('theme-icon');
             if (theme === 'light') {
-                text.innerText = "الوضع الفاتح";
-                icon.className = "fas fa-sun";
+                if(text) text.innerText = "الوضع الفاتح";
+                if(icon) icon.className = "fas fa-sun";
             } else {
-                text.innerText = "الوضع الداكن";
-                icon.className = "fas fa-moon";
+                if(text) text.innerText = "الوضع الداكن";
+                if(icon) icon.className = "fas fa-moon";
             }
         }
 
@@ -513,6 +524,7 @@
             }
         }
 
+        // تحديث اللون الأساسي للموقع
         function updateSiteColor(color) {
             document.documentElement.style.setProperty('--primary', color);
             document.documentElement.style.setProperty('--primary-glow', color + '4d');
@@ -547,8 +559,16 @@
             });
         }
 
-        // عند التحميل
+        // --- تنفيذ الإعدادات فور تحميل الصفحة (DOMContentLoaded) ---
         window.addEventListener('DOMContentLoaded', () => {
+            // 🌟 السطر المضاف لضمان إعادة تنشيط الزر وإلغاء القفل بمجرد عمل ريفريش 🌟
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.style.background = ''; // يعود للون البنفسجي أو اللون الافتراضي من الـ CSS
+                submitBtn.style.boxShadow = '';
+                submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>';
+            }
+
             const savedTheme = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeUI(savedTheme);
