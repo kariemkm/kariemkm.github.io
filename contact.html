@@ -203,7 +203,7 @@
             box-shadow: none;
         }
 
-        /* --- 🌟 ستايل البوب أب النيون الجديد (Popup Styles) 🌟 --- */
+        /* --- 🌟 ستايل البوب أب المطور والنيون (Popup Styles) 🌟 --- */
         .popup-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -221,16 +221,65 @@
             padding: 40px 30px;
             border-radius: 20px;
             text-align: center;
-            max-width: 450px;
+            max-width: 500px;
             width: 90%;
             box-shadow: 0 10px 40px var(--primary-glow);
             transform: scale(0.7);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .popup-overlay.active .popup-box { transform: scale(1); }
-        .popup-box i { font-size: 3.8rem; color: var(--primary); margin-bottom: 20px; display: inline-block; }
+        .popup-box i { font-size: 3.5rem; color: var(--primary); margin-bottom: 20px; display: inline-block; }
         .popup-box h3 { font-size: 1.6rem; margin-bottom: 12px; color: var(--text-main); font-weight: 800; }
         .popup-box p { color: var(--text-dim); font-size: 1rem; margin-bottom: 25px; line-height: 1.6; }
+        
+        /* مراجعة بيانات العميل داخل البوب اب */
+        .review-details {
+            background: var(--item-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: right;
+            max-height: 220px;
+            overflow-y: auto;
+        }
+        .review-item { margin-bottom: 12px; font-size: 0.95rem; }
+        .review-item strong { color: var(--primary); display: block; margin-bottom: 3px; font-size: 0.85rem; text-transform: uppercase; }
+        .review-item span { color: var(--text-main); word-break: break-word; }
+        
+        .popup-warning {
+            color: #ff3838 !important;
+            font-size: 0.85rem !important;
+            font-weight: bold;
+            margin-bottom: 20px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .popup-buttons-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .popup-btn-confirm {
+            background: var(--primary); color: #fff; border: none;
+            padding: 12px 25px; border-radius: 8px; font-weight: bold; font-size: 0.95rem;
+            cursor: pointer; transition: 0.3s ease; box-shadow: 0 4px 15px var(--primary-glow);
+            flex: 1;
+        }
+        .popup-btn-confirm:hover { background: #b23bf7; transform: translateY(-2px); box-shadow: 0 6px 20px var(--primary); }
+
+        .popup-btn-cancel {
+            background: transparent; color: var(--text-main); border: 1px solid var(--border-color);
+            padding: 12px 25px; border-radius: 8px; font-weight: bold; font-size: 0.95rem;
+            cursor: pointer; transition: 0.3s ease;
+            flex: 1;
+        }
+        .popup-btn-cancel:hover { background: rgba(255,255,255,0.05); border-color: var(--text-main); }
+
         .popup-close-btn {
             background: var(--primary); color: #fff; border: none;
             padding: 12px 35px; border-radius: 8px; font-weight: bold; font-size: 1rem;
@@ -258,6 +307,7 @@
             text-decoration: none;
             color: var(--text-main);
             transition: 0.4s ease;
+            cursor: pointer;
         }
         .social-item i { font-size: 2rem; margin-bottom: 10px; display: block; transition: 0.3s; }
         .social-item span { font-size: 0.85rem; font-weight: 600; display: block; color: var(--text-dim); }
@@ -313,12 +363,54 @@
 
     <div id="cursor-container"></div>
 
+    <!-- 🌟 1. بوب أب مراجعة وتأكيد الرسالة 🌟 -->
+    <div class="popup-overlay" id="reviewPopup">
+        <div class="popup-box">
+            <i class="fas fa-user-check"></i>
+            <h3>هل أنت متأكد من رسالتك؟</h3>
+            <p>يرجى مراجعة تفاصيل بياناتك قبل الإرسال الفعلي:</p>
+            
+            <div class="review-details">
+                <div class="review-item">
+                    <strong>الاسم الكامل:</strong>
+                    <span id="reviewName">---</span>
+                </div>
+                <div class="review-item">
+                    <strong>البريد الإلكتروني:</strong>
+                    <span id="reviewEmail">---</span>
+                </div>
+                <div class="review-item">
+                    <strong>تفاصيل الرسالة:</strong>
+                    <span id="reviewMessage">---</span>
+                </div>
+            </div>
+
+            <p class="popup-warning"><i class="fas fa-exclamation-triangle"></i> تنبيه: بمجرد إرسال الرسالة لا يمكن تعديلها أو حذفها.</p>
+            
+            <div class="popup-buttons-group">
+                <button class="popup-btn-confirm" id="finalConfirmBtn">تأكيد الإرسال</button>
+                <button class="popup-btn-cancel" onclick="closeReviewPopup()">تعديل الرسالة</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🌟 2. بوب أب النجاح النهائي 🌟 -->
     <div class="popup-overlay" id="successPopup">
         <div class="popup-box">
             <i class="fas fa-paper-plane"></i>
             <h3>تم إرسال الرسالة بنجاح!</h3>
-            <p>شكراً لتواصلك يا فنان. تم استلام تفاصيل مشروعك وسيتم التواصل معك خلال 24 ساعة.</p>
-            <button class="popup-close-btn" onclick="closePopup()">حسناً</button>
+            <p>شكراً لتواصلك يا فنان. تم استلاف تفاصيل مشروعك وسيتم التواصل معك خلال 24 ساعة.</p>
+            <button class="popup-close-btn" onclick="closeSuccessPopup()">حسناً</button>
+        </div>
+    </div>
+
+    <!-- 🌟 3. بوب أب الروابط قريباً 🌟 -->
+    <div class="popup-overlay" id="comingSoonPopup">
+        <div class="popup-box">
+            <i class="fas fa-link-slash" style="color: #ffb300;"></i>
+            <h3>قريباً جداً!</h3>
+            <p>سيتم إضافة اللينكات الرسمية لمنصات التواصل الاجتماعي قريباً.</p>
+            <button class="popup-close-btn" style="background: #ffb300; box-shadow: 0 4px 15px rgba(255,179,0,0.3);" onclick="closeComingSoonPopup()">حسناً</button>
         </div>
     </div>
 
@@ -386,37 +478,37 @@
 
                 <div class="form-group">
                     <label>الاسم الكامل</label>
-                    <input type="text" name="name" placeholder="اكتب اسمك الكريم هنا..." required>
+                    <input type="text" id="inputName" name="name" placeholder="اكتب اسمك الكريم هنا..." required>
                 </div>
                 <div class="form-group">
                     <label>البريد الإلكتروني</label>
-                    <input type="email" name="email" placeholder="example@domain.com" required>
+                    <input type="email" id="inputEmail" name="email" placeholder="example@domain.com" required>
                 </div>
                 <div class="form-group">
                     <label>تفاصيل الرسالة</label>
-                    <textarea name="message" placeholder="اشرح فكرتك أو مشروعك بالتفصيل هنا..." required></textarea>
+                    <textarea id="inputMessage" name="message" placeholder="اشرح فكرتك أو مشروعك بالتفصيل هنا..." required></textarea>
                 </div>
                 <button type="submit" id="submitBtn" class="submit-btn">إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i></button>
             </form>
         </div>
 
         <div class="social-grid" data-aos="fade-up" data-aos-delay="200">
-            <a href="#" target="_blank" class="social-item instagram">
+            <div onclick="showComingSoon()" class="social-item instagram">
                 <i class="fab fa-instagram"></i>
                 <span>انستغرام</span>
-            </a>
-            <a href="#" target="_blank" class="social-item behance">
+            </div>
+            <div onclick="showComingSoon()" class="social-item behance">
                 <i class="fab fa-behance"></i>
                 <span>بيهانس</span>
-            </a>
-            <a href="#" target="_blank" class="social-item pinterest">
+            </div>
+            <div onclick="showComingSoon()" class="social-item pinterest">
                 <i class="fab fa-pinterest"></i>
                 <span>بينتريست</span>
-            </a>
-            <a href="#" target="_blank" class="social-item whatsapp">
+            </div>
+            <div onclick="showComingSoon()" class="social-item whatsapp">
                 <i class="fab fa-whatsapp"></i>
                 <span>واتساب</span>
-            </a>
+            </div>
         </div>
     </section>
 
@@ -426,15 +518,38 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // --- كود الإرسال الخلفي (AJAX API) والتحكم بالبوب أب ---
+        // --- عناصر البوب أب والـ Form ---
         const contactForm = document.getElementById('contactForm');
         const submitBtn = document.getElementById('submitBtn');
+        const reviewPopup = document.getElementById('reviewPopup');
         const successPopup = document.getElementById('successPopup');
+        const comingSoonPopup = document.getElementById('comingSoonPopup');
+        const finalConfirmBtn = document.getElementById('finalConfirmBtn');
 
+        // عناصر المراجعة داخل البوب اب
+        const reviewName = document.getElementById('reviewName');
+        const reviewEmail = document.getElementById('reviewEmail');
+        const reviewMessage = document.getElementById('reviewMessage');
+
+        // الخطوة الأولى: عند الضغط على زر الإرسال الأساسي في الـ Form
         contactForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // منع الصفحة من التحديث أو الانتقال لروابط خارجية
+            e.preventDefault(); // منع الإرسال التلقائي
+
+            // تمرير النصوص الحالية لبوب أب المراجعة
+            reviewName.innerText = document.getElementById('inputName').value;
+            reviewEmail.innerText = document.getElementById('inputEmail').value;
+            reviewMessage.innerText = document.getElementById('inputMessage').value;
+
+            // فتح بوب أب المراجعة
+            reviewPopup.classList.add('active');
+        });
+
+        // الخطوة الثانية: الإرسال الفعلي الخلفي عند الضغط على "تأكيد الإرسال" داخل البوب أب
+        finalConfirmBtn.addEventListener('click', function() {
+            // إغلاق بوب أب المراجعة أولاً
+            reviewPopup.classList.remove('active');
             
-            // قفل الزر وتغيير حالته لمنع التكرار أثناء المعالجة
+            // قفل زر الإرسال وتغيير حالته
             submitBtn.disabled = true;
             submitBtn.innerHTML = 'جاري الإرسال حالياً... <i class="fas fa-spinner fa-spin" style="margin-right: 5px;"></i>';
 
@@ -453,33 +568,41 @@
             .then(async (response) => {
                 let resultData = await response.json();
                 if (response.status === 200) {
-                    // إظهار البوب أب بنجاح وتفريغ المدخلات
+                    // إظهار بوب أب النجاح النهائي وتفريغ المدخلات
                     successPopup.classList.add('active');
                     contactForm.reset();
                     
-                    // قفل الزر وتغيير لونه للأخضر مؤقتاً في الجلسة الحالية لمنع "التكليك" العشوائي المباشر
+                    // تحديث شكل الزر الرئيسي
                     submitBtn.disabled = true;
                     submitBtn.innerHTML = 'تم إرسال رسالتك بنجاح! <i class="fas fa-check-circle"></i>';
                     submitBtn.style.background = '#25d366';
                     submitBtn.style.boxShadow = '0 4px 15px rgba(37, 211, 102, 0.4)';
                 } else {
                     alert("نعتذر منك، حدث خطأ أثناء الإرسال: " + resultData.message);
-                    // إعادة الزر لحالته الطبيعية فقط في حالة الفشل ليحاول مرة أخرى
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>';
+                    resetSubmitButton();
                 }
             })
             .catch(error => {
                 console.error(error);
                 alert("تعذر الاتصال بالسيرفر، يرجى التحقق من شبكة الإنترنت لديك.");
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>';
+                resetSubmitButton();
             });
         });
 
-        // وظيفة إغلاق البوب أب
-        function closePopup() {
-            successPopup.classList.remove('active');
+        // وظائف إغلاق البوب أبس
+        function closeReviewPopup() { reviewPopup.classList.remove('active'); }
+        function closeSuccessPopup() { successPopup.classList.remove('active'); }
+        
+        // وظائف بوب أب الروابط (قريباً)
+        function showComingSoon() { comingSoonPopup.classList.add('active'); }
+        function closeComingSoonPopup() { comingSoonPopup.classList.remove('active'); }
+
+        // إعادة تعيين الزر لحالته الأصلية
+        function resetSubmitButton() {
+            submitBtn.disabled = false;
+            submitBtn.style.background = '';
+            submitBtn.style.boxShadow = '';
+            submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>';
         }
 
         // --- ميزة تبديل الثيم ---
@@ -492,7 +615,6 @@
             updateThemeUI(targetTheme);
         }
 
-        // تحديث واجهة أزرار الثيم
         function updateThemeUI(theme) {
             const text = document.getElementById('theme-text');
             const icon = document.getElementById('theme-icon');
@@ -536,6 +658,7 @@
         const cursorContainer = document.getElementById('cursor-container');
         const isMobile = window.matchMedia("(max-width: 1024px)").matches;
 
+        // تحويل أوسمة السوشيال ميديا إلى divs بدلاً من لـ تفادي فتح روابط فارغة
         function setCursor(mode) {
             if (isMobile) return;
             currentCursorMode = mode;
@@ -559,15 +682,9 @@
             });
         }
 
-        // --- تنفيذ الإعدادات فور تحميل الصفحة (DOMContentLoaded) ---
+        // --- تنفيذ الإعدادات فور تحميل الصفحة ---
         window.addEventListener('DOMContentLoaded', () => {
-            // 🌟 السطر المضاف لضمان إعادة تنشيط الزر وإلغاء القفل بمجرد عمل ريفريش 🌟
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.style.background = ''; // يعود للون البنفسجي أو اللون الافتراضي من الـ CSS
-                submitBtn.style.boxShadow = '';
-                submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>';
-            }
+            resetSubmitButton();
 
             const savedTheme = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
