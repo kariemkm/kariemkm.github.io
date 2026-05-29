@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kareem Portfolio | Contact Me</title>
     
-    <!-- إجبار المتصفح على طلب أحجام كبيرة وعالية الدقة من الأيقونة لتبدو واضحة وبأقصى حجم متاح -->
     <link rel="icon" type="image/png" sizes="192x192" href="./LAST/logo.png?v=2.0">
     <link rel="icon" type="image/png" sizes="96x96" href="./LAST/logo.png?v=2.0">
     <link rel="icon" type="image/png" sizes="48x48" href="./LAST/logo.png?v=2.0">
@@ -197,6 +196,47 @@
             box-shadow: 0 8px 25px var(--primary);
             background: #b23bf7;
         }
+        .submit-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* --- 🌟 ستايل البوب أب النيون الجديد (Popup Styles) 🌟 --- */
+        .popup-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none;
+            z-index: 20000;
+            transition: opacity 0.4s ease;
+        }
+        .popup-overlay.active { opacity: 1; pointer-events: auto; }
+        .popup-box {
+            background: var(--card-bg);
+            border: 2px solid var(--primary);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 10px 40px var(--primary-glow);
+            transform: scale(0.7);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .popup-overlay.active .popup-box { transform: scale(1); }
+        .popup-box i { font-size: 3.8rem; color: var(--primary); margin-bottom: 20px; display: inline-block; }
+        .popup-box h3 { font-size: 1.6rem; margin-bottom: 12px; color: var(--text-main); font-weight: 800; }
+        .popup-box p { color: var(--text-dim); font-size: 1rem; margin-bottom: 25px; line-height: 1.6; }
+        .popup-close-btn {
+            background: var(--primary); color: #fff; border: none;
+            padding: 12px 35px; border-radius: 8px; font-weight: bold; font-size: 1rem;
+            cursor: pointer; transition: 0.3s ease; box-shadow: 0 4px 15px var(--primary-glow);
+        }
+        .popup-close-btn:hover { background: #b23bf7; transform: translateY(-2px); box-shadow: 0 6px 20px var(--primary); }
 
         /* --- شبكة منصات التواصل الاجتماعي --- */
         .social-grid {
@@ -222,7 +262,6 @@
         .social-item i { font-size: 2rem; margin-bottom: 10px; display: block; transition: 0.3s; }
         .social-item span { font-size: 0.85rem; font-weight: 600; display: block; color: var(--text-dim); }
         
-        /* ألوان النيون التفاعلية لكل منصة بشكل منفصل عند الـ Hover */
         .social-item.instagram:hover { border-color: #e1306c; box-shadow: 0 0 20px rgba(225,48,108,0.3); }
         .social-item.instagram:hover i { color: #e1306c; transform: scale(1.1); }
         
@@ -273,6 +312,15 @@
 <body>
 
     <div id="cursor-container"></div>
+
+    <div class="popup-overlay" id="successPopup">
+        <div class="popup-box">
+            <i class="fas fa-paper-plane"></i>
+            <h3>تم إرسال الرسالة بنجاح!</h3>
+            <p>شكراً لتواصلك يا فنان. تم استلام تفاصيل مشروعك وسيتم التواصل معك خلال 24 ساعة.</p>
+            <button class="popup-close-btn" onclick="closePopup()">حسناً</button>
+        </div>
+    </div>
 
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
@@ -326,28 +374,29 @@
     </header>
 
     <section class="contact-section">
-        <!-- كارت فورم المراسلة -->
         <div class="contact-card" data-aos="zoom-in">
-            <form id="contactForm" onsubmit="event.preventDefault(); alert('تم إرسال رسالتك بنجاح يا كريم!');">
+            <form id="contactForm">
+                
+                <input type="hidden" name="access_key" value="addc97b3-989a-4407-989e-d1905ea92cb8">
+                <input type="hidden" name="subject" value="رسالة جديدة من معرض أعمالك!">
+
                 <div class="form-group">
                     <label>الاسم الكامل</label>
-                    <input type="text" placeholder="اكتب اسمك الكريم هنا..." required>
+                    <input type="text" name="name" placeholder="اكتب اسمك الكريم هنا..." required>
                 </div>
                 <div class="form-group">
                     <label>البريد الإلكتروني</label>
-                    <input type="email" placeholder="example@domain.com" required>
+                    <input type="email" name="email" placeholder="example@domain.com" required>
                 </div>
                 <div class="form-group">
                     <label>تفاصيل الرسالة</label>
-                    <textarea placeholder="اشرح فكرتك أو مشروعك بالتفصيل هنا..." required></textarea>
+                    <textarea name="message" placeholder="اشرح فكرتك أو مشروعك بالتفصيل هنا..." required></textarea>
                 </div>
-                <button type="submit" class="submit-btn">إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i></button>
+                <button type="submit" id="submitBtn" class="submit-btn">إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i></button>
             </form>
         </div>
 
-        <!-- شبكة قنوات التواصل الاجتماعي -->
         <div class="social-grid" data-aos="fade-up" data-aos-delay="200">
-            <!-- ضع الروابط الخاصة بك بداخل الـ href بدلاً من # -->
             <a href="#" target="_blank" class="social-item instagram">
                 <i class="fab fa-instagram"></i>
                 <span>انستغرام</span>
@@ -373,6 +422,56 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
+        // --- 🌟 كود الإرسال الخلفي (AJAX API) والتحكم بالبوب أب 🌟 ---
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successPopup = document.getElementById('successPopup');
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // منع الصفحة من التحديث أو الانتقال لروابط خارجية
+            
+            // قفل الزر وتغيير حالته لمنع التكرار أثناء المعالجة
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'جاري الإرسال حالياً... <i class="fas fa-spinner fa-spin" style="margin-right: 5px;"></i>';
+
+            const formData = new FormData(contactForm);
+            const formObject = Object.fromEntries(formData);
+            const jsonPayload = JSON.stringify(formObject);
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: jsonPayload
+            })
+            .then(async (response) => {
+                let resultData = await response.json();
+                if (response.status === 200) {
+                    // إظهار البوب أب بنجاح وتفريغ المدخلات
+                    successPopup.classList.add('active');
+                    contactForm.reset();
+                } else {
+                    alert("نعتذر منك، حدث خطأ أثناء الإرسال: " + resultData.message);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert("تعذر الاتصال بالسيرفر، يرجى التحقق من شبكة الإنترنت لديك.");
+            })
+            .then(() => {
+                // إعادة الزر لحالته الطبيعية وجعله قابلاً للضغط مرة أخرى
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>';
+            });
+        });
+
+        // وظيفة إغلاق البوب أب
+        function closePopup() {
+            successPopup.classList.remove('active');
+        }
+
         // --- ميزة تبديل الثيم ---
         function toggleTheme() {
             const html = document.documentElement;
@@ -395,7 +494,7 @@
             }
         }
 
-        // --- وضع التركيز (Focus Mode) التفاعلي والذكي بالـ Escape ---
+        // --- وضع التركيز (Focus Mode) ---
         let isFocusActive = false;
         function toggleFocusMode() {
             isFocusActive = !isFocusActive;
@@ -420,7 +519,7 @@
             localStorage.setItem('userThemeColor', color);
         }
 
-        // --- الماوس المخصص الموحد ---
+        // --- الماوس المخصص ---
         let currentCursorMode = localStorage.getItem('cursorMode') || 'arrow';
         const cursorContainer = document.getElementById('cursor-container');
         const isMobile = window.matchMedia("(max-width: 1024px)").matches;
