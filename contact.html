@@ -3,25 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kareem | Contact</title>
+    <title>Kareem | My Works</title>
     
-    <link rel="icon" type="image/png" href="LAST/logo"> 
+    <link rel="icon" type="image/png" sizes="192x192" href="./LAST/logo.png?v=2.0">
+    <link rel="icon" type="image/png" sizes="96x96" href="./LAST/logo.png?v=2.0">
+    <link rel="icon" type="image/png" sizes="48x48" href="./LAST/logo.png?v=2.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="./LAST/logo.png?v=2.0">
+    <link rel="shortcut icon" type="image/x-icon" href="./LAST/logo.png?v=2.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="./LAST/logo.png?v=2.0">
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* المتغيرات الأساسية */
         :root {
             --bg: #030303;
             --primary: #a020f0;
             --primary-glow: rgba(160, 32, 240, 0.3);
+            --card-bg: #0a0a0a;
             --text-main: #ffffff;
             --text-dim: #888;
             --nav-bg: rgba(3, 3, 3, 0.85);
-            --nav-height: 80px;
-            --card-bg: #0a0a0a;
-            --input-bg: #0d0d0d;
+            --nav-height: 90px; /* تم توحيد الارتفاع مع الصفحة الرئيسية */
+            --modal-overlay: rgba(0, 0, 0, 0.9);
         }
 
         /* متغيرات الوضع الفاتح */
@@ -31,20 +35,22 @@
             --text-dim: #555;
             --nav-bg: rgba(245, 245, 245, 0.85);
             --card-bg: #ffffff;
-            --input-bg: #eeeeee;
+            --modal-overlay: rgba(255, 255, 255, 0.95);
         }
 
-        /* وضع التركيز */
-        body.focus-active .info-box, 
-        body.focus-active nav, 
-        body.focus-active .social-links,
-        body.focus-active .contact-method {
+        /* --- وضع التركيز (Focus Mode) --- */
+        body.focus-active .works-header, 
+        body.focus-active .card-info,
+        body.focus-active footer,
+        body.focus-active nav {
             opacity: 0.1;
             filter: blur(5px);
             pointer-events: none;
         }
+        body.focus-active .work-section { padding-top: 20px; }
+        body.focus-active .card { border-color: transparent; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, color 0.3s; }
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s, border 0.3s; }
         
         @media (min-width: 1025px) {
             html.custom-cursor-active, html.custom-cursor-active * { cursor: none !important; }
@@ -54,10 +60,11 @@
             background-color: var(--bg);
             color: var(--text-main);
             font-family: 'Segoe UI', Tahoma, sans-serif;
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* --- نظام الماوس --- */
+        /* --- المؤشر --- */
         #cursor-container {
             position: fixed;
             top: 0; left: 0;
@@ -67,7 +74,7 @@
             display: none;
         }
         .cursor-lens {
-            width: 50px; height: 50px;
+            width: 55px; height: 55px;
             border: 2px solid var(--text-main);
             border-radius: 50%;
             mix-blend-mode: difference;
@@ -75,10 +82,57 @@
         .cursor-arrow { width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--primary)); }
         #cursor-path { fill: var(--primary); stroke: #fff; stroke-width: 1.5px; }
 
-        /* --- الهيدر --- */
+        /* --- استايلات الـ Pop-up --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--modal-overlay); backdrop-filter: blur(15px);
+            z-index: 20000; display: none; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.4s ease;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        
+        .modal-card {
+            position: relative; width: 90%; max-width: 1100px; height: 80vh;
+            background: var(--card-bg); border-radius: 20px; overflow: hidden;
+            display: flex; border: 1px solid var(--primary-glow);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        .modal-img-container {
+            flex: 2; position: relative; overflow: hidden; background: #000;
+            cursor: crosshair; display: flex; align-items: center; justify-content: center;
+        }
+        .modal-img-container img {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+            transition: transform 0.1s ease-out; transform-origin: center;
+        }
+
+        .modal-details {
+            flex: 1; padding: 40px; display: flex; flex-direction: column;
+            justify-content: center; border-right: 1px solid rgba(160,32,240,0.1);
+        }
+        .modal-details h2 { font-size: 2rem; color: var(--primary); margin-bottom: 15px; }
+        .modal-details p { color: var(--text-dim); margin-bottom: 25px; }
+        
+        .modal-close-btn {
+            position: absolute; top: 20px; right: 20px; width: 45px; height: 45px;
+            background: var(--primary); color: white; border: none; border-radius: 50%;
+            cursor: pointer; z-index: 20001; display: flex; align-items: center;
+            justify-content: center; font-size: 1.2rem; transition: 0.3s;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+        .modal-close-btn:hover { transform: rotate(90deg) scale(1.1); }
+
+        @media (max-width: 900px) {
+            .modal-card { flex-direction: column; height: 90vh; width: 95%; }
+            .modal-details { padding: 20px; order: 2; }
+            .modal-img-container { flex: 1.5; order: 1; }
+        }
+
+        /* --- استايلات الـ Nav المستوردة والموحدة مع الأساسية لتنسيق الصورة بشكل مثالي --- */
         nav {
             height: var(--nav-height);
-            padding: 0 8%;
+            padding: 0 4%; 
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -90,101 +144,131 @@
             border-bottom: 1px solid rgba(160, 32, 240, 0.2);
         }
 
-        .logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .logo-img-mask {
-            width: 35px; height: 35px; background-color: var(--primary);
-            -webkit-mask: url('LAST/logo') no-repeat center/contain;
-            mask: url('LAST/logo') no-repeat center/contain;
+        .logo-container { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            text-decoration: none;
         }
-        .logo-text { font-size: 1.2rem; font-weight: 900; color: var(--text-main); }
+        
+        .logo-img {
+            display: block !important;
+            height: 65px; 
+            width: auto;
+            max-width: 260px; 
+            object-fit: contain;
+        }
 
-        .nav-links { display: flex; gap: 25px; list-style: none; }
-        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: 0.3s; }
+        .logo-text { 
+            font-size: 1.3rem; 
+            font-weight: 900; 
+            color: var(--text-main); 
+            letter-spacing: 0.5px;
+            white-space: nowrap; 
+        }
+
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 1rem; font-weight: 600; transition: 0.3s; }
         .nav-links a:hover, .nav-links a.active { color: var(--primary); }
 
-        .menu-toggle { display: none; font-size: 1.5rem; color: var(--primary); }
+        .menu-toggle { display: none; font-size: 1.5rem; color: var(--primary); cursor: pointer; }
 
-        /* --- حاوية التواصل --- */
-        .contact-page {
-            min-height: 100vh;
-            padding: calc(var(--nav-height) + 80px) 8% 80px;
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 80px;
-            background: radial-gradient(circle at 100% 100%, var(--primary-glow) 0%, var(--bg) 50%);
+        /* --- الهيدر --- */
+        .works-header { 
+            padding: calc(var(--nav-height) + 60px) 8% 30px; 
+            text-align: right;
+            background: linear-gradient(to bottom, var(--primary-glow) 0%, var(--bg) 100%);
+        }
+        .works-header h1 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900; line-height: 1; }
+
+        /* --- الجريد --- */
+        .work-section { padding: 20px 8% 100px; }
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 25px; 
         }
 
-        .info-box h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; line-height: 1.2; margin-bottom: 20px; }
-        .info-box p { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 40px; }
-
-        .contact-method { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
-        .method-icon { width: 50px; height: 50px; background: var(--card-bg); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.2rem; border: 1px solid rgba(160,32,240,0.2); }
-
-        .social-links { display: flex; gap: 15px; margin-top: 20px; }
-        .social-links a { width: 45px; height: 45px; background: var(--card-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-main); text-decoration: none; transition: 0.3s; border: 1px solid rgba(160,32,240,0.1); }
-        .social-links a:hover { background: var(--primary); transform: translateY(-5px); color: #fff; }
-
-        /* --- الفورم --- */
-        form { background: var(--card-bg); padding: 45px; border-radius: 24px; border: 1px solid rgba(160,32,240,0.1); position: relative; }
-        .input-group { margin-bottom: 25px; }
-        .input-group label { display: block; margin-bottom: 10px; font-size: 0.85rem; color: var(--primary); font-weight: bold; }
-        
-        input, textarea { 
-            width: 100%; background: var(--input-bg); border: 1px solid rgba(160,32,240,0.1); 
-            padding: 16px; color: var(--text-main); border-radius: 12px; 
-            font-family: inherit; transition: 0.3s; 
+        .card { 
+            background: var(--card-bg); 
+            border-radius: 15px; 
+            overflow: hidden; 
+            border: 1px solid rgba(160,32,240,0.1); 
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
         }
-        input:focus, textarea:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 15px var(--primary-glow); }
-
-        .submit-btn { 
-            width: 100%; padding: 18px; background: var(--primary); 
-            color: white; border: none; border-radius: 12px; 
-            font-weight: 900; font-size: 1rem; transition: 0.4s; cursor: pointer;
+        .card:hover { 
+            border-color: var(--primary); 
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px var(--primary-glow);
         }
-        .submit-btn:hover { box-shadow: 0 10px 20px var(--primary-glow); transform: translateY(-3px); }
+
+        .image-box { aspect-ratio: 3/4; background: #111; overflow: hidden; }
+        .image-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s ease; opacity: 0.9; }
+        .card:hover img { transform: scale(1.1); opacity: 1; }
+
+        .card-info { padding: 20px; text-align: center; border-top: 1px solid rgba(160,32,240,0.05); }
+        .card-info h3 { font-size: 1rem; color: var(--text-main); margin-bottom: 5px; }
+        .card-info p { font-size: 0.8rem; color: var(--text-dim); }
 
         /* --- لوحة الإعدادات --- */
         .settings-panel {
             position: fixed; left: -260px; top: 50%; transform: translateY(-50%);
             width: 260px; background: var(--card-bg); border: 1px solid var(--primary);
             padding: 20px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
         }
         .settings-panel.active { left: 0; }
         #settingsToggle {
             position: absolute; right: -40px; top: 0; width: 40px; height: 40px;
-            background: var(--primary); border: none; color: white; border-radius: 0 8px 8px 0;
-            cursor: pointer;
+            background: var(--primary); border: none; color: white; border-radius: 0 8px 8px 0; cursor: pointer;
         }
         .setting-row { margin-bottom: 15px; }
         .setting-btn {
-            width: 100%; padding: 8px; background: rgba(160,32,240,0.1); 
+            width: 100%; padding: 10px; background: rgba(160,32,240,0.1); 
             border: 1px solid var(--primary); color: var(--text-main);
-            border-radius: 5px; cursor: pointer; font-size: 0.8rem;
-            display: flex; justify-content: space-between; align-items: center;
+            border-radius: 5px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.85rem;
         }
 
-        /* --- الموبايل --- */
         @media (max-width: 1024px) {
-            .menu-toggle { display: block; cursor: pointer; }
+            .menu-toggle { display: block; }
             .nav-links {
                 position: fixed; top: var(--nav-height); right: -100%; width: 80%; height: 100vh;
                 background: var(--bg); flex-direction: column; padding: 50px 30px; transition: 0.4s;
                 border-left: 1px solid var(--primary);
             }
             .nav-links.active { right: 0; }
-            .contact-page { grid-template-columns: 1fr; padding-top: 120px; gap: 40px; }
-            form { padding: 30px 20px; }
+            .grid { grid-template-columns: 1fr; }
         }
+
+        footer { padding: 40px; text-align: center; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid rgba(160,32,240,0.1); }
     </style>
 </head>
-<body>
+<body class="dark-theme">
 
     <div id="cursor-container"></div>
 
+    <div class="modal-overlay" id="workModal">
+        <button class="modal-close-btn" onclick="closePop()"><i class="fas fa-times"></i></button>
+        <div class="modal-card" data-aos="zoom-in">
+            <div class="modal-img-container" id="zoomArea">
+                <img src="" id="popImg" alt="Detail View">
+            </div>
+            <div class="modal-details">
+                <h2 id="popTitle">اسم العمل</h2>
+                <p>تصميم جرافيك احترافي يركز على التفاصيل الدقيقة واستخدام الإضاءة بشكل فني لإبراز جودة العمل النهائي.</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <span style="padding: 5px 15px; background: var(--primary-glow); border: 1px solid var(--primary); border-radius: 20px; font-size: 0.8rem;">Photoshop</span>
+                    <span style="padding: 5px 15px; background: var(--primary-glow); border: 1px solid var(--primary); border-radius: 20px; font-size: 0.8rem;">Blender</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
-        <h4 style="color: var(--primary); margin-bottom: 15px;">تخصيص الواجهة</h4>
+        <h4 style="color: var(--primary); margin-bottom: 15px;">تخصيص العرض</h4>
         
         <div class="setting-row">
             <label style="font-size: 0.75rem; color: var(--text-dim);">النمط العام:</label>
@@ -197,94 +281,112 @@
         <div class="setting-row">
             <label style="font-size: 0.75rem; color: var(--text-dim);">وضع التركيز:</label>
             <button class="setting-btn" onclick="toggleFocusMode()">
-                <span>تشغيل الوضع</span>
+                <span id="focus-status">تشغيل الوضع</span>
                 <i class="fas fa-eye-slash"></i>
             </button>
         </div>
 
         <div class="setting-row">
-            <label style="font-size: 0.75rem; color: var(--text-dim);">لون الثيم:</label>
+            <label style="font-size: 0.75rem; color: var(--text-dim);">لون الهوية:</label>
             <input type="color" id="fullColorPicker" style="width:100%; height:30px; border:none; background:none; cursor:pointer;" oninput="updateSiteColor(this.value)">
         </div>
-
+        
         <div id="desktop-only-settings">
             <label style="font-size: 0.75rem; color: var(--text-dim);">شكل الماوس:</label>
             <div onclick="setCursor('arrow')" style="cursor:pointer; padding:8px; background:rgba(160,32,240,0.05); margin-top:5px; border-radius:5px; font-size:0.8rem;">سهم نيون</div>
-            <div onclick="setCursor('lens')" style="cursor:pointer; padding:8px; background:rgba(160,32,240,0.05); margin-top:5px; border-radius:5px; font-size:0.8rem;">عدسة عاكسة</div>
+            <div onclick="setCursor('lens')" style="cursor:pointer; padding:8px; background:rgba(160,32,240,0.05); margin-top:5px; border-radius:5px; font-size:0.8rem;">عدسة فنية</div>
         </div>
     </div>
 
     <nav>
         <a href="index.html" class="logo-container">
-            <div class="logo-img-mask"></div>
-            <span class="logo-text">KAREEM<span style="color: var(--primary);">.DSGN</span></span>
+            <img src="LAST/logo.png" alt="Kareem Logo" class="logo-img">
+            <span class="logo-text">Kareem <span style="color: var(--primary);">Portfolio</span></span>
         </a>
         <div class="menu-toggle" id="mobile-menu-btn"><i class="fas fa-bars"></i></div>
         <ul class="nav-links" id="nav-menu">
             <li><a href="index.html">الرئيسية</a></li>
-            <li><a href="works.html">أعمالي</a></li>
+            <li><a href="works.html" class="active">أعمالي</a></li>
             <li><a href="about.html">عني</a></li>
-            <li><a href="contact.html" class="active">تواصل معي</a></li>
+            <li><a href="contact.html">تواصل معي</a></li>
         </ul>
     </nav>
 
-    <div class="contact-page">
-        <div class="info-box" data-aos="fade-right">
-            <h1>لنصنع شيئاً <span style="color: var(--primary);">مذهلاً</span>.</h1>
-            <p>سواء كنت تبحث عن تصميم هوية بصرية، تطوير واجهة مستخدم، أو مجرد استشارة تقنية، أنا هنا للمساعدة.</p>
-            
-            <div class="contact-method">
-                <div class="method-icon"><i class="fas fa-envelope"></i></div>
-                <div>
-                    <h4 style="font-size: 0.8rem; color: var(--text-dim);">راسلني على</h4>
-                    <p style="font-size: 1rem;">hello@kareem.dsgn</p>
-                </div>
-            </div>
+    <header class="works-header">
+        <h1 data-aos="fade-left">MY <span style="color: var(--primary);">PROJECTS</span></h1>
+        <p style="color: var(--text-dim); margin-top: 10px;">معرض التصاميم المختارة بعناية لتحويل الأفكار إلى واقع بصرى.</p>
+    </header>
 
-            <div class="social-links">
-                <a href="#"><i class="fab fa-behance"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#"><i class="fab fa-github"></i></a>
-            </div>
-        </div>
+    <section class="work-section">
+        <div class="grid" id="projectsGrid"></div>
+    </section>
 
-        <form data-aos="fade-left">
-            <div class="input-group">
-                <label>الاسم</label>
-                <input type="text" placeholder="اسمك الكريم">
-            </div>
-            <div class="input-group">
-                <label>البريد الإلكتروني</label>
-                <input type="email" placeholder="email@example.com">
-            </div>
-            <div class="input-group">
-                <label>الموضوع</label>
-                <input type="text" placeholder="ما الذي يدور في ذهنك؟">
-            </div>
-            <div class="input-group">
-                <label>الرسالة</label>
-                <textarea rows="4" placeholder="اشرح لي تفاصيل مشروعك..."></textarea>
-            </div>
-            <button type="submit" class="submit-btn">إرسال الآن</button>
-        </form>
-    </div>
+    <footer><p>© 2026 KAREEM DESIGN. All Rights Reserved.</p></footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
 
-        const cursorContainer = document.getElementById('cursor-container');
-        const isMobile = window.matchMedia("(max-width: 1024px)").matches;
+        const images = [
+            "LAST/Green HoOdy design 2.jpg", "LAST/hoodie design.jpg", "LAST/My pack-051.jpg",
+            "LAST/Orange juice.jpg", "LAST/SHOES1.jpg", "LAST/burber.jpg",
+            "LAST/burger 2.jpg", "LAST/competition 1.jpg", "LAST/eid adha 2025.jpg",
+            "LAST/eid farha 2026.jpg", "LAST/eid farha(1).jpg", "LAST/fanta ad-Recovered.jpg",
+            "LAST/fanta ad2.jpg", "LAST/nike ad.jpg", "LAST/nike yellow shoes.jpg",
+            "LAST/nike.jpg", "LAST/ramdan 2026.jpg", "LAST/ramdan 2026 2.jpg",
+            "LAST/ramdan 2026 3.jpg", "LAST/ramdan 2026 4.jpg", "LAST/ramdan 2026 5.jpg",
+            "LAST/spark energy drink.jpg", "LAST/v7 ad ثيهف 2.jpg"
+        ];
 
-        // منيو الموبايل
-        document.getElementById('mobile-menu-btn').onclick = function() {
-            document.getElementById('nav-menu').classList.toggle('active');
-            this.querySelector('i').classList.toggle('fa-bars');
-            this.querySelector('i').classList.toggle('fa-times');
-        };
+        const grid = document.getElementById('projectsGrid');
+        images.forEach((src, index) => {
+            const fileName = src.split('/').pop().split('.')[0].replace(/%20/g, ' ');
+            grid.innerHTML += `
+                <div class="card" data-aos="fade-up" data-aos-delay="${(index % 3) * 100}" onclick="openPop('${src}', '${fileName}')">
+                    <div class="image-box"><img src="${src}" alt="${fileName}" loading="lazy"></div>
+                    <div class="card-info">
+                        <h3>${fileName}</h3>
+                        <p>GRAPHIC DESIGN</p>
+                    </div>
+                </div>`;
+        });
 
-        // تبديل الثيم
+        // --- ميكانيكية الـ Pop-up ---
+        const modal = document.getElementById('workModal');
+        const popImg = document.getElementById('popImg');
+        const popTitle = document.getElementById('popTitle');
+        const zoomArea = document.getElementById('zoomArea');
+
+        function openPop(src, title) {
+            popImg.src = src;
+            popTitle.innerText = title;
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePop() {
+            modal.classList.remove('active');
+            setTimeout(() => modal.style.display = 'none', 400);
+            document.body.style.overflow = 'auto';
+            popImg.style.transform = 'scale(1)';
+        }
+
+        // زووم تفاعلي
+        zoomArea.addEventListener('mousemove', (e) => {
+            if(window.innerWidth < 1025) return;
+            const { left, top, width, height } = zoomArea.getBoundingClientRect();
+            const x = ((e.clientX - left) / width) * 100;
+            const y = ((e.clientY - top) / height) * 100;
+            popImg.style.transformOrigin = `${x}% ${y}%`;
+            popImg.style.transform = "scale(2.5)";
+        });
+
+        zoomArea.addEventListener('mouseleave', () => {
+            popImg.style.transform = "scale(1)";
+        });
+
+        // --- ميزة تبديل الثيم ---
         function toggleTheme() {
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
@@ -306,20 +408,22 @@
             }
         }
 
-        // وضع التركيز
+        // --- ميزة وضع التركيز ---
         function toggleFocusMode() {
-            document.body.classList.toggle('focus-active');
+            const isActive = document.body.classList.toggle('focus-active');
+            document.getElementById('focus-status').innerText = isActive ? "إيقاف الوضع" : "تشغيل الوضع";
         }
 
-        // إدارة الألوان
         function updateSiteColor(color) {
             document.documentElement.style.setProperty('--primary', color);
             document.documentElement.style.setProperty('--primary-glow', color + '4d');
             localStorage.setItem('userThemeColor', color);
         }
 
-        // إدارة الماوس
+        // --- الماوس المخصص ---
         let currentCursorMode = localStorage.getItem('cursorMode') || 'arrow';
+        const cursorContainer = document.getElementById('cursor-container');
+        const isMobile = window.matchMedia("(max-width: 1024px)").matches;
 
         function setCursor(mode) {
             if (isMobile) return;
@@ -331,11 +435,9 @@
         }
 
         function renderCursor(mode) {
-            if (mode === 'lens') {
-                cursorContainer.innerHTML = '<div class="cursor-lens"></div>';
-            } else {
-                cursorContainer.innerHTML = `<svg class="cursor-arrow" viewBox="0 0 24 24"><path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" /></svg>`;
-            }
+            cursorContainer.innerHTML = mode === 'lens' ? 
+                '<div class="cursor-lens"></div>' : 
+                `<svg class="cursor-arrow" viewBox="0 0 24 24"><path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" /></svg>`;
         }
 
         if (!isMobile) {
@@ -344,23 +446,25 @@
             });
         }
 
+        // عند التحميل
         window.addEventListener('DOMContentLoaded', () => {
-            // استرجاع الثيم
             const savedTheme = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeUI(savedTheme);
 
-            // استرجاع اللون
             const savedColor = localStorage.getItem('userThemeColor');
-            if (savedColor) {
-                updateSiteColor(savedColor);
-                if(document.getElementById('fullColorPicker')) document.getElementById('fullColorPicker').value = savedColor;
-            }
+            if (savedColor) updateSiteColor(savedColor);
             
             setCursor(currentCursorMode);
         });
 
         document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
+        document.getElementById('mobile-menu-btn').onclick = () => {
+            document.getElementById('nav-menu').classList.toggle('active');
+        };
+        
+        // إغلاق المودال بالضغط خارج الكارت
+        modal.onclick = (e) => { if(e.target === modal) closePop(); };
     </script>
 </body>
 </html>
