@@ -216,8 +216,8 @@
         <ul class="nav-links" id="nav-menu">
             <li><a href="index.html">الرئيسية</a></li>
             <li><a href="works.html">أعمالي</a></li>
-            <li><a href="about.html">عني</a></li>
-            <li><a href="contact.html" class="active">تواصل معي</a></li>
+            <li><a href="about.html" class="active">عني</a></li>
+            <li><a href="contact.html">تواصل معي</a></li>
         </ul>
     </nav>
 
@@ -226,9 +226,7 @@
         <p style="color: var(--text-dim); margin-top: 10px;">نظرة عامة على المهارات الفنية، سنوات الخبرة والمشاريع الإبداعية.</p>
     </header>
 
-    <!-- 🌟 قسم النبذة والمجالات الاحترافية المرتّب والمعدّل بالكامل 🌟 -->
     <section class="info-summary-section" data-aos="fade-up">
-        <!-- بلوك النبذة التعريفية المحدثة -->
         <div class="info-block">
             <h2>لمحة سريعة عني</h2>
             <p>أنا مصمم جرافيك شغوف ومبتكر، أركز على تحويل الأفكار والـ Concepts الإبداعية إلى واقع بصري ملموس ومبهر يعزز هوية العلامات التجارية.</p>
@@ -244,7 +242,6 @@
             </div>
         </div>
 
-        <!-- بلوك التخصصات بالترتيب والمسميات الجديدة المطلوبة -->
         <div class="info-block">
             <h2>المجالات الإبداعية والتخصصات</h2>
             <p>خلال مسيرتي، تعمقت وتخصصت في عدة مسارات فنية لتقديم حلول بصرية متكاملة واحترافية:</p>
@@ -335,24 +332,4 @@
             });
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeUI(savedTheme);
-
-            const savedColor = localStorage.getItem('userThemeColor');
-            if (savedColor) {
-                updateSiteColor(savedColor);
-                if(document.getElementById('fullColorPicker')) document.getElementById('fullColorPicker').value = savedColor;
-            }
-            
-            setCursor(currentCursorMode);
-        });
-
-        document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
-        document.getElementById('mobile-menu-btn').onclick = () => {
-            document.getElementById('nav-menu').classList.toggle('active');
-        };
-    </script>
-</body>
-</html>
+        window.
