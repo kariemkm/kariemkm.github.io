@@ -3,26 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kareem | About Me</title>
+    <title>Kareem Portfolio | About Me</title>
     
-    <link rel="icon" type="image/png" href="LAST/logo"> 
+    <!-- إجبار المتصفح على طلب أحجام كبيرة وعالية الدقة من الأيقونة لتبدو واضحة وبأقصى حجم متاح -->
+    <link rel="icon" type="image/png" sizes="192x192" href="./LAST/logo.png?v=2.0">
+    <link rel="icon" type="image/png" sizes="96x96" href="./LAST/logo.png?v=2.0">
+    <link rel="icon" type="image/png" sizes="48x48" href="./LAST/logo.png?v=2.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="./LAST/logo.png?v=2.0">
+    <link rel="shortcut icon" type="image/x-icon" href="./LAST/logo.png?v=2.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="./LAST/logo.png?v=2.0">
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* المتغيرات الأساسية */
+        /* المتغيرات الأساسية (الوضع الداكن هو الافتراضي) */
         :root {
             --bg: #030303;
             --primary: #a020f0;
             --primary-glow: rgba(160, 32, 240, 0.3);
             --text-main: #ffffff;
             --text-dim: #888;
-            --nav-bg: rgba(3, 3, 3, 0.85);
-            --nav-height: 80px;
-            --card-bg: #080808;
+            --nav-bg: rgba(3, 3, 3, 0.9);
+            --nav-height: 90px; 
+            --card-bg: #0a0a0a;
             --item-bg: #0d0d0d;
-            --border-color: #151515;
+            --border-color: rgba(160, 32, 240, 0.1);
         }
 
         /* متغيرات الوضع الفاتح */
@@ -30,10 +36,26 @@
             --bg: #f5f5f5;
             --text-main: #1a1a1a;
             --text-dim: #555;
-            --nav-bg: rgba(245, 245, 245, 0.85);
+            --nav-bg: rgba(245, 245, 245, 0.9);
             --card-bg: #ffffff;
             --item-bg: #eeeeee;
             --border-color: #dddddd;
+        }
+
+        /* وضع التركيز (Focus Mode) */
+        body.focus-active .about-content h1,
+        body.focus-active .about-content p,
+        body.focus-active .stats-grid,
+        body.focus-active footer,
+        body.focus-active nav,
+        body.focus-active .settings-panel {
+            opacity: 0.05;
+            filter: blur(8px);
+            pointer-events: none;
+        }
+        body.focus-active .skills-container {
+            border-color: var(--primary);
+            box-shadow: 0 0 40px var(--primary-glow);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, color 0.3s; }
@@ -50,7 +72,7 @@
             overflow-x: hidden;
         }
 
-        /* --- نظام الماوس --- */
+        /* --- الماوس الموحد --- */
         #cursor-container {
             position: fixed;
             top: 0; left: 0;
@@ -60,19 +82,18 @@
             display: none;
         }
         .cursor-lens {
-            width: 55px; height: 55px;
+            width: 50px; height: 50px;
             border: 2px solid var(--text-main);
             border-radius: 50%;
             mix-blend-mode: difference;
-            background: rgba(255, 255, 255, 0.1);
         }
-        .cursor-arrow { width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--primary)); }
+        .cursor-arrow { width: 35px; height: 35px; filter: drop-shadow(0 0 8px var(--primary)); }
         #cursor-path { fill: var(--primary); stroke: #fff; stroke-width: 1.5px; }
 
-        /* --- الهيدر --- */
+        /* --- شريط التنقل الموحد --- */
         nav {
             height: var(--nav-height);
-            padding: 0 8%;
+            padding: 0 4%; 
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -84,54 +105,77 @@
             border-bottom: 1px solid rgba(160, 32, 240, 0.2);
         }
 
-        .logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .logo-img-mask {
-            width: 35px; height: 35px; background-color: var(--primary);
-            -webkit-mask: url('LAST/logo') no-repeat center/contain;
-            mask: url('LAST/logo') no-repeat center/contain;
+        .logo-container { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            text-decoration: none;
         }
-        .logo-text { font-size: 1.2rem; font-weight: 900; color: var(--text-main); letter-spacing: 1px; }
+        
+        .logo-img {
+            display: block !important;
+            height: 65px; 
+            width: auto;
+            max-width: 260px; 
+            object-fit: contain;
+        }
 
-        .nav-links { display: flex; gap: 25px; list-style: none; }
-        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: 0.3s; opacity: 0.7; }
-        .nav-links a:hover, .nav-links a.active { color: var(--primary); opacity: 1; }
+        .logo-text { 
+            font-size: 1.3rem; 
+            font-weight: 900; 
+            color: var(--text-main); 
+            letter-spacing: 0.5px;
+            white-space: nowrap; 
+        }
+
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 1rem; font-weight: 600; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
 
         .menu-toggle { display: none; font-size: 1.5rem; color: var(--primary); cursor: pointer; }
 
         /* --- قسم عني --- */
         .about-hero {
             min-height: 100vh;
-            padding: calc(var(--nav-height) + 60px) 8% 60px;
+            padding: calc(var(--nav-height) + 40px) 4% 60px;
             display: grid;
             grid-template-columns: 1.2fr 0.8fr;
-            gap: 60px;
+            gap: 50px;
             align-items: center;
-            background: radial-gradient(circle at 0% 0%, var(--primary-glow) 0%, var(--bg) 50%);
+            background: radial-gradient(circle at 0% 0%, var(--primary-glow) 0%, var(--bg) 60%);
         }
 
-        .about-content h1 { font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 900; line-height: 1.1; margin-bottom: 25px; }
-        .about-content p { font-size: 1.1rem; color: var(--text-dim); margin-bottom: 25px; max-width: 600px; text-align: justify; }
+        .about-content h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.2; margin-bottom: 25px; }
+        .about-content p { font-size: 1.05rem; color: var(--text-dim); margin-bottom: 20px; max-width: 650px; text-align: justify; }
         
-        .stats-grid { display: flex; gap: 40px; margin: 40px 0; }
-        .stat-box h3 { font-size: 2.5rem; color: var(--primary); font-weight: 900; }
-        .stat-box p { font-size: 0.8rem; letter-spacing: 1px; color: var(--text-dim); text-transform: uppercase; margin: 0; }
+        .stats-grid { display: flex; gap: 50px; margin: 35px 0; }
+        .stat-box h3 { font-size: 2.8rem; color: var(--primary); font-weight: 900; line-height: 1; }
+        .stat-box p { font-size: 0.85rem; color: var(--text-dim); margin-top: 5px; }
 
-        /* --- المهارات --- */
-        .skills-container { background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border-color); }
-        .skills-container h2 { margin-bottom: 25px; font-size: 1.5rem; border-right: 4px solid var(--primary); padding-right: 15px; }
+        /* --- بطاقة المهارات --- */
+        .skills-container { 
+            background: var(--card-bg); 
+            padding: 40px; 
+            border-radius: 20px; 
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: border-color 0.4s, box-shadow 0.4s;
+        }
+        .skills-container h2 { margin-bottom: 25px; font-size: 1.4rem; border-right: 4px solid var(--primary); padding-right: 15px; }
         .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         .skill-item {
-            padding: 12px;
+            padding: 14px;
             background: var(--item-bg);
             border: 1px solid var(--border-color);
             border-radius: 10px;
             text-align: center;
             font-size: 0.9rem;
-            transition: 0.3s;
+            font-weight: 500;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .skill-item:hover { border-color: var(--primary); background: var(--primary-glow); transform: scale(1.05); }
+        .skill-item:hover { border-color: var(--primary); background: var(--primary-glow); transform: translateY(-3px); }
 
-        /* --- لوحة الإعدادات المدمجة --- */
+        /* --- لوحة التحكم الموحدة --- */
         .settings-panel {
             position: fixed; left: -260px; top: 50%; transform: translateY(-50%);
             width: 260px; background: var(--card-bg); border: 1px solid var(--primary);
@@ -160,9 +204,10 @@
                 border-left: 1px solid var(--primary);
             }
             .nav-links.active { right: 0; }
-            .about-hero { grid-template-columns: 1fr; text-align: center; padding-top: 120px; }
+            .about-hero { grid-template-columns: 1fr; text-align: center; padding-top: calc(var(--nav-height) + 40px); gap: 40px; }
             .about-content p { margin-left: auto; margin-right: auto; }
             .stats-grid { justify-content: center; }
+            .skills-container h2 { text-align: right; }
         }
 
         footer { padding: 40px; text-align: center; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border-color); }
@@ -187,7 +232,7 @@
         <div class="setting-row">
             <label style="font-size: 0.75rem; color: var(--text-dim);">وضع التركيز:</label>
             <button class="setting-btn" onclick="toggleFocusMode()">
-                <span>تشغيل الوضع</span>
+                <span id="focus-status">تشغيل الوضع</span>
                 <i class="fas fa-eye-slash"></i>
             </button>
         </div>
@@ -206,12 +251,10 @@
 
     <nav>
         <a href="index.html" class="logo-container">
-            <div class="logo-img-mask"></div>
-            <span class="logo-text">KAREEM<span style="color: var(--primary);">.DSGN</span></span>
+            <img src="LAST/logo.png" alt="Kareem Logo" class="logo-img">
+            <span class="logo-text">Kareem <span style="color: var(--primary);">Portfolio</span></span>
         </a>
-        
         <div class="menu-toggle" id="mobile-menu-btn"><i class="fas fa-bars"></i></div>
-
         <ul class="nav-links" id="nav-menu">
             <li><a href="index.html">الرئيسية</a></li>
             <li><a href="works.html">أعمالي</a></li>
@@ -288,9 +331,23 @@
             }
         }
 
-        // وضع التركيز
+        // وضع التركيز (Focus Mode) التفاعلي الكامل
+        let isFocusActive = false;
         function toggleFocusMode() {
-            alert("! هذا الوضع مخصص لصفحة المعرض لتركيز الانتباه على التصاميم");
+            isFocusActive = !isFocusActive;
+            document.body.classList.toggle('focus-active');
+            const statusText = document.getElementById('focus-status');
+            statusText.innerText = isFocusActive ? "إلغاء وضع التركيز" : "تشغيل الوضع";
+            
+            if(isFocusActive) {
+                const escHandler = (e) => {
+                    if (e.key === 'Escape') {
+                        toggleFocusMode();
+                        document.removeEventListener('keydown', escHandler);
+                    }
+                };
+                document.addEventListener('keydown', escHandler);
+            }
         }
 
         // تحديث الألوان
@@ -326,7 +383,7 @@
             });
         }
 
-        // تحميل الإعدادات المحفوظة
+        // تحميل الإعدادات المحفوظة عند فتح الصفحة
         window.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
