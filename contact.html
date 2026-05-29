@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kareem Portfolio | My Works</title>
+    <title>Kareem Portfolio | Contact Me</title>
     
+    <!-- إجبار المتصفح على طلب أحجام كبيرة وعالية الدقة من الأيقونة لتبدو واضحة وبأقصى حجم متاح -->
     <link rel="icon" type="image/png" sizes="192x192" href="./LAST/logo.png?v=2.0">
     <link rel="icon" type="image/png" sizes="96x96" href="./LAST/logo.png?v=2.0">
     <link rel="icon" type="image/png" sizes="48x48" href="./LAST/logo.png?v=2.0">
@@ -23,12 +24,12 @@
             --primary-glow: rgba(160, 32, 240, 0.3);
             --card-bg: #0a0a0a;
             --item-bg: #0d0d0d;
+            --input-bg: #111111;
             --text-main: #ffffff;
             --text-dim: #888;
             --nav-bg: rgba(3, 3, 3, 0.9);
             --nav-height: 90px;
             --border-color: rgba(160, 32, 240, 0.1);
-            --modal-overlay: rgba(0, 0, 0, 0.9);
         }
 
         /* متغيرات الوضع الفاتح */
@@ -39,13 +40,13 @@
             --nav-bg: rgba(245, 245, 245, 0.9);
             --card-bg: #ffffff;
             --item-bg: #eeeeee;
+            --input-bg: #fdfdfd;
             --border-color: #dddddd;
-            --modal-overlay: rgba(255, 255, 255, 0.95);
         }
 
         /* --- وضع التركيز المطور (Focus Mode) --- */
-        body.focus-active .works-header, 
-        body.focus-active .card-info,
+        body.focus-active .contact-header, 
+        body.focus-active .social-grid,
         body.focus-active footer,
         body.focus-active nav,
         body.focus-active .settings-panel {
@@ -53,10 +54,10 @@
             filter: blur(8px);
             pointer-events: none;
         }
-        body.focus-active .work-section { padding-top: 20px; }
-        body.focus-active .card { 
+        body.focus-active .contact-section { padding-top: 20px; }
+        body.focus-active .contact-card { 
             border-color: var(--primary); 
-            box-shadow: 0 0 30px var(--primary-glow);
+            box-shadow: 0 0 35px var(--primary-glow);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
@@ -90,53 +91,6 @@
         }
         .cursor-arrow { width: 35px; height: 35px; filter: drop-shadow(0 0 8px var(--primary)); }
         #cursor-path { fill: var(--primary); stroke: #fff; stroke-width: 1.5px; }
-
-        /* --- استايلات الـ Pop-up --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--modal-overlay); backdrop-filter: blur(15px);
-            z-index: 20000; display: none; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 0.4s ease;
-        }
-        .modal-overlay.active { display: flex; opacity: 1; }
-        
-        .modal-card {
-            position: relative; width: 90%; max-width: 1100px; height: 80vh;
-            background: var(--card-bg); border-radius: 20px; overflow: hidden;
-            display: flex; border: 1px solid var(--primary-glow);
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-        }
-
-        .modal-img-container {
-            flex: 2; position: relative; overflow: hidden; background: #000;
-            cursor: crosshair; display: flex; align-items: center; justify-content: center;
-        }
-        .modal-img-container img {
-            max-width: 100%; max-height: 100%; object-fit: contain;
-            transition: transform 0.1s ease-out; transform-origin: center;
-        }
-
-        .modal-details {
-            flex: 1; padding: 40px; display: flex; flex-direction: column;
-            justify-content: center; border-right: 1px solid rgba(160,32,240,0.1);
-        }
-        .modal-details h2 { font-size: 2rem; color: var(--primary); margin-bottom: 15px; }
-        .modal-details p { color: var(--text-dim); margin-bottom: 25px; }
-        
-        .modal-close-btn {
-            position: absolute; top: 20px; right: 20px; width: 45px; height: 45px;
-            background: var(--primary); color: white; border: none; border-radius: 50%;
-            cursor: pointer; z-index: 20001; display: flex; align-items: center;
-            justify-content: center; font-size: 1.2rem; transition: 0.3s;
-            box-shadow: 0 0 15px var(--primary-glow);
-        }
-        .modal-close-btn:hover { transform: rotate(90deg) scale(1.1); }
-
-        @media (max-width: 900px) {
-            .modal-card { flex-direction: column; height: 90vh; width: 95%; }
-            .modal-details { padding: 20px; order: 2; }
-            .modal-img-container { flex: 1.5; order: 1; }
-        }
 
         /* --- شريط التنقل الموحد --- */
         nav {
@@ -183,42 +137,103 @@
         .menu-toggle { display: none; font-size: 1.5rem; color: var(--primary); cursor: pointer; }
 
         /* --- الهيدر --- */
-        .works-header { 
+        .contact-header { 
             padding: calc(var(--nav-height) + 40px) 4% 30px; 
             text-align: right;
             background: linear-gradient(to bottom, var(--primary-glow) 0%, var(--bg) 100%);
         }
-        .works-header h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); font-weight: 900; line-height: 1.2; }
+        .contact-header h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); font-weight: 900; line-height: 1.2; }
 
-        /* --- الجريد --- */
-        .work-section { padding: 20px 4% 100px; }
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-            gap: 25px; 
+        /* --- قسم التواصل والـ Form --- */
+        .contact-section { padding: 20px 4% 100px; display: flex; flex-direction: column; align-items: center; gap: 50px; }
+        
+        .contact-card {
+            width: 100%;
+            max-width: 700px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: 0.4s ease;
         }
+        .contact-card:hover { border-color: var(--primary); box-shadow: 0 15px 35px var(--primary-glow); }
 
-        .card { 
-            background: var(--card-bg); 
-            border-radius: 15px; 
-            overflow: hidden; 
-            border: 1px solid var(--border-color); 
-            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        .form-group { margin-bottom: 25px; position: relative; }
+        .form-group label { display: block; font-size: 0.9rem; margin-bottom: 8px; color: var(--text-main); font-weight: 600; }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 15px 20px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s ease;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+        .form-group textarea { resize: vertical; min-height: 150px; }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
             cursor: pointer;
+            box-shadow: 0 4px 15px var(--primary-glow);
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .card:hover { 
-            border-color: var(--primary); 
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px var(--primary-glow);
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px var(--primary);
+            background: #b23bf7;
         }
 
-        .image-box { aspect-ratio: 3/4; background: #111; overflow: hidden; }
-        .image-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s ease; opacity: 0.9; }
-        .card:hover img { transform: scale(1.1); opacity: 1; }
+        /* --- شبكة منصات التواصل الاجتماعي --- */
+        .social-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 700px;
+        }
+        .social-item {
+            flex: 1;
+            min-width: 130px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: 0.4s ease;
+        }
+        .social-item i { font-size: 2rem; margin-bottom: 10px; display: block; transition: 0.3s; }
+        .social-item span { font-size: 0.85rem; font-weight: 600; display: block; color: var(--text-dim); }
+        
+        /* ألوان النيون التفاعلية لكل منصة بشكل منفصل عند الـ Hover */
+        .social-item.instagram:hover { border-color: #e1306c; box-shadow: 0 0 20px rgba(225,48,108,0.3); }
+        .social-item.instagram:hover i { color: #e1306c; transform: scale(1.1); }
+        
+        .social-item.behance:hover { border-color: #0057ff; box-shadow: 0 0 20px rgba(0,87,255,0.3); }
+        .social-item.behance:hover i { color: #0057ff; transform: scale(1.1); }
 
-        .card-info { padding: 20px; text-align: center; border-top: 1px solid rgba(160,32,240,0.05); }
-        .card-info h3 { font-size: 1rem; color: var(--text-main); margin-bottom: 5px; }
-        .card-info p { font-size: 0.8rem; color: var(--text-dim); }
+        .social-item.pinterest:hover { border-color: #bd081c; box-shadow: 0 0 20px rgba(189,8,28,0.3); }
+        .social-item.pinterest:hover i { color: #bd081c; transform: scale(1.1); }
+
+        .social-item.whatsapp:hover { border-color: #25d366; box-shadow: 0 0 20px rgba(37,211,102,0.3); }
+        .social-item.whatsapp:hover i { color: #25d366; transform: scale(1.1); }
 
         /* --- لوحة التحكم الموحدة --- */
         .settings-panel {
@@ -248,8 +263,8 @@
                 border-left: 1px solid var(--primary);
             }
             .nav-links.active { right: 0; }
-            .grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
-            .works-header { text-align: center; }
+            .contact-header { text-align: center; }
+            .contact-card { padding: 25px 20px; }
         }
 
         footer { padding: 40px; text-align: center; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border-color); }
@@ -258,23 +273,6 @@
 <body>
 
     <div id="cursor-container"></div>
-
-    <div class="modal-overlay" id="workModal">
-        <button class="modal-close-btn" onclick="closePop()"><i class="fas fa-times"></i></button>
-        <div class="modal-card" data-aos="zoom-in">
-            <div class="modal-img-container" id="zoomArea">
-                <img src="" id="popImg" alt="Detail View">
-            </div>
-            <div class="modal-details">
-                <h2 id="popTitle">اسم العمل</h2>
-                <p>تصميم جرافيك احترافي يركز على التفاصيل الدقيقة واستخدام الإضاءة بشكل فني لإبراز جودة العمل النهائي.</p>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <span style="padding: 5px 15px; background: var(--primary-glow); border: 1px solid var(--primary); border-radius: 20px; font-size: 0.8rem;">Photoshop</span>
-                    <span style="padding: 5px 15px; background: var(--primary-glow); border: 1px solid var(--primary); border-radius: 20px; font-size: 0.8rem;">Blender</span>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
@@ -316,19 +314,57 @@
         <div class="menu-toggle" id="mobile-menu-btn"><i class="fas fa-bars"></i></div>
         <ul class="nav-links" id="nav-menu">
             <li><a href="index.html">الرئيسية</a></li>
-            <li><a href="works.html" class="active">أعمالي</a></li>
+            <li><a href="works.html">أعمالي</a></li>
             <li><a href="about.html">عني</a></li>
-            <li><a href="contact.html">تواصل معي</a></li>
+            <li><a href="contact.html" class="active">تواصل معي</a></li>
         </ul>
     </nav>
 
-    <header class="works-header">
-        <h1 data-aos="fade-left">MY <span style="color: var(--primary);">PROJECTS</span></h1>
-        <p style="color: var(--text-dim); margin-top: 10px;">معرض التصاميم المختارة بعناية لتحويل الأفكار إلى واقع بصرى.</p>
+    <header class="contact-header">
+        <h1 data-aos="fade-left">LET'S <span style="color: var(--primary);">TALK</span></h1>
+        <p style="color: var(--text-dim); margin-top: 10px;">لديك فكرة مشروع مميزة؟ لنبدأ العمل معاً ونصنع شيئاً مذهلاً.</p>
     </header>
 
-    <section class="work-section">
-        <div class="grid" id="projectsGrid"></div>
+    <section class="contact-section">
+        <!-- كارت فورم المراسلة -->
+        <div class="contact-card" data-aos="zoom-in">
+            <form id="contactForm" onsubmit="event.preventDefault(); alert('تم إرسال رسالتك بنجاح يا كريم!');">
+                <div class="form-group">
+                    <label>الاسم الكامل</label>
+                    <input type="text" placeholder="اكتب اسمك الكريم هنا..." required>
+                </div>
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" placeholder="example@domain.com" required>
+                </div>
+                <div class="form-group">
+                    <label>تفاصيل الرسالة</label>
+                    <textarea placeholder="اشرح فكرتك أو مشروعك بالتفصيل هنا..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i></button>
+            </form>
+        </div>
+
+        <!-- شبكة قنوات التواصل الاجتماعي -->
+        <div class="social-grid" data-aos="fade-up" data-aos-delay="200">
+            <!-- ضع الروابط الخاصة بك بداخل الـ href بدلاً من # -->
+            <a href="#" target="_blank" class="social-item instagram">
+                <i class="fab fa-instagram"></i>
+                <span>انستغرام</span>
+            </a>
+            <a href="#" target="_blank" class="social-item behance">
+                <i class="fab fa-behance"></i>
+                <span>بيهانس</span>
+            </a>
+            <a href="#" target="_blank" class="social-item pinterest">
+                <i class="fab fa-pinterest"></i>
+                <span>بينتريست</span>
+            </a>
+            <a href="#" target="_blank" class="social-item whatsapp">
+                <i class="fab fa-whatsapp"></i>
+                <span>واتساب</span>
+            </a>
+        </div>
     </section>
 
     <footer><p>© 2026 KAREEM DESIGN. All Rights Reserved.</p></footer>
@@ -336,65 +372,6 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
-
-        const images = [
-            "LAST/Green HoOdy design 2.jpg", "LAST/hoodie design.jpg", "LAST/My pack-051.jpg",
-            "LAST/Orange juice.jpg", "LAST/SHOES1.jpg", "LAST/burber.jpg",
-            "LAST/burger 2.jpg", "LAST/competition 1.jpg", "LAST/eid adha 2025.jpg",
-            "LAST/eid farha 2026.jpg", "LAST/eid farha(1).jpg", "LAST/fanta ad-Recovered.jpg",
-            "LAST/fanta ad2.jpg", "LAST/nike ad.jpg", "LAST/nike yellow shoes.jpg",
-            "LAST/nike.jpg", "LAST/ramdan 2026.jpg", "LAST/ramdan 2026 2.jpg",
-            "LAST/ramdan 2026 3.jpg", "LAST/ramdan 2026 4.jpg", "LAST/ramdan 2026 5.jpg",
-            "LAST/spark energy drink.jpg", "LAST/v7 ad ثيهف 2.jpg"
-        ];
-
-        const grid = document.getElementById('projectsGrid');
-        images.forEach((src, index) => {
-            const fileName = src.split('/').pop().split('.')[0].replace(/%20/g, ' ');
-            grid.innerHTML += `
-                <div class="card" data-aos="fade-up" data-aos-delay="${(index % 3) * 100}" onclick="openPop('${src}', '${fileName}')">
-                    <div class="image-box"><img src="${src}" alt="${fileName}" loading="lazy"></div>
-                    <div class="card-info">
-                        <h3>${fileName}</h3>
-                        <p>GRAPHIC DESIGN</p>
-                    </div>
-                </div>`;
-        });
-
-        // --- ميكانيكية الـ Pop-up ---
-        const modal = document.getElementById('workModal');
-        const popImg = document.getElementById('popImg');
-        const popTitle = document.getElementById('popTitle');
-        const zoomArea = document.getElementById('zoomArea');
-
-        function openPop(src, title) {
-            popImg.src = src;
-            popTitle.innerText = title;
-            modal.style.display = 'flex';
-            setTimeout(() => modal.classList.add('active'), 10);
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closePop() {
-            modal.classList.remove('active');
-            setTimeout(() => modal.style.display = 'none', 400);
-            document.body.style.overflow = 'auto';
-            popImg.style.transform = 'scale(1)';
-        }
-
-        // زووم تفاعلي
-        zoomArea.addEventListener('mousemove', (e) => {
-            if(window.innerWidth < 1025) return;
-            const { left, top, width, height } = zoomArea.getBoundingClientRect();
-            const x = ((e.clientX - left) / width) * 100;
-            const y = ((e.clientY - top) / height) * 100;
-            popImg.style.transformOrigin = `${x}% ${y}%`;
-            popImg.style.transform = "scale(2.5)";
-        });
-
-        zoomArea.addEventListener('mouseleave', () => {
-            popImg.style.transform = "scale(1)";
-        });
 
         // --- ميزة تبديل الثيم ---
         function toggleTheme() {
@@ -446,6 +423,7 @@
         // --- الماوس المخصص الموحد ---
         let currentCursorMode = localStorage.getItem('cursorMode') || 'arrow';
         const cursorContainer = document.getElementById('cursor-container');
+        const isMobile = window.matchMedia("(max-width: 1024px)").matches;
 
         function setCursor(mode) {
             if (isMobile) return;
@@ -487,4 +465,8 @@
 
         document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
         document.getElementById('mobile-menu-btn').onclick = () => {
-            document.getElementById('
+            document.getElementById('nav-menu').classList.toggle('active');
+        };
+    </script>
+</body>
+</html>
