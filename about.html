@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kareem Portfolio | About Me</title>
+    <title>Kareem Portfolio | Contact Me</title>
     
-    <!-- إجبار المتصفح على طلب أحجام كبيرة وعالية الدقة من الأيقونة لتبدو واضحة وبأقصى حجم متاح -->
     <link rel="icon" type="image/png" sizes="192x192" href="./LAST/logo.png?v=2.0">
     <link rel="icon" type="image/png" sizes="96x96" href="./LAST/logo.png?v=2.0">
     <link rel="icon" type="image/png" sizes="48x48" href="./LAST/logo.png?v=2.0">
@@ -22,12 +21,13 @@
             --bg: #030303;
             --primary: #a020f0;
             --primary-glow: rgba(160, 32, 240, 0.3);
+            --card-bg: #0a0a0a;
+            --item-bg: #0d0d0d;
+            --input-bg: #111111;
             --text-main: #ffffff;
             --text-dim: #888;
             --nav-bg: rgba(3, 3, 3, 0.9);
-            --nav-height: 90px; 
-            --card-bg: #0a0a0a;
-            --item-bg: #0d0d0d;
+            --nav-height: 90px;
             --border-color: rgba(160, 32, 240, 0.1);
         }
 
@@ -39,26 +39,28 @@
             --nav-bg: rgba(245, 245, 245, 0.9);
             --card-bg: #ffffff;
             --item-bg: #eeeeee;
+            --input-bg: #fdfdfd;
             --border-color: #dddddd;
         }
 
-        /* وضع التركيز (Focus Mode) */
-        body.focus-active .about-content h1,
-        body.focus-active .about-content p,
-        body.focus-active .stats-grid,
+        /* --- وضع التركيز المطور (Focus Mode) --- */
+        body.focus-active .contact-header, 
+        body.focus-active .social-grid,
         body.focus-active footer,
         body.focus-active nav,
-        body.focus-active .settings-panel {
+        body.focus-active .settings-panel,
+        body.focus-active .info-summary-section {
             opacity: 0.05;
             filter: blur(8px);
             pointer-events: none;
         }
-        body.focus-active .skills-container {
-            border-color: var(--primary);
-            box-shadow: 0 0 40px var(--primary-glow);
+        body.focus-active .contact-section { padding-top: 20px; }
+        body.focus-active .contact-card { 
+            border-color: var(--primary); 
+            box-shadow: 0 0 35px var(--primary-glow);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, color 0.3s; }
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
         
         @media (min-width: 1025px) {
             html.custom-cursor-active, html.custom-cursor-active * { cursor: none !important; }
@@ -72,7 +74,7 @@
             overflow-x: hidden;
         }
 
-        /* --- الماوس الموحد --- */
+        /* --- المؤشر الموحد بدقة --- */
         #cursor-container {
             position: fixed;
             top: 0; left: 0;
@@ -134,80 +136,133 @@
 
         .menu-toggle { display: none; font-size: 1.5rem; color: var(--primary); cursor: pointer; }
 
-        /* --- قسم عني --- */
-        .about-hero {
-            min-height: 100vh;
-            padding: calc(var(--nav-height) + 40px) 4% 60px;
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 50px;
-            align-items: center;
-            background: radial-gradient(circle at 0% 0%, var(--primary-glow) 0%, var(--bg) 60%);
+        /* --- الهيدر --- */
+        .contact-header { 
+            padding: calc(var(--nav-height) + 40px) 4% 30px; 
+            text-align: right;
+            background: linear-gradient(to bottom, var(--primary-glow) 0%, var(--bg) 100%);
         }
+        .contact-header h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); font-weight: 900; line-height: 1.2; }
 
-        .about-content h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.2; margin-bottom: 25px; }
-        .about-content p { font-size: 1.05rem; color: var(--text-dim); margin-bottom: 20px; max-width: 650px; text-align: justify; }
+        /* --- قسم معلومات الأداء والخبرة --- */
+        .info-summary-section { padding: 40px 4% 10px; width: 100%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .info-block { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 30px; }
+        .info-block h2 { font-size: 1.4rem; color: var(--primary); margin-bottom: 15px; font-weight: 800; }
+        .info-block p { color: var(--text-main); font-size: 1.05rem; margin-bottom: 10px; }
         
-        .stats-grid { display: flex; gap: 50px; margin: 35px 0; }
-        .stat-box h3 { font-size: 2.8rem; color: var(--primary); font-weight: 900; line-height: 1; }
-        .stat-box p { font-size: 0.85rem; color: var(--text-dim); margin-top: 5px; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px; }
+        .stat-box { background: var(--item-bg); border-radius: 10px; padding: 20px; text-align: center; border: 1px solid rgba(160, 32, 240, 0.05); }
+        .stat-box .num { font-size: 2rem; font-weight: 900; color: var(--primary); display: block; }
+        .stat-box .lbl { font-size: 0.85rem; color: var(--text-dim); font-weight: 600; }
 
-        /* --- بطاقة المهارات --- */
-        .skills-container { 
-            background: var(--card-bg); 
-            padding: 40px; 
-            border-radius: 20px; 
+        .fields-tags { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 15px; }
+        .field-tag { background: var(--item-bg); color: var(--text-main); padding: 10px 18px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; border: 1px solid var(--border-color); }
+
+        /* --- قسم التواصل والـ Form --- */
+        .contact-section { padding: 20px 4% 100px; display: flex; flex-direction: column; align-items: center; gap: 50px; }
+        
+        .contact-card {
+            width: 100%;
+            max-width: 700px;
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: border-color 0.4s, box-shadow 0.4s;
+            transition: 0.4s ease;
         }
-        .skills-container h2 { margin-bottom: 25px; font-size: 1.4rem; border-right: 4px solid var(--primary); padding-right: 15px; }
-        .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .skill-item {
-            padding: 14px;
-            background: var(--item-bg);
+        .contact-card:hover { border-color: var(--primary); box-shadow: 0 15px 35px var(--primary-glow); }
+
+        .form-group { margin-bottom: 25px; position: relative; }
+        .form-group label { display: block; font-size: 0.9rem; margin-bottom: 8px; color: var(--text-main); font-weight: 600; }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 15px 20px;
+            background: var(--input-bg);
             border: 1px solid var(--border-color);
             border-radius: 10px;
-            text-align: center;
-            font-size: 0.9rem;
-            font-weight: 500;
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s ease;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+        .form-group textarea { resize: vertical; min-height: 150px; }
+
+        /* ستايل حقل مصيدة السبام (Honeypot) */
+        .hidden-honeypot { display: none !important; visibility: hidden !important; }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px var(--primary-glow);
             transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .skill-item:hover { border-color: var(--primary); background: var(--primary-glow); transform: translateY(-3px); }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px var(--primary); background: #b23bf7; }
+        .submit-btn:disabled { background: #555; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* --- بوب أب النجاح النيون --- */
+        .popup-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none;
+            z-index: 20000;
+            transition: opacity 0.4s ease;
+        }
+        .popup-overlay.active { opacity: 1; pointer-events: auto; }
+        .popup-box {
+            background: var(--card-bg); border: 2px solid var(--primary); padding: 40px 30px; border-radius: 20px; text-align: center; max-width: 450px; width: 90%; box-shadow: 0 10px 40px var(--primary-glow); transform: scale(0.7); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .popup-overlay.active .popup-box { transform: scale(1); }
+        .popup-box i { font-size: 3.8rem; color: var(--primary); margin-bottom: 20px; display: inline-block; }
+        .popup-box h3 { font-size: 1.6rem; margin-bottom: 12px; color: var(--text-main); font-weight: 800; }
+        .popup-box p { color: var(--text-dim); font-size: 1rem; margin-bottom: 25px; line-height: 1.6; }
+        .popup-close-btn { background: var(--primary); color: #fff; border: none; padding: 12px 35px; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.3s ease; box-shadow: 0 4px 15px var(--primary-glow); }
+        .popup-close-btn:hover { background: #b23bf7; transform: translateY(-2px); box-shadow: 0 6px 20px var(--primary); }
+
+        /* --- شبكة منصات التواصل الاجتماعي --- */
+        .social-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; width: 100%; max-width: 700px; }
+        .social-item { flex: 1; min-width: 130px; background: var(--card-bg); border: 1px solid var(--border-color); padding: 20px; border-radius: 15px; text-align: center; text-decoration: none; color: var(--text-main); transition: 0.4s ease; }
+        .social-item i { font-size: 2rem; margin-bottom: 10px; display: block; transition: 0.3s; }
+        .social-item span { font-size: 0.85rem; font-weight: 600; display: block; color: var(--text-dim); }
+        
+        .social-item.instagram:hover { border-color: #e1306c; box-shadow: 0 0 20px rgba(225,48,108,0.3); }
+        .social-item.instagram:hover i { color: #e1306c; transform: scale(1.1); }
+        .social-item.behance:hover { border-color: #0057ff; box-shadow: 0 0 20px rgba(0,87,255,0.3); }
+        .social-item.behance:hover i { color: #0057ff; transform: scale(1.1); }
+        .social-item.pinterest:hover { border-color: #bd081c; box-shadow: 0 0 20px rgba(189,8,28,0.3); }
+        .social-item.pinterest:hover i { color: #bd081c; transform: scale(1.1); }
+        .social-item.whatsapp:hover { border-color: #25d366; box-shadow: 0 0 20px rgba(37,211,102,0.3); }
+        .social-item.whatsapp:hover i { color: #25d366; transform: scale(1.1); }
 
         /* --- لوحة التحكم الموحدة --- */
-        .settings-panel {
-            position: fixed; left: -260px; top: 50%; transform: translateY(-50%);
-            width: 260px; background: var(--card-bg); border: 1px solid var(--primary);
-            padding: 20px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
+        .settings-panel { position: fixed; left: -260px; top: 50%; transform: translateY(-50%); width: 260px; background: var(--card-bg); border: 1px solid var(--primary); padding: 20px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
         .settings-panel.active { left: 0; }
-        #settingsToggle {
-            position: absolute; right: -40px; top: 0; width: 40px; height: 40px;
-            background: var(--primary); border: none; color: white; border-radius: 0 8px 8px 0;
-            cursor: pointer;
-        }
+        #settingsToggle { position: absolute; right: -40px; top: 0; width: 40px; height: 40px; background: var(--primary); border: none; color: white; border-radius: 0 8px 8px 0; cursor: pointer; }
         .setting-row { margin-bottom: 15px; }
-        .setting-btn {
-            width: 100%; padding: 8px; background: rgba(160,32,240,0.1); 
-            border: 1px solid var(--primary); color: var(--text-main);
-            border-radius: 5px; cursor: pointer; font-size: 0.8rem;
-            display: flex; justify-content: space-between; align-items: center;
-        }
+        .setting-btn { width: 100%; padding: 8px; background: rgba(160,32,240,0.1); border: 1px solid var(--primary); color: var(--text-main); border-radius: 5px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; }
 
         @media (max-width: 1024px) {
             .menu-toggle { display: block; }
-            .nav-links {
-                position: fixed; top: var(--nav-height); right: -100%; width: 80%; height: 100vh;
-                background: var(--bg); flex-direction: column; padding: 50px 30px; transition: 0.4s;
-                border-left: 1px solid var(--primary);
-            }
+            .nav-links { position: fixed; top: var(--nav-height); right: -100%; width: 80%; height: 100vh; background: var(--bg); flex-direction: column; padding: 50px 30px; transition: 0.4s; border-left: 1px solid var(--primary); }
             .nav-links.active { right: 0; }
-            .about-hero { grid-template-columns: 1fr; text-align: center; padding-top: calc(var(--nav-height) + 40px); gap: 40px; }
-            .about-content p { margin-left: auto; margin-right: auto; }
-            .stats-grid { justify-content: center; }
-            .skills-container h2 { text-align: right; }
+            .contact-header { text-align: center; }
+            .info-summary-section { grid-template-columns: 1fr; }
+            .contact-card { padding: 25px 20px; }
         }
 
         footer { padding: 40px; text-align: center; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border-color); }
@@ -216,6 +271,15 @@
 <body>
 
     <div id="cursor-container"></div>
+
+    <div class="popup-overlay" id="successPopup">
+        <div class="popup-box">
+            <i class="fas fa-paper-plane"></i>
+            <h3>تم إرسال الرسالة بنجاح!</h3>
+            <p>شكراً لتواصلك يا فنان. تم استلام تفاصيل مشروعك وسيتم التواصل معك خلال 24 ساعة.</p>
+            <button class="popup-close-btn" onclick="closePopup()">حسناً</button>
+        </div>
+    </div>
 
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
@@ -241,7 +305,7 @@
             <label style="font-size: 0.75rem; color: var(--text-dim);">لون الثيم:</label>
             <input type="color" id="fullColorPicker" style="width:100%; height:30px; border:none; background:none; cursor:pointer;" oninput="updateSiteColor(this.value)">
         </div>
-
+        
         <div id="desktop-only-settings">
             <label style="font-size: 0.75rem; color: var(--text-dim);">شكل الماوس:</label>
             <div onclick="setCursor('arrow')" style="cursor:pointer; padding:8px; background:rgba(160,32,240,0.05); margin-top:5px; border-radius:5px; font-size:0.8rem;">سهم نيون</div>
@@ -258,35 +322,98 @@
         <ul class="nav-links" id="nav-menu">
             <li><a href="index.html">الرئيسية</a></li>
             <li><a href="works.html">أعمالي</a></li>
-            <li><a href="about.html" class="active">عني</a></li>
-            <li><a href="contact.html">تواصل معي</a></li>
+            <li><a href="about.html">عني</a></li>
+            <li><a href="contact.html" class="active">تواصل معي</a></li>
         </ul>
     </nav>
 
-    <section class="about-hero">
-        <div class="about-content" data-aos="fade-up">
-            <h1>أنا <span style="color: var(--primary);">كريم</span>. <br> مصمم ومبتكر.</h1>
-            <p>أهلاً بك! أنا كريم، مصمم جرافيك ومطور واجهات (UI/UX) أؤمن بأن التصميم ليس مجرد شكل جميل، بل هو لغة تواصل تحل المشكلات وتخلق تجارب مستخدم فريدة.</p>
-            <p>لدي شغف كبير بالتقنية، بجانب كوني <b>Speedcuber</b> محترف أهتم بالسرعة والدقة في كل شيء أفعله، تماماً كما أفعل في تصاميمي.</p>
-            
+    <header class="contact-header">
+        <h1 data-aos="fade-left">LET'S <span style="color: var(--primary);">TALK</span></h1>
+        <p style="color: var(--text-dim); margin-top: 10px;">لديك فكرة مشروع مميزة؟ لنبدأ العمل معاً ونصنع شيئاً مذهلاً.</p>
+    </header>
+
+    <!-- 🌟 قسم النبذة والمجالات الاحترافية المعدل بالكامل 🌟 -->
+    <section class="info-summary-section" data-aos="fade-up">
+        <!-- بلوك النبذة التعريفية المحدثة -->
+        <div class="info-block">
+            <h2>لمحة سريعة عني</h2>
+            <p>أنا مصمم جرافيك شغوف ومبتكر، أركز على تحويل الأفكار والـ Concepts الإبداعية إلى واقع بصري ملموس ومبهر يعزز هوية العلامات التجارية.</p>
             <div class="stats-grid">
-                <div class="stat-box"><h3>+5</h3><p>سنوات خبرة</p></div>
-                <div class="stat-box"><h3>+50</h3><p>مشروع منجز</p></div>
+                <div class="stat-box">
+                    <span class="num">+3</span>
+                    <span class="lbl">سنوات خبرة في التصميم</span>
+                </div>
+                <div class="stat-box">
+                    <span class="num">+30</span>
+                    <span class="lbl">مشروعاً ناجحاً مكتملاً</span>
+                </div>
             </div>
         </div>
 
-        <div class="skills-container" data-aos="fade-up" data-aos-delay="200">
-            <h2>المهارات الاحترافية</h2>
-            <div class="skills-grid">
-                <div class="skill-item">UI/UX Design</div>
-                <div class="skill-item">Branding</div>
-                <div class="skill-item">Visual Identity</div>
-                <div class="skill-item">AI Art Direction</div>
-                <div class="skill-item">Graphic Design</div>
-                <div class="skill-item">Python Programming</div>
-                <div class="skill-item">Frontend Logic</div>
-                <div class="skill-item">Concept Art</div>
+        <!-- بلوك التخصصات والمجالات الفنية المحدثة -->
+        <div class="info-block">
+            <h2>المجالات الإبداعية والتخصصات</h2>
+            <p>خلال مسيرتي، تعمقت وتخصصت في عدة مسارات فنية لتقديم حلول بصرية متكاملة واحترافية:</p>
+            <div class="fields-tags">
+                <div class="field-tag"><i class="fas fa-cubes" style="margin-left: 5px; color: var(--primary);"></i> 3D Animation</div>
+                <div class="field-tag"><i class="fas fa-film" style="margin-left: 5px; color: var(--primary);"></i> 2D Animation</div>
+                <div class="field-tag"><i class="fas fa-palette" style="margin-left: 5px; color: var(--primary);"></i> Graphic Design</div>
+                <div class="field-tag"><i class="fas fa-bezier-curve" style="margin-left: 5px; color: var(--primary);"></i> Visual Arts</div>
             </div>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="contact-card" data-aos="zoom-in">
+            <form id="contactForm">
+                
+                <input type="hidden" name="access_key" value="addc97b3-989a-4407-989e-d1905ea92cb8">
+                <input type="hidden" name="subject" value="رسالة جديدة من معرض أعمالك!">
+                
+                <input type="hidden" name="from_name" value="Kareem Portfolio">
+                <input type="hidden" name="replyto" value="تم استلام طلبك بنجاح! شكراً لتواصلك معي يا فنان، لقد تلقيت تفاصيل فكرتك وسيتم الرد عليك والتواصل معك خلال 24 ساعة كحد أقصى.">
+
+                <!-- تفعيل كابتشا الروبوتات الذكية المخفية لـ Web3Forms -->
+                <input type="checkbox" name="botcheck" class="hidden-honeypot">
+
+                <!-- مصيدة عسل مخصصة للأطفال وأدوات الإدخال التلقائي المزعجة -->
+                <div class="hidden-honeypot">
+                    <input type="text" name="username_verification" id="honeypot_field" autocomplete="off" tabindex="-1">
+                </div>
+
+                <div class="form-group">
+                    <label>الاسم الكامل</label>
+                    <input type="text" name="name" placeholder="اكتب اسمك الكريم هنا..." required>
+                </div>
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" name="email" placeholder="example@domain.com" required>
+                </div>
+                <div class="form-group">
+                    <label>تفاصيل الرسالة</label>
+                    <textarea name="message" placeholder="اشرح فكرتك أو مشروعك بالتفصيل هنا..." required></textarea>
+                </div>
+                <button type="submit" id="submitBtn" class="submit-btn">إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i></button>
+            </form>
+        </div>
+
+        <div class="social-grid" data-aos="fade-up" data-aos-delay="200">
+            <a href="#" target="_blank" class="social-item instagram">
+                <i class="fab fa-instagram"></i>
+                <span>انستغرام</span>
+            </a>
+            <a href="#" target="_blank" class="social-item behance">
+                <i class="fab fa-behance"></i>
+                <span>بيهانس</span>
+            </a>
+            <a href="#" target="_blank" class="social-item pinterest">
+                <i class="fab fa-pinterest"></i>
+                <span>بينتريست</span>
+            </a>
+            <a href="#" target="_blank" class="social-item whatsapp">
+                <i class="fab fa-whatsapp"></i>
+                <span>واتساب</span>
+            </a>
         </div>
     </section>
 
@@ -296,24 +423,69 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        const cursorContainer = document.getElementById('cursor-container');
-        const navMenu = document.getElementById('nav-menu');
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const isMobile = window.matchMedia("(max-width: 1024px)").matches;
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successPopup = document.getElementById('successPopup');
+        const honeypotField = document.getElementById('honeypot_field');
 
-        // منيو الموبايل
-        mobileMenuBtn.onclick = () => {
-            navMenu.classList.toggle('active');
-            mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
-            mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
-        };
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            
+            if (honeypotField && honeypotField.value.trim() !== "") {
+                console.warn("Spam detected via Honeypot.");
+                successPopup.classList.add('active');
+                contactForm.reset();
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'تم إرسال رسالتك بنجاح! <i class="fas fa-check-circle"></i>';
+                submitBtn.style.background = '#25d366';
+                return; 
+            }
 
-        // تبديل الثيم (Dark/Light)
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'جاري الإرسال حالياً... <i class="fas fa-spinner fa-spin" style="margin-right: 5px;"></i>';
+
+            const formData = new FormData(contactForm);
+            const formObject = Object.fromEntries(formData);
+            const jsonPayload = JSON.stringify(formObject);
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: jsonPayload
+            })
+            .then(async (response) => {
+                let resultData = await response.json();
+                if (response.status === 200) {
+                    successPopup.classList.add('active');
+                    contactForm.reset();
+                    
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = 'تم إرسال رسالتك بنجاح! <i class="fas fa-check-circle"></i>';
+                    submitBtn.style.background = '#25d366';
+                    submitBtn.style.boxShadow = '0 4px 15px rgba(37, 211, 102, 0.4)';
+                } else {
+                    alert("نعتذر منك، حدث خطأ أثناء الإرسال: " + resultData.message);
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>';
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert("تعذر الاتصال بالسيرفر، يرجى التحقق من شبكة الإنترنت لديك.");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>';
+            });
+        });
+
+        function closePopup() { successPopup.classList.remove('active'); }
+
         function toggleTheme() {
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
             const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
             html.setAttribute('data-theme', targetTheme);
             localStorage.setItem('theme', targetTheme);
             updateThemeUI(targetTheme);
@@ -323,15 +495,14 @@
             const text = document.getElementById('theme-text');
             const icon = document.getElementById('theme-icon');
             if (theme === 'light') {
-                text.innerText = "الوضع الفاتح";
-                icon.className = "fas fa-sun";
+                if(text) text.innerText = "الوضع الفاتح";
+                if(icon) icon.className = "fas fa-sun";
             } else {
-                text.innerText = "الوضع الداكن";
-                icon.className = "fas fa-moon";
+                if(text) text.innerText = "الوضع الداكن";
+                if(icon) icon.className = "fas fa-moon";
             }
         }
 
-        // وضع التركيز (Focus Mode) التفاعلي الكامل
         let isFocusActive = false;
         function toggleFocusMode() {
             isFocusActive = !isFocusActive;
@@ -350,15 +521,15 @@
             }
         }
 
-        // تحديث الألوان
         function updateSiteColor(color) {
             document.documentElement.style.setProperty('--primary', color);
             document.documentElement.style.setProperty('--primary-glow', color + '4d');
             localStorage.setItem('userThemeColor', color);
         }
 
-        // نظام الماوس
         let currentCursorMode = localStorage.getItem('cursorMode') || 'arrow';
+        const cursorContainer = document.getElementById('cursor-container');
+        const isMobile = window.matchMedia("(max-width: 1024px)").matches;
 
         function setCursor(mode) {
             if (isMobile) return;
@@ -383,8 +554,14 @@
             });
         }
 
-        // تحميل الإعدادات المحفوظة عند فتح الصفحة
         window.addEventListener('DOMContentLoaded', () => {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.style.background = ''; 
+                submitBtn.style.boxShadow = '';
+                submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>';
+            }
+
             const savedTheme = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeUI(savedTheme);
@@ -399,6 +576,9 @@
         });
 
         document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
+        document.getElementById('mobile-menu-btn').onclick = () => {
+            document.getElementById('nav-menu').classList.toggle('active');
+        };
     </script>
 </body>
 </html>
