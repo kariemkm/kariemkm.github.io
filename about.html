@@ -332,4 +332,24 @@
             });
         }
 
-        window.
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeUI(savedTheme);
+
+            const savedColor = localStorage.getItem('userThemeColor');
+            if (savedColor) {
+                updateSiteColor(savedColor);
+                if(document.getElementById('fullColorPicker')) document.getElementById('fullColorPicker').value = savedColor;
+            }
+            
+            setCursor(currentCursorMode);
+        });
+
+        document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
+        document.getElementById('mobile-menu-btn').onclick = () => {
+            document.getElementById('nav-menu').classList.toggle('active');
+        };
+    </script>
+</body>
+</html>
