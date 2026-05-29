@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kareem Portfolio | Creative Designer</title>
+    <title>Kareem | My Works</title>
     
-    <!-- إجبار المتصفح على طلب أحجام كبيرة وعالية الدقة من الأيقونة لتبدو واضحة وبأقصى حجم متاح -->
     <link rel="icon" type="image/png" sizes="192x192" href="./LAST/logo.png?v=2.0">
     <link rel="icon" type="image/png" sizes="96x96" href="./LAST/logo.png?v=2.0">
     <link rel="icon" type="image/png" sizes="48x48" href="./LAST/logo.png?v=2.0">
@@ -17,16 +16,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* المتغيرات الأساسية (الوضع الداكن هو الافتراضي) */
         :root {
             --bg: #030303;
             --primary: #a020f0;
             --primary-glow: rgba(160, 32, 240, 0.3);
+            --card-bg: #0a0a0a;
             --text-main: #ffffff;
             --text-dim: #888;
-            --nav-bg: rgba(3, 3, 3, 0.9);
-            --nav-height: 90px; 
-            --card-bg: #0a0a0a;
+            --nav-bg: rgba(3, 3, 3, 0.85);
+            --nav-height: 90px; /* تم توحيد الارتفاع مع الصفحة الرئيسية */
+            --modal-overlay: rgba(0, 0, 0, 0.9);
         }
 
         /* متغيرات الوضع الفاتح */
@@ -34,22 +33,24 @@
             --bg: #f5f5f5;
             --text-main: #1a1a1a;
             --text-dim: #555;
-            --nav-bg: rgba(245, 245, 245, 0.9);
+            --nav-bg: rgba(245, 245, 245, 0.85);
             --card-bg: #ffffff;
+            --modal-overlay: rgba(255, 255, 255, 0.95);
         }
 
-        /* وضع التركيز (Focus Mode) */
-        body.focus-active .showcase-container, 
-        body.focus-active nav, 
-        body.focus-active .btn-container,
-        body.focus-active .hero p {
-            opacity: 0.05;
-            filter: blur(8px);
+        /* --- وضع التركيز (Focus Mode) --- */
+        body.focus-active .works-header, 
+        body.focus-active .card-info,
+        body.focus-active footer,
+        body.focus-active nav {
+            opacity: 0.1;
+            filter: blur(5px);
             pointer-events: none;
         }
-        body.focus-active .hero h1 { transform: scale(1.1); transition: 0.8s ease; }
+        body.focus-active .work-section { padding-top: 20px; }
+        body.focus-active .card { border-color: transparent; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, color 0.3s; }
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s, border 0.3s; }
         
         @media (min-width: 1025px) {
             html.custom-cursor-active, html.custom-cursor-active * { cursor: none !important; }
@@ -63,7 +64,7 @@
             overflow-x: hidden;
         }
 
-        /* --- الماوس --- */
+        /* --- المؤشر --- */
         #cursor-container {
             position: fixed;
             top: 0; left: 0;
@@ -73,15 +74,62 @@
             display: none;
         }
         .cursor-lens {
-            width: 50px; height: 50px;
+            width: 55px; height: 55px;
             border: 2px solid var(--text-main);
             border-radius: 50%;
             mix-blend-mode: difference;
         }
-        .cursor-arrow { width: 35px; height: 35px; filter: drop-shadow(0 0 8px var(--primary)); }
+        .cursor-arrow { width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--primary)); }
         #cursor-path { fill: var(--primary); stroke: #fff; stroke-width: 1.5px; }
 
-        /* --- ضبط هيدر الـ تباعد الحواف والمحاذاة --- */
+        /* --- استايلات الـ Pop-up --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--modal-overlay); backdrop-filter: blur(15px);
+            z-index: 20000; display: none; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.4s ease;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        
+        .modal-card {
+            position: relative; width: 90%; max-width: 1100px; height: 80vh;
+            background: var(--card-bg); border-radius: 20px; overflow: hidden;
+            display: flex; border: 1px solid var(--primary-glow);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        .modal-img-container {
+            flex: 2; position: relative; overflow: hidden; background: #000;
+            cursor: crosshair; display: flex; align-items: center; justify-content: center;
+        }
+        .modal-img-container img {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+            transition: transform 0.1s ease-out; transform-origin: center;
+        }
+
+        .modal-details {
+            flex: 1; padding: 40px; display: flex; flex-direction: column;
+            justify-content: center; border-right: 1px solid rgba(160,32,240,0.1);
+        }
+        .modal-details h2 { font-size: 2rem; color: var(--primary); margin-bottom: 15px; }
+        .modal-details p { color: var(--text-dim); margin-bottom: 25px; }
+        
+        .modal-close-btn {
+            position: absolute; top: 20px; right: 20px; width: 45px; height: 45px;
+            background: var(--primary); color: white; border: none; border-radius: 50%;
+            cursor: pointer; z-index: 20001; display: flex; align-items: center;
+            justify-content: center; font-size: 1.2rem; transition: 0.3s;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+        .modal-close-btn:hover { transform: rotate(90deg) scale(1.1); }
+
+        @media (max-width: 900px) {
+            .modal-card { flex-direction: column; height: 90vh; width: 95%; }
+            .modal-details { padding: 20px; order: 2; }
+            .modal-img-container { flex: 1.5; order: 1; }
+        }
+
+        /* --- استايلات الـ Nav المستوردة والموحدة مع الأساسية لتنسيق الصورة بشكل مثالي --- */
         nav {
             height: var(--nav-height);
             padding: 0 4%; 
@@ -125,86 +173,62 @@
 
         .menu-toggle { display: none; font-size: 1.5rem; color: var(--primary); cursor: pointer; }
 
-        /* --- الهيرو --- */
-        .hero {
-            min-height: 100vh;
-            padding: calc(var(--nav-height) + 50px) 5% 50px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: radial-gradient(circle at 50% 50%, var(--primary-glow) 0%, var(--bg) 100%);
+        /* --- الهيدر --- */
+        .works-header { 
+            padding: calc(var(--nav-height) + 60px) 8% 30px; 
+            text-align: right;
+            background: linear-gradient(to bottom, var(--primary-glow) 0%, var(--bg) 100%);
         }
-        .hero h1 { font-size: clamp(2.2rem, 8vw, 5rem); line-height: 1.2; max-width: 1000px; }
-        .highlight { color: var(--primary); text-shadow: 0 0 20px var(--primary-glow); }
-        .hero p { color: var(--text-dim); max-width: 600px; margin: 20px auto; font-size: clamp(0.9rem, 2vw, 1.1rem); }
+        .works-header h1 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900; line-height: 1; }
 
-        /* --- معرض الأعمال --- */
-        .showcase-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            width: 100%;
-            max-width: 1100px;
-            margin-top: 40px;
-        }
-        .neon-card {
-            position: relative;
-            border-radius: 15px;
-            overflow: hidden;
-            background: var(--card-bg);
-            border: 1px solid rgba(160,32,240,0.1);
-            aspect-ratio: 3/4;
-        }
-        .neon-card img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .neon-card:hover img { transform: scale(1.08); filter: brightness(1.1); }
-
-        /* --- الأزرار --- */
-        .btn-container { margin-top: 50px; display: flex; justify-content: center; }
-        .view-more-btn {
-            position: relative; padding: 15px 40px;
-            background: rgba(160, 32, 240, 0.05);
-            border: 1px solid var(--primary);
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 600;
-            border-radius: 50px;
-            overflow: hidden;
-            transition: 0.4s;
-            backdrop-filter: blur(10px);
-            display: flex; align-items: center; gap: 12px;
-        }
-        .view-more-btn:hover {
-            background: var(--primary);
-            box-shadow: 0 0 30px var(--primary-glow);
-            transform: translateY(-5px);
-            color: #fff;
+        /* --- الجريد --- */
+        .work-section { padding: 20px 8% 100px; }
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 25px; 
         }
 
-        /* --- الإعدادات المحدثة --- */
+        .card { 
+            background: var(--card-bg); 
+            border-radius: 15px; 
+            overflow: hidden; 
+            border: 1px solid rgba(160,32,240,0.1); 
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        .card:hover { 
+            border-color: var(--primary); 
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px var(--primary-glow);
+        }
+
+        .image-box { aspect-ratio: 3/4; background: #111; overflow: hidden; }
+        .image-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s ease; opacity: 0.9; }
+        .card:hover img { transform: scale(1.1); opacity: 1; }
+
+        .card-info { padding: 20px; text-align: center; border-top: 1px solid rgba(160,32,240,0.05); }
+        .card-info h3 { font-size: 1rem; color: var(--text-main); margin-bottom: 5px; }
+        .card-info p { font-size: 0.8rem; color: var(--text-dim); }
+
+        /* --- لوحة الإعدادات --- */
         .settings-panel {
             position: fixed; left: -260px; top: 50%; transform: translateY(-50%);
             width: 260px; background: var(--card-bg); border: 1px solid var(--primary);
             padding: 20px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
         }
         .settings-panel.active { left: 0; }
         #settingsToggle {
             position: absolute; right: -40px; top: 0; width: 40px; height: 40px;
-            background: var(--primary); border: none; color: white; border-radius: 0 8px 8px 0;
-            cursor: pointer;
+            background: var(--primary); border: none; color: white; border-radius: 0 8px 8px 0; cursor: pointer;
         }
         .setting-row { margin-bottom: 15px; }
         .setting-btn {
-            width: 100%; padding: 8px; background: rgba(160,32,240,0.1); 
+            width: 100%; padding: 10px; background: rgba(160,32,240,0.1); 
             border: 1px solid var(--primary); color: var(--text-main);
-            border-radius: 5px; cursor: pointer; font-size: 0.8rem;
-            display: flex; justify-content: space-between; align-items: center;
+            border-radius: 5px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.85rem;
         }
 
         @media (max-width: 1024px) {
@@ -215,17 +239,36 @@
                 border-left: 1px solid var(--primary);
             }
             .nav-links.active { right: 0; }
-            .showcase-container { grid-template-columns: 1fr; max-width: 350px; }
+            .grid { grid-template-columns: 1fr; }
         }
+
+        footer { padding: 40px; text-align: center; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid rgba(160,32,240,0.1); }
     </style>
 </head>
-<body>
+<body class="dark-theme">
 
     <div id="cursor-container"></div>
 
+    <div class="modal-overlay" id="workModal">
+        <button class="modal-close-btn" onclick="closePop()"><i class="fas fa-times"></i></button>
+        <div class="modal-card" data-aos="zoom-in">
+            <div class="modal-img-container" id="zoomArea">
+                <img src="" id="popImg" alt="Detail View">
+            </div>
+            <div class="modal-details">
+                <h2 id="popTitle">اسم العمل</h2>
+                <p>تصميم جرافيك احترافي يركز على التفاصيل الدقيقة واستخدام الإضاءة بشكل فني لإبراز جودة العمل النهائي.</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <span style="padding: 5px 15px; background: var(--primary-glow); border: 1px solid var(--primary); border-radius: 20px; font-size: 0.8rem;">Photoshop</span>
+                    <span style="padding: 5px 15px; background: var(--primary-glow); border: 1px solid var(--primary); border-radius: 20px; font-size: 0.8rem;">Blender</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
-        <h4 style="color: var(--primary); margin-bottom: 15px;">تخصيص الواجهة</h4>
+        <h4 style="color: var(--primary); margin-bottom: 15px;">تخصيص العرض</h4>
         
         <div class="setting-row">
             <label style="font-size: 0.75rem; color: var(--text-dim);">النمط العام:</label>
@@ -238,20 +281,20 @@
         <div class="setting-row">
             <label style="font-size: 0.75rem; color: var(--text-dim);">وضع التركيز:</label>
             <button class="setting-btn" onclick="toggleFocusMode()">
-                <span>تشغيل الوضع</span>
+                <span id="focus-status">تشغيل الوضع</span>
                 <i class="fas fa-eye-slash"></i>
             </button>
         </div>
 
         <div class="setting-row">
-            <label style="font-size: 0.75rem; color: var(--text-dim);">لون الثيم:</label>
+            <label style="font-size: 0.75rem; color: var(--text-dim);">لون الهوية:</label>
             <input type="color" id="fullColorPicker" style="width:100%; height:30px; border:none; background:none; cursor:pointer;" oninput="updateSiteColor(this.value)">
         </div>
-
+        
         <div id="desktop-only-settings">
             <label style="font-size: 0.75rem; color: var(--text-dim);">شكل الماوس:</label>
             <div onclick="setCursor('arrow')" style="cursor:pointer; padding:8px; background:rgba(160,32,240,0.05); margin-top:5px; border-radius:5px; font-size:0.8rem;">سهم نيون</div>
-            <div onclick="setCursor('lens')" style="cursor:pointer; padding:8px; background:rgba(160,32,240,0.05); margin-top:5px; border-radius:5px; font-size:0.8rem;">عدسة عاكسة</div>
+            <div onclick="setCursor('lens')" style="cursor:pointer; padding:8px; background:rgba(160,32,240,0.05); margin-top:5px; border-radius:5px; font-size:0.8rem;">عدسة فنية</div>
         </div>
     </div>
 
@@ -262,123 +305,76 @@
         </a>
         <div class="menu-toggle" id="mobile-menu-btn"><i class="fas fa-bars"></i></div>
         <ul class="nav-links" id="nav-menu">
-            <li><a href="index.html" class="active">الرئيسية</a></li>
-            <li><a href="works.html">أعمالي</a></li>
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="works.html" class="active">أعمالي</a></li>
             <li><a href="about.html">عني</a></li>
             <li><a href="contact.html">تواصل معي</a></li>
         </ul>
     </nav>
 
-    <section class="hero">
-        <h1 data-aos="fade-up">Professional <br> <span class="highlight">Graphic Designer</span></h1>
-        <p data-aos="fade-up" data-aos-delay="200">أهلاً بك، أنا كريم محمد. متخصص في تحويل الهويات البصرية إلى قطع فنية رقمية فريدة.</p>
-        
-        <div class="showcase-container">
-            <div class="neon-card" data-aos="fade-up" data-aos-delay="300">
-                <img src="LAST/hoodie design.jpg" alt="Work 1">
-            </div>
-            <div class="neon-card" data-aos="fade-up" data-aos-delay="400">
-                <img src="LAST/Green HoOdy design 2.jpg" alt="Work 2">
-            </div>
-        </div>
+    <header class="works-header">
+        <h1 data-aos="fade-left">MY <span style="color: var(--primary);">PROJECTS</span></h1>
+        <p style="color: var(--text-dim); margin-top: 10px;">معرض التصاميم المختارة بعناية لتحويل الأفكار إلى واقع بصرى.</p>
+    </header>
 
-        <div class="btn-container" data-aos="fade-up" data-aos-delay="500">
-            <a href="works.html" class="view-more-btn">
-                <span>عرض كافة الأعمال</span>
-                <i class="fas fa-arrow-left"></i>
-            </a>
-        </div>
+    <section class="work-section">
+        <div class="grid" id="projectsGrid"></div>
     </section>
+
+    <footer><p>© 2026 KAREEM DESIGN. All Rights Reserved.</p></footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
 
-        const cursorContainer = document.getElementById('cursor-container');
-        const navMenu = document.getElementById('nav-menu');
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const isMobile = window.matchMedia("(max-width: 1024px)").matches;
+        const images = [
+            "LAST/Green HoOdy design 2.jpg", "LAST/hoodie design.jpg", "LAST/My pack-051.jpg",
+            "LAST/Orange juice.jpg", "LAST/SHOES1.jpg", "LAST/burber.jpg",
+            "LAST/burger 2.jpg", "LAST/competition 1.jpg", "LAST/eid adha 2025.jpg",
+            "LAST/eid farha 2026.jpg", "LAST/eid farha(1).jpg", "LAST/fanta ad-Recovered.jpg",
+            "LAST/fanta ad2.jpg", "LAST/nike ad.jpg", "LAST/nike yellow shoes.jpg",
+            "LAST/nike.jpg", "LAST/ramdan 2026.jpg", "LAST/ramdan 2026 2.jpg",
+            "LAST/ramdan 2026 3.jpg", "LAST/ramdan 2026 4.jpg", "LAST/ramdan 2026 5.jpg",
+            "LAST/spark energy drink.jpg", "LAST/v7 ad ثيهف 2.jpg"
+        ];
 
-        mobileMenuBtn.onclick = () => {
-            navMenu.classList.toggle('active');
-            mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
-            mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
-        };
-
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
-            html.setAttribute('data-theme', targetTheme);
-            localStorage.setItem('theme', targetTheme);
-            updateThemeUI(targetTheme);
-        }
-
-        function updateThemeUI(theme) {
-            const text = document.getElementById('theme-text');
-            const icon = document.getElementById('theme-icon');
-            if (theme === 'light') {
-                text.innerText = "الوضع الفاتح";
-                icon.className = "fas fa-sun";
-            } else {
-                text.innerText = "الوضع الداكن";
-                icon.className = "fas fa-moon";
-            }
-        }
-
-        let isFocusEnabled = false;
-        function toggleFocusMode() {
-            if (!isFocusEnabled) {
-                alert("! هذا الوضع مخصص لصفحة المعرض لتركيز الانتباه على التصاميم");
-                return;
-            }
-            document.body.classList.toggle('focus-active');
-        }
-
-        function updateSiteColor(color) {
-            document.documentElement.style.setProperty('--primary', color);
-            document.documentElement.style.setProperty('--primary-glow', color + '4d');
-            localStorage.setItem('userThemeColor', color);
-        }
-
-        let currentCursorMode = localStorage.getItem('cursorMode') || 'arrow';
-
-        function setCursor(mode) {
-            if (isMobile) return;
-            currentCursorMode = mode;
-            localStorage.setItem('cursorMode', mode);
-            document.documentElement.classList.add('custom-cursor-active');
-            cursorContainer.style.display = 'block';
-            renderCursor(mode);
-        }
-
-        function renderCursor(mode) {
-            if (mode === 'lens') {
-                cursorContainer.innerHTML = '<div class="cursor-lens"></div>';
-            } else {
-                cursorContainer.innerHTML = `<svg class="cursor-arrow" viewBox="0 0 24 24"><path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" /></svg>`;
-            }
-        }
-
-        if (!isMobile) {
-            document.addEventListener('mousemove', (e) => {
-                cursorContainer.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-            });
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeUI(savedTheme);
-
-            const savedColor = localStorage.getItem('userThemeColor');
-            if (savedColor) updateSiteColor(savedColor);
-            
-            setCursor(currentCursorMode);
+        const grid = document.getElementById('projectsGrid');
+        images.forEach((src, index) => {
+            const fileName = src.split('/').pop().split('.')[0].replace(/%20/g, ' ');
+            grid.innerHTML += `
+                <div class="card" data-aos="fade-up" data-aos-delay="${(index % 3) * 100}" onclick="openPop('${src}', '${fileName}')">
+                    <div class="image-box"><img src="${src}" alt="${fileName}" loading="lazy"></div>
+                    <div class="card-info">
+                        <h3>${fileName}</h3>
+                        <p>GRAPHIC DESIGN</p>
+                    </div>
+                </div>`;
         });
 
-        document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
-    </script>
-</body>
-</html>
+        // --- ميكانيكية الـ Pop-up ---
+        const modal = document.getElementById('workModal');
+        const popImg = document.getElementById('popImg');
+        const popTitle = document.getElementById('popTitle');
+        const zoomArea = document.getElementById('zoomArea');
+
+        function openPop(src, title) {
+            popImg.src = src;
+            popTitle.innerText = title;
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePop() {
+            modal.classList.remove('active');
+            setTimeout(() => modal.style.display = 'none', 400);
+            document.body.style.overflow = 'auto';
+            popImg.style.transform = 'scale(1)';
+        }
+
+        // زووم تفاعلي
+        zoomArea.addEventListener('mousemove', (e) => {
+            if(window.innerWidth < 1025) return;
+            const { left, top, width, height } = zoomArea.getBoundingClientRect();
+            const x = ((e.clientX - left) / width) * 100;
+            const y = ((e.clientY - top) / height) *
