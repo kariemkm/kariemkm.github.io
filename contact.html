@@ -662,8 +662,8 @@
                 subject: subjectLine,
                 from_name: "Kareem Portfolio",
                 name: name,
-                email: contactValue,
-                message: message
+                email: currentMethod === 'whatsapp' ? "contact@kareemportfolio.com" : contactValue,
+                message: currentMethod === 'whatsapp' ? "رقم الواتساب: " + contactValue + "\n\n" + message : message
             };
 
             fetch('https://api.web3forms.com/submit', {
