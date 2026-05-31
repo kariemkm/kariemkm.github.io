@@ -14,6 +14,8 @@
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
 
     <style>
         /* المتغيرات الأساسية (الوضع الداكن هو الافتراضي) */
@@ -29,6 +31,7 @@
             --nav-bg: rgba(3, 3, 3, 0.9);
             --nav-height: 90px;
             --border-color: rgba(160, 32, 240, 0.1);
+            --error-color: #ff3838;
         }
 
         /* متغيرات الوضع الفاتح */
@@ -158,7 +161,49 @@
         }
         .contact-card:hover { border-color: var(--primary); box-shadow: 0 15px 35px var(--primary-glow); }
 
-        .form-group { margin-bottom: 25px; position: relative; }
+        /* تصميم أزرار التبديل لوسائل التواصل */
+        .contact-methods-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            background: var(--item-bg);
+            padding: 6px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .method-tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .method-tab-btn i { font-size: 1.1rem; }
+        .method-tab-btn.active {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        /* حقول ديناميكية مجهزة للـ Animation */
+        .dynamic-field-section {
+            animation: fadeInField 0.4s ease forwards;
+        }
+        @keyframes fadeInField {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group { margin-bottom: 25px; position: relative; text-align: right; }
         .form-group label { display: block; font-size: 0.9rem; margin-bottom: 8px; color: var(--text-main); font-weight: 600; }
         
         .form-group input, .form-group textarea {
@@ -176,6 +221,52 @@
             border-color: var(--primary);
             box-shadow: 0 0 10px var(--primary-glow);
         }
+        
+        /* ستايل مخصص لمدخل انستغرام ببادئة الـ @ */
+        .insta-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .insta-prefix {
+            position: absolute;
+            right: 20px;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+        .insta-input-wrapper input {
+            padding-right: 40px;
+            direction: ltr;
+            text-align: right;
+        }
+
+        /* تعديلات لتناسب مكتبة الأكواد مع اتجاه الموقع العربي */
+        .iti { width: 100%; direction: ltr; }
+        .iti__input { text-align: left; padding-left: 50px !important; }
+        .iti__country-list { 
+            background-color: var(--card-bg) !important; 
+            color: var(--text-main) !important;
+            border: 1px solid var(--primary) !important;
+            text-align: left;
+        }
+        .iti__country:hover { background-color: var(--item-bg) !important; }
+
+        /* ستايل رسائل الخطأ */
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 6px;
+            display: none;
+            animation: fadeInField 0.2s ease forwards;
+        }
+        .form-group.has-error input {
+            border-color: var(--error-color) !important;
+            box-shadow: 0 0 8px rgba(255, 56, 56, 0.2) !important;
+        }
+
         .form-group textarea { resize: vertical; min-height: 150px; }
 
         .submit-btn {
@@ -354,6 +445,7 @@
             .nav-links.active { right: 0; }
             .contact-header { text-align: center; }
             .contact-card { padding: 25px 20px; }
+            .contact-methods-tabs { flex-direction: column; gap: 8px; }
         }
 
         footer { padding: 40px; text-align: center; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border-color); }
@@ -363,12 +455,11 @@
 
     <div id="cursor-container"></div>
 
-    <!-- 🌟 1. بوب أب مراجعة وتأكيد الرسالة 🌟 -->
     <div class="popup-overlay" id="reviewPopup">
         <div class="popup-box">
             <i class="fas fa-user-check"></i>
-            <h3>هل أنت متأكد من رسالتك؟</h3>
-            <p>يرجى مراجعة تفاصيل بياناتك قبل الإرسال الفعلي:</p>
+            <h3>هل أنت متأكد من البيانات؟</h3>
+            <p>يرجى مراجعة تفاصيل وسيلة التواصل والرسالة قبل الإرسال:</p>
             
             <div class="review-details">
                 <div class="review-item">
@@ -376,8 +467,8 @@
                     <span id="reviewName">---</span>
                 </div>
                 <div class="review-item">
-                    <strong>البريد الإلكتروني:</strong>
-                    <span id="reviewEmail">---</span>
+                    <strong id="reviewMethodLabel">البريد الإلكتروني:</strong>
+                    <span id="reviewMethodValue">---</span>
                 </div>
                 <div class="review-item">
                     <strong>تفاصيل الرسالة:</strong>
@@ -385,26 +476,24 @@
                 </div>
             </div>
 
-            <p class="popup-warning"><i class="fas fa-exclamation-triangle"></i> تنبيه: بمجرد إرسال الرسالة لا يمكن تعديلها أو حذفها.</p>
+            <p class="popup-warning" id="popupWarningText"><i class="fas fa-exclamation-triangle"></i> تنبيه: بمجرد إرسال الرسالة لا يمكن تعديلها أو حذفها.</p>
             
             <div class="popup-buttons-group">
                 <button class="popup-btn-confirm" id="finalConfirmBtn">تأكيد الإرسال</button>
-                <button class="popup-btn-cancel" onclick="closeReviewPopup()">تعديل الرسالة</button>
+                <button class="popup-btn-cancel" onclick="closeReviewPopup()">تعديل البيانات</button>
             </div>
         </div>
     </div>
 
-    <!-- 🌟 2. بوب أب النجاح النهائي 🌟 -->
     <div class="popup-overlay" id="successPopup">
         <div class="popup-box">
             <i class="fas fa-paper-plane"></i>
             <h3>تم إرسال الرسالة بنجاح!</h3>
-            <p>شكراً لتواصلك يا فنان. تم استلاف تفاصيل مشروعك وسيتم التواصل معك خلال 24 ساعة.</p>
+            <p id="successPopupContent">شكراً لتواصلك يا فنان. تم استلام تفاصيل مشروعك وسيتم التواصل معك خلال 24 ساعة.</p>
             <button class="popup-close-btn" onclick="closeSuccessPopup()">حسناً</button>
         </div>
     </div>
 
-    <!-- 🌟 3. بوب أب الروابط قريباً 🌟 -->
     <div class="popup-overlay" id="comingSoonPopup">
         <div class="popup-box">
             <i class="fas fa-link-slash" style="color: #ffb300;"></i>
@@ -467,27 +556,46 @@
 
     <section class="contact-section">
         <div class="contact-card" data-aos="zoom-in">
+            
+            <div class="contact-methods-tabs">
+                <button type="button" class="method-tab-btn active" onclick="switchContactMethod('email')">
+                    <i class="fas fa-envelope"></i> البريد الإلكتروني
+                </button>
+                <button type="button" class="method-tab-btn" onclick="switchContactMethod('whatsapp')">
+                    <i class="fab fa-whatsapp"></i> واتساب سريع
+                </button>
+                <button type="button" class="method-tab-btn" onclick="switchContactMethod('instagram')">
+                    <i class="fab fa-instagram"></i> إنستغرام DM
+                </button>
+            </div>
+
             <form id="contactForm">
                 
                 <input type="hidden" name="access_key" value="addc97b3-989a-4407-989e-d1905ea92cb8">
                 <input type="hidden" name="subject" value="رسالة جديدة من معرض أعمالك!">
-                
-                <!-- حقول الرد التلقائي وإدخال اسم المرسل (Auto Responder) -->
                 <input type="hidden" name="from_name" value="Kareem Portfolio">
                 <input type="hidden" name="replyto" value="تم استلام طلبك بنجاح! شكراً لتواصلك معي يا فنان، لقد تلقيت تفاصيل فكرتك وسيتم الرد عليك والتواصل معك خلال 24 ساعة كحد أقصى.">
 
-                <div class="form-group">
+                <div class="form-group" id="groupName">
                     <label>الاسم الكامل</label>
                     <input type="text" id="inputName" name="name" placeholder="اكتب اسمك الكريم هنا..." required>
+                    <div class="error-message" id="errorName">برجاء كتابة الاسم الكامل.</div>
                 </div>
-                <div class="form-group">
-                    <label>البريد الإلكتروني</label>
-                    <input type="email" id="inputEmail" name="email" placeholder="example@domain.com" required>
+
+                <div id="dynamicFieldsContainer">
+                    <div class="form-group dynamic-field-section" id="groupEmail">
+                        <label>البريد الإلكتروني</label>
+                        <input type="email" id="inputEmail" name="email" placeholder="example@domain.com" required>
+                        <div class="error-message" id="errorEmail">يرجى إدخال بريد إلكتروني صحيح وصيغته سليمة (مثال: name@domain.com).</div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>تفاصيل الرسالة</label>
+
+                <div class="form-group" id="groupMessage">
+                    <label id="messageLabel">تفاصيل الرسالة أو المشروع</label>
                     <textarea id="inputMessage" name="message" placeholder="اشرح فكرتك أو مشروعك بالتفصيل هنا..." required></textarea>
+                    <div class="error-message" id="errorMessage">يرجى كتابة تفاصيل رسالتك أو فكرتك.</div>
                 </div>
+
                 <button type="submit" id="submitBtn" class="submit-btn">إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i></button>
             </form>
         </div>
@@ -515,6 +623,8 @@
     <footer><p>© 2026 KAREEM DESIGN. All Rights Reserved.</p></footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    
     <script>
         AOS.init({ duration: 800, once: true });
 
@@ -528,65 +638,258 @@
 
         // عناصر المراجعة داخل البوب اب
         const reviewName = document.getElementById('reviewName');
-        const reviewEmail = document.getElementById('reviewEmail');
+        const reviewMethodLabel = document.getElementById('reviewMethodLabel');
+        const reviewMethodValue = document.getElementById('reviewMethodValue');
         const reviewMessage = document.getElementById('reviewMessage');
 
-        // الخطوة الأولى: عند الضغط على زر الإرسال الأساسي في الـ Form
+        // المتغيرات الخاصة بالتحقق والنظام الديناميكي
+        let currentMethod = 'email'; // الخيارات: email, whatsapp, instagram
+        let itiInstance = null; // لمكتبة رقم الهاتف
+
+        // قوالب الحقول الديناميكية ليتم حقنها برمجياً
+        const fieldsTemplates = {
+            email: `
+                <div class="form-group dynamic-field-section" id="groupEmail">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" id="inputEmail" name="email" placeholder="example@domain.com">
+                    <div class="error-message" id="errorEmail">يرجى إدخال بريد إلكتروني صحيح وصيغته سليمة (مثال: name@domain.com).</div>
+                </div>
+            `,
+            whatsapp: `
+                <div class="form-group dynamic-field-section" id="groupWhatsapp">
+                    <label>رقم الواتساب (اختر الدولة وسيتم التحقق من دقة الرقم تلقائياً)</label>
+                    <input type="tel" id="inputWhatsapp" name="whatsapp_phone">
+                    <div class="error-message" id="errorWhatsapp">الرقم المكتوب غير صحيح أو غير متوافق مع الدولة المختارة. يرجى مراجعته!</div>
+                </div>
+            `,
+            instagram: `
+                <div class="form-group dynamic-field-section" id="groupInstagram">
+                    <label>اسم مستخدم إنستغرام الخاص بك (Username)</label>
+                    <div class="insta-input-wrapper">
+                        <span class="insta-prefix">@</span>
+                        <input type="text" id="inputInstagram" name="instagram_user" placeholder="username">
+                    </div>
+                    <div class="error-message" id="errorInstagram">اسم المستخدم غير صحيح! يرجى كتابة اليوزر فقط بدون @ وبدون مسافات أو رموز خاصة (مسموح بـ . و _ فقط).</div>
+                </div>
+            `
+        };
+
+        // دالة التبديل بين طرق التواصل
+        function switchContactMethod(method) {
+            if(currentMethod === method) return;
+            currentMethod = method;
+
+            // تحديث تصميم الأزرار النشطة
+            document.querySelectorAll('.method-tab-btn').forEach(btn => btn.classList.remove('active'));
+            const clickedBtn = event.currentTarget;
+            if(clickedBtn) clickedBtn.classList.add('active');
+
+            // حقن الحقل المناسب في الفورم
+            const container = document.getElementById('dynamicFieldsContainer');
+            container.innerHTML = fieldsTemplates[method];
+
+            // تحديث مسميات ونصوص الإرسال حسب المنصة لتناسب الـ UX
+            const messageLabel = document.getElementById('messageLabel');
+            const inputMessage = document.getElementById('inputMessage');
+            
+            if(method === 'email') {
+                messageLabel.innerText = "تفاصيل الرسالة أو المشروع";
+                inputMessage.placeholder = "اشرح فكرتك أو مشروعك بالتفصيل هنا...";
+                submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>';
+            } else if(method === 'whatsapp') {
+                messageLabel.innerText = "تفاصيل طلبك السريع (سيتم إرسالها معك إلى الواتساب)";
+                inputMessage.placeholder = "اكتب تفاصيل الاستفسار أو التصميم المطلوب هنا بشكل سريع...";
+                submitBtn.innerHTML = 'فتح شات واتساب وتأكيد الطلب <i class="fab fa-whatsapp" style="margin-right: 5px;"></i>';
+            } else if(method === 'instagram') {
+                messageLabel.innerText = "تفاصيل رسالتك لـ DM إنستغرام";
+                inputMessage.placeholder = "اكتب ما تريد استفساره لفتحه مباشرة في الإنستغرام...";
+                submitBtn.innerHTML = 'مراسلة عبر إنستغرام DM <i class="fab fa-instagram" style="margin-right: 5px;"></i>';
+            }
+
+            // تفعيل مكتبة كود الدولة لو تم اختيار الواتساب
+            if(method === 'whatsapp') {
+                const phoneInput = document.getElementById('inputWhatsapp');
+                itiInstance = window.intlTelInput(phoneInput, {
+                    initialCountry: "auto",
+                    geoIpLookup: function(success, failure) {
+                        fetch("https://ipapi.co/json/")
+                        .then(res => res.json())
+                        .then(data => success(data.country_code))
+                        .catch(() => success("EG")); // مصر كخيار احتياطي
+                    },
+                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+                });
+            } else {
+                itiInstance = null;
+            }
+        }
+
+        // دالة التحقق الشاملة من الحقول (Validation Logic)
+        function validateForm() {
+            let isValid = true;
+
+            // 1. تنظيف رسائل الخطأ السابقة
+            document.querySelectorAll('.form-group').forEach(el => el.classList.remove('has-error'));
+            document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+
+            // 2. التحقق من الاسم
+            const nameVal = document.getElementById('inputName').value.trim();
+            if(!nameVal) {
+                document.getElementById('groupName').classList.add('has-error');
+                document.getElementById('errorName').style.display = 'block';
+                isValid = false;
+            }
+
+            // 3. التحقق من تفاصيل الرسالة
+            const msgVal = document.getElementById('inputMessage').value.trim();
+            if(!msgVal) {
+                document.getElementById('groupMessage').classList.add('has-error');
+                document.getElementById('errorMessage').style.display = 'block';
+                isValid = false;
+            }
+
+            // 4. التحقق الديناميكي حسب نوع المنصة المختارة
+            if(currentMethod === 'email') {
+                const emailInput = document.getElementById('inputEmail');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if(!emailInput || !emailRegex.test(emailInput.value.trim())) {
+                    document.getElementById('groupEmail').classList.add('has-error');
+                    document.getElementById('errorEmail').style.display = 'block';
+                    isValid = false;
+                }
+            } 
+            else if(currentMethod === 'whatsapp') {
+                const phoneInput = document.getElementById('inputWhatsapp');
+                if(!phoneInput || !itiInstance || !itiInstance.isValidNumber()) {
+                    document.getElementById('groupWhatsapp').classList.add('has-error');
+                    document.getElementById('errorWhatsapp').style.display = 'block';
+                    isValid = false;
+                }
+            } 
+            else if(currentMethod === 'instagram') {
+                const instaInput = document.getElementById('inputInstagram');
+                const instaRegex = /^[a-zA-Z0-9._]{1,30}$/; // شروط يوزرات انستغرام الرسمية
+                if(!instaInput || !instaRegex.test(instaInput.value.trim())) {
+                    document.getElementById('groupInstagram').classList.add('has-error');
+                    document.getElementById('errorInstagram').style.display = 'block';
+                    isValid = false;
+                }
+            }
+
+            return isValid;
+        }
+
+        // عند الضغط على زر الإرسال الرئيسي في الـ Form
         contactForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // منع الإرسال التلقائي
+            e.preventDefault(); // منع الإرسال الافتراضي للمتصفح
 
-            // تمرير النصوص الحالية لبوب أب المراجعة
-            reviewName.innerText = document.getElementById('inputName').value;
-            reviewEmail.innerText = document.getElementById('inputEmail').value;
-            reviewMessage.innerText = document.getElementById('inputMessage').value;
+            // تنفيذ الـ Validation أولاً
+            if(!validateForm()) {
+                return; // إيقاف العملية لو وجد أي خطأ
+            }
 
-            // فتح بوب أب المراجعة
+            // تجهيز البيانات وتمريرها لبوب أب المراجعة والتأكيد
+            reviewName.innerText = document.getElementById('inputName').value.trim();
+            reviewMessage.innerText = document.getElementById('inputMessage').value.trim();
+
+            const warningText = document.getElementById('popupWarningText');
+
+            if(currentMethod === 'email') {
+                reviewMethodLabel.innerText = "البريد الإلكتروني:";
+                reviewMethodValue.innerText = document.getElementById('inputEmail').value.trim();
+                warningText.innerHTML = '<i class="fas fa-exclamation-triangle"></i> تنبيه: بمجرد تأكيد الإرسال، سيتم إرسال الإيميل رسمياً لكريم.';
+            } 
+            else if(currentMethod === 'whatsapp') {
+                reviewMethodLabel.innerText = "رقم الواتساب الدولي:";
+                // جلب الرقم كامل مع كود الدولة بصيغة E.164 (مثال: +201000000000)
+                reviewMethodValue.innerText = itiInstance.getNumber();
+                warningText.innerHTML = '<i class="fab fa-whatsapp" style="color:#25d366;"></i> سيتم فتح تطبيق الواتس مباشرة برسالة مجهزة ببياناتك.';
+            } 
+            else if(currentMethod === 'instagram') {
+                reviewMethodLabel.innerText = "حساب الإنستغرام:";
+                reviewMethodValue.innerText = "@" + document.getElementById('inputInstagram').value.trim();
+                warningText.innerHTML = '<i class="fab fa-instagram" style="color:#e1306c;"></i> سيتم توجيهك مباشرة لفتح شات الـ DM مع كريم.';
+            }
+
+            // فتح بوب أب المراجعة المطور
             reviewPopup.classList.add('active');
         });
 
-        // الخطوة الثانية: الإرسال الفعلي الخلفي عند الضغط على "تأكيد الإرسال" داخل البوب أب
+        // التأكيد النهائي داخل البوب أب (هنا يتم تنفيذ الـ Action الحقيقي لكل منصة)
         finalConfirmBtn.addEventListener('click', function() {
-            // إغلاق بوب أب المراجعة أولاً
             reviewPopup.classList.remove('active');
             
-            // قفل زر الإرسال وتغيير حالته
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = 'جاري الإرسال حالياً... <i class="fas fa-spinner fa-spin" style="margin-right: 5px;"></i>';
+            const name = document.getElementById('inputName').value.trim();
+            const message = document.getElementById('inputMessage').value.trim();
 
-            const formData = new FormData(contactForm);
-            const formObject = Object.fromEntries(formData);
-            const jsonPayload = JSON.stringify(formObject);
+            if (currentMethod === 'email') {
+                // --- سيناريو الإيميل الخلفي (Web3Forms) ---
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'جاري إرسال البريد حالياً... <i class="fas fa-spinner fa-spin" style="margin-right: 5px;"></i>';
 
-            fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: jsonPayload
-            })
-            .then(async (response) => {
-                let resultData = await response.json();
-                if (response.status === 200) {
-                    // إظهار بوب أب النجاح النهائي وتفريغ المدخلات
-                    successPopup.classList.add('active');
-                    contactForm.reset();
-                    
-                    // تحديث شكل الزر الرئيسي
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = 'تم إرسال رسالتك بنجاح! <i class="fas fa-check-circle"></i>';
-                    submitBtn.style.background = '#25d366';
-                    submitBtn.style.boxShadow = '0 4px 15px rgba(37, 211, 102, 0.4)';
-                } else {
-                    alert("نعتذر منك، حدث خطأ أثناء الإرسال: " + resultData.message);
+                const formData = new FormData(contactForm);
+                const formObject = Object.fromEntries(formData);
+                const jsonPayload = JSON.stringify(formObject);
+
+                fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: jsonPayload
+                })
+                .then(async (response) => {
+                    let resultData = await response.json();
+                    if (response.status === 200) {
+                        document.getElementById('successPopupContent').innerText = "شكراً لتواصلك يا فنان. تم إرسال رسالتك عبر البريد بنجاح، وسيتم مراجعة مشروعك والرد عليك خلال 24 ساعة.";
+                        successPopup.classList.add('active');
+                        contactForm.reset();
+                        switchContactMethod('email'); // إعادة التعيين
+                    } else {
+                        alert("نعتذر منك، حدث خطأ أثناء الإرسال: " + resultData.message);
+                        resetSubmitButton();
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert("تعذر الاتصال بالسيرفر، يرجى التحقق من شبكة الإنترنت لديك.");
                     resetSubmitButton();
-                }
-            })
-            .catch(error => {
-                console.error(error);
-                alert("تعذر الاتصال بالسيرفر، يرجى التحقق من شبكة الإنترنت لديك.");
-                resetSubmitButton();
-            });
+                });
+
+            } 
+            else if (currentMethod === 'whatsapp') {
+                // --- سيناريو الواتساب الذكي ---
+                const fullPhoneNumber = itiInstance.getNumber();
+                const myNumber = "201015112520"; // 🌟 ضع هنا رقم الواتساب الخاص بك بالكامل بدون أصفار أو علامة + (مثال مفترض لمصر)
+                
+                // تجهيز نص الرسالة الاحترافي للعميل تلقائياً في شات الواتس
+                const textMessage = `أهلاً يا كريم، أنا ${name}.\nكنت حابب أتواصل معك بخصوص مشروع جرافيك/سوشيال ميديا.\n\nتفاصيل طلبي:\n${message}\n\nرقم تواصلي: ${fullPhoneNumber}`;
+                const encodedText = encodeURIComponent(textMessage);
+                
+                // فتح رابط الواتساب المباشر
+                window.open(`https://wa.me/${myNumber}?text=${encodedText}`, '_blank');
+                
+                // إظهار بوب أب النجاح لتنظيف الفورم
+                document.getElementById('successPopupContent').innerText = "تم توجيهك إلى الواتساب بنجاح لإرسال الرسالة المجهزة لكريم!";
+                successPopup.classList.add('active');
+                contactForm.reset();
+                switchContactMethod('email');
+            } 
+            else if (currentMethod === 'instagram') {
+                // --- سيناريو الإنستغرام DM ---
+                const instaUser = document.getElementById('inputInstagram').value.trim();
+                const myInstaAccount = "kareem.mohamed"; // 🌟 ضع هنا يوزر الإنستغرام الخاص بك أنت لتلقي الرسائل
+                
+                // فتح شات الـ DM الخاص بك مباشرة
+                window.open(`https://www.instagram.com/${myInstaAccount}/`, '_blank');
+                
+                // إظهار بوب أب النجاح
+                document.getElementById('successPopupContent').innerText = `تم فتح حساب كريم بنجاح! يمكنك الآن إرسال رسالتك عبر الـ DM. (اسمك المسجل لدينا: ${name} وحسابك: @${instaUser})`;
+                successPopup.classList.add('active');
+                contactForm.reset();
+                switchContactMethod('email');
+            }
         });
 
         // وظائف إغلاق البوب أبس
@@ -602,7 +905,9 @@
             submitBtn.disabled = false;
             submitBtn.style.background = '';
             submitBtn.style.boxShadow = '';
-            submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>';
+            if(currentMethod === 'email') {
+                submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>';
+            }
         }
 
         // --- ميزة تبديل الثيم ---
@@ -658,7 +963,6 @@
         const cursorContainer = document.getElementById('cursor-container');
         const isMobile = window.matchMedia("(max-width: 1024px)").matches;
 
-        // تحويل أوسمة السوشيال ميديا إلى divs بدلاً من لـ تفادي فتح روابط فارغة
         function setCursor(mode) {
             if (isMobile) return;
             currentCursorMode = mode;
