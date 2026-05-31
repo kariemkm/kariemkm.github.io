@@ -11,14 +11,12 @@
     <link rel="icon" type="image/png" sizes="32x32" href="./LAST/logo.png?v=2.0">
     <link rel="shortcut icon" type="image/x-icon" href="./LAST/logo.png?v=2.0">
     <link rel="apple-touch-icon" sizes="180x180" href="./LAST/logo.png?v=2.0">
-
+ 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
-
+ 
     <style>
-        /* المتغيرات الأساسية (الوضع الداكن هو الافتراضي) */
         :root {
             --bg: #030303;
             --primary: #a020f0;
@@ -33,8 +31,7 @@
             --border-color: rgba(160, 32, 240, 0.1);
             --error-color: #ff3838;
         }
-
-        /* متغيرات الوضع الفاتح */
+ 
         [data-theme="light"] {
             --bg: #f5f5f5;
             --text-main: #1a1a1a;
@@ -45,8 +42,7 @@
             --input-bg: #fdfdfd;
             --border-color: #dddddd;
         }
-
-        /* --- وضع التركيز المطور (Focus Mode) --- */
+ 
         body.focus-active .contact-header, 
         body.focus-active .social-grid,
         body.focus-active footer,
@@ -61,13 +57,13 @@
             border-color: var(--primary); 
             box-shadow: 0 0 35px var(--primary-glow);
         }
-
+ 
         * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
         
         @media (min-width: 1025px) {
             html.custom-cursor-active, html.custom-cursor-active * { cursor: none !important; }
         }
-
+ 
         body {
             background-color: var(--bg);
             color: var(--text-main);
@@ -75,8 +71,7 @@
             line-height: 1.6;
             overflow-x: hidden;
         }
-
-        /* --- المؤشر الموحد بدقة --- */
+ 
         #cursor-container {
             position: fixed;
             top: 0; left: 0;
@@ -93,8 +88,7 @@
         }
         .cursor-arrow { width: 35px; height: 35px; filter: drop-shadow(0 0 8px var(--primary)); }
         #cursor-path { fill: var(--primary); stroke: #fff; stroke-width: 1.5px; }
-
-        /* --- شريط التنقل الموحد --- */
+ 
         nav {
             height: var(--nav-height);
             padding: 0 4%; 
@@ -108,45 +102,24 @@
             backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(160, 32, 240, 0.2);
         }
-
-        .logo-container { 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            text-decoration: none;
-        }
-        
-        .logo-img {
-            display: block !important;
-            height: 65px; 
-            width: auto;
-            max-width: 260px; 
-            object-fit: contain;
-        }
-
-        .logo-text { 
-            font-size: 1.3rem; 
-            font-weight: 900; 
-            color: var(--text-main); 
-            letter-spacing: 0.5px;
-            white-space: nowrap; 
-        }
-
+ 
+        .logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-img { display: block !important; height: 65px; width: auto; max-width: 260px; object-fit: contain; }
+        .logo-text { font-size: 1.3rem; font-weight: 900; color: var(--text-main); letter-spacing: 0.5px; white-space: nowrap; }
+ 
         .nav-links { display: flex; gap: 30px; list-style: none; }
         .nav-links a { color: var(--text-main); text-decoration: none; font-size: 1rem; font-weight: 600; transition: 0.3s; }
         .nav-links a:hover, .nav-links a.active { color: var(--primary); }
-
+ 
         .menu-toggle { display: none; font-size: 1.5rem; color: var(--primary); cursor: pointer; }
-
-        /* --- الهيدر --- */
+ 
         .contact-header { 
             padding: calc(var(--nav-height) + 40px) 4% 30px; 
             text-align: right;
             background: linear-gradient(to bottom, var(--primary-glow) 0%, var(--bg) 100%);
         }
         .contact-header h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); font-weight: 900; line-height: 1.2; }
-
-        /* --- قسم التواصل والـ Form --- */
+ 
         .contact-section { padding: 20px 4% 100px; display: flex; flex-direction: column; align-items: center; gap: 50px; }
         
         .contact-card {
@@ -160,8 +133,7 @@
             transition: 0.4s ease;
         }
         .contact-card:hover { border-color: var(--primary); box-shadow: 0 15px 35px var(--primary-glow); }
-
-        /* تصميم أزرار التبديل لوسائل التواصل */
+ 
         .contact-methods-tabs {
             display: flex;
             gap: 12px;
@@ -193,16 +165,13 @@
             color: #fff;
             box-shadow: 0 4px 15px var(--primary-glow);
         }
-
-        /* حقول ديناميكية مجهزة للـ Animation */
-        .dynamic-field-section {
-            animation: fadeInField 0.4s ease forwards;
-        }
+ 
+        .dynamic-field-section { animation: fadeInField 0.4s ease forwards; }
         @keyframes fadeInField {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
+ 
         .form-group { margin-bottom: 25px; position: relative; text-align: right; }
         .form-group label { display: block; font-size: 0.9rem; margin-bottom: 8px; color: var(--text-main); font-weight: 600; }
         
@@ -222,53 +191,20 @@
             box-shadow: 0 0 10px var(--primary-glow);
         }
         
-        /* ستايل مخصص لمدخل انستغرام ببادئة الـ @ */
-        .insta-input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-        .insta-prefix {
-            position: absolute;
-            right: 20px;
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 1.1rem;
-            pointer-events: none;
-        }
-        .insta-input-wrapper input {
-            padding-right: 40px;
-            direction: ltr;
-            text-align: right;
-        }
-
-        /* تعديلات لتناسب مكتبة الأكواد مع اتجاه الموقع العربي */
+        .insta-input-wrapper { position: relative; display: flex; align-items: center; }
+        .insta-prefix { position: absolute; right: 20px; color: var(--primary); font-weight: 700; font-size: 1.1rem; pointer-events: none; }
+        .insta-input-wrapper input { padding-right: 40px; direction: ltr; text-align: right; }
+ 
         .iti { width: 100%; direction: ltr; }
         .iti__input { text-align: left; padding-left: 50px !important; }
-        .iti__country-list { 
-            background-color: var(--card-bg) !important; 
-            color: var(--text-main) !important;
-            border: 1px solid var(--primary) !important;
-            text-align: left;
-        }
+        .iti__country-list { background-color: var(--card-bg) !important; color: var(--text-main) !important; border: 1px solid var(--primary) !important; text-align: left; }
         .iti__country:hover { background-color: var(--item-bg) !important; }
-
-        /* ستايل رسائل الخطأ */
-        .error-message {
-            color: var(--error-color);
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-top: 6px;
-            display: none;
-            animation: fadeInField 0.2s ease forwards;
-        }
-        .form-group.has-error input {
-            border-color: var(--error-color) !important;
-            box-shadow: 0 0 8px rgba(255, 56, 56, 0.2) !important;
-        }
-
+ 
+        .error-message { color: var(--error-color); font-size: 0.8rem; font-weight: 600; margin-top: 6px; display: none; animation: fadeInField 0.2s ease forwards; }
+        .form-group.has-error input { border-color: var(--error-color) !important; box-shadow: 0 0 8px rgba(255, 56, 56, 0.2) !important; }
+ 
         .form-group textarea { resize: vertical; min-height: 150px; }
-
+ 
         .submit-btn {
             width: 100%;
             padding: 15px;
@@ -282,19 +218,9 @@
             box-shadow: 0 4px 15px var(--primary-glow);
             transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px var(--primary);
-            background: #b23bf7;
-        }
-        .submit-btn:disabled {
-            background: #555;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* --- 🌟 ستايل البوب أب المطور والنيون (Popup Styles) 🌟 --- */
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px var(--primary); background: #b23bf7; }
+        .submit-btn:disabled { background: #555; cursor: not-allowed; transform: none; box-shadow: none; }
+ 
         .popup-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -323,7 +249,6 @@
         .popup-box h3 { font-size: 1.6rem; margin-bottom: 12px; color: var(--text-main); font-weight: 800; }
         .popup-box p { color: var(--text-dim); font-size: 1rem; margin-bottom: 25px; line-height: 1.6; }
         
-        /* مراجعة بيانات العميل داخل البوب اب */
         .review-details {
             background: var(--item-bg);
             border: 1px solid var(--border-color);
@@ -338,136 +263,68 @@
         .review-item strong { color: var(--primary); display: block; margin-bottom: 3px; font-size: 0.85rem; text-transform: uppercase; }
         .review-item span { color: var(--text-main); word-break: break-word; }
         
-        .popup-warning {
-            color: #ff3838 !important;
-            font-size: 0.85rem !important;
-            font-weight: bold;
-            margin-bottom: 20px !important;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .popup-buttons-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        .popup-btn-confirm {
-            background: var(--primary); color: #fff; border: none;
-            padding: 12px 25px; border-radius: 8px; font-weight: bold; font-size: 0.95rem;
-            cursor: pointer; transition: 0.3s ease; box-shadow: 0 4px 15px var(--primary-glow);
-            flex: 1;
-        }
+        .popup-warning { color: #ff3838 !important; font-size: 0.85rem !important; font-weight: bold; margin-bottom: 20px !important; display: flex; align-items: center; justify-content: center; gap: 5px; }
+ 
+        .popup-buttons-group { display: flex; gap: 15px; justify-content: center; }
+ 
+        .popup-btn-confirm { background: var(--primary); color: #fff; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; font-size: 0.95rem; cursor: pointer; transition: 0.3s ease; box-shadow: 0 4px 15px var(--primary-glow); flex: 1; }
         .popup-btn-confirm:hover { background: #b23bf7; transform: translateY(-2px); box-shadow: 0 6px 20px var(--primary); }
-
-        .popup-btn-cancel {
-            background: transparent; color: var(--text-main); border: 1px solid var(--border-color);
-            padding: 12px 25px; border-radius: 8px; font-weight: bold; font-size: 0.95rem;
-            cursor: pointer; transition: 0.3s ease;
-            flex: 1;
-        }
+ 
+        .popup-btn-cancel { background: transparent; color: var(--text-main); border: 1px solid var(--border-color); padding: 12px 25px; border-radius: 8px; font-weight: bold; font-size: 0.95rem; cursor: pointer; transition: 0.3s ease; flex: 1; }
         .popup-btn-cancel:hover { background: rgba(255,255,255,0.05); border-color: var(--text-main); }
-
-        .popup-close-btn {
-            background: var(--primary); color: #fff; border: none;
-            padding: 12px 35px; border-radius: 8px; font-weight: bold; font-size: 1rem;
-            cursor: pointer; transition: 0.3s ease; box-shadow: 0 4px 15px var(--primary-glow);
-        }
+ 
+        .popup-close-btn { background: var(--primary); color: #fff; border: none; padding: 12px 35px; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.3s ease; box-shadow: 0 4px 15px var(--primary-glow); }
         .popup-close-btn:hover { background: #b23bf7; transform: translateY(-2px); box-shadow: 0 6px 20px var(--primary); }
-
-        /* --- شبكة منصات التواصل الاجتماعي --- */
-        .social-grid {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            width: 100%;
-            max-width: 700px;
-        }
-        .social-item {
-            flex: 1;
-            min-width: 130px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            text-decoration: none;
-            color: var(--text-main);
-            transition: 0.4s ease;
-            cursor: pointer;
-        }
+ 
+        .social-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; width: 100%; max-width: 700px; }
+        .social-item { flex: 1; min-width: 130px; background: var(--card-bg); border: 1px solid var(--border-color); padding: 20px; border-radius: 15px; text-align: center; text-decoration: none; color: var(--text-main); transition: 0.4s ease; cursor: pointer; }
         .social-item i { font-size: 2rem; margin-bottom: 10px; display: block; transition: 0.3s; }
         .social-item span { font-size: 0.85rem; font-weight: 600; display: block; color: var(--text-dim); }
         
         .social-item.instagram:hover { border-color: #e1306c; box-shadow: 0 0 20px rgba(225,48,108,0.3); }
         .social-item.instagram:hover i { color: #e1306c; transform: scale(1.1); }
-        
         .social-item.behance:hover { border-color: #0057ff; box-shadow: 0 0 20px rgba(0,87,255,0.3); }
         .social-item.behance:hover i { color: #0057ff; transform: scale(1.1); }
-
         .social-item.pinterest:hover { border-color: #bd081c; box-shadow: 0 0 20px rgba(189,8,28,0.3); }
         .social-item.pinterest:hover i { color: #bd081c; transform: scale(1.1); }
-
         .social-item.whatsapp:hover { border-color: #25d366; box-shadow: 0 0 20px rgba(37,211,102,0.3); }
         .social-item.whatsapp:hover i { color: #25d366; transform: scale(1.1); }
-
-        /* --- لوحة التحكم الموحدة --- */
-        .settings-panel {
-            position: fixed; left: -260px; top: 50%; transform: translateY(-50%);
-            width: 260px; background: var(--card-bg); border: 1px solid var(--primary);
-            padding: 20px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
+ 
+        .settings-panel { position: fixed; left: -260px; top: 50%; transform: translateY(-50%); width: 260px; background: var(--card-bg); border: 1px solid var(--primary); padding: 20px; z-index: 10001; transition: 0.4s; border-radius: 0 15px 15px 0; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
         .settings-panel.active { left: 0; }
-        #settingsToggle {
-            position: absolute; right: -40px; top: 0; width: 40px; height: 40px;
-            background: var(--primary); border: none; color: white; border-radius: 0 8px 8px 0; cursor: pointer;
-        }
+        #settingsToggle { position: absolute; right: -40px; top: 0; width: 40px; height: 40px; background: var(--primary); border: none; color: white; border-radius: 0 8px 8px 0; cursor: pointer; }
         .setting-row { margin-bottom: 15px; }
-        .setting-btn {
-            width: 100%; padding: 8px; background: rgba(160,32,240,0.1); 
-            border: 1px solid var(--primary); color: var(--text-main);
-            border-radius: 5px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            font-size: 0.8rem;
-        }
-
+        .setting-btn { width: 100%; padding: 8px; background: rgba(160,32,240,0.1); border: 1px solid var(--primary); color: var(--text-main); border-radius: 5px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; }
+ 
         @media (max-width: 1024px) {
             .menu-toggle { display: block; }
-            .nav-links {
-                position: fixed; top: var(--nav-height); right: -100%; width: 80%; height: 100vh;
-                background: var(--bg); flex-direction: column; padding: 50px 30px; transition: 0.4s;
-                border-left: 1px solid var(--primary);
-            }
+            .nav-links { position: fixed; top: var(--nav-height); right: -100%; width: 80%; height: 100vh; background: var(--bg); flex-direction: column; padding: 50px 30px; transition: 0.4s; border-left: 1px solid var(--primary); }
             .nav-links.active { right: 0; }
             .contact-header { text-align: center; }
             .contact-card { padding: 25px 20px; }
             .contact-methods-tabs { flex-direction: column; gap: 8px; }
         }
-
+ 
         footer { padding: 40px; text-align: center; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border-color); }
     </style>
 </head>
 <body>
-
+ 
     <div id="cursor-container"></div>
-
+ 
+    <!-- بوب أب المراجعة -->
     <div class="popup-overlay" id="reviewPopup">
         <div class="popup-box">
             <i class="fas fa-user-check"></i>
             <h3>هل أنت متأكد من البيانات؟</h3>
             <p>يرجى مراجعة تفاصيل وسيلة التواصل والرسالة قبل الإرسال:</p>
-            
             <div class="review-details">
                 <div class="review-item">
                     <strong>الاسم الكامل:</strong>
                     <span id="reviewName">---</span>
                 </div>
                 <div class="review-item">
-                    <strong id="reviewMethodLabel">البريد الإلكتروني:</strong>
+                    <strong id="reviewMethodLabel">وسيلة التواصل:</strong>
                     <span id="reviewMethodValue">---</span>
                 </div>
                 <div class="review-item">
@@ -475,16 +332,15 @@
                     <span id="reviewMessage">---</span>
                 </div>
             </div>
-
             <p class="popup-warning" id="popupWarningText"><i class="fas fa-exclamation-triangle"></i> تنبيه: بمجرد إرسال الرسالة لا يمكن تعديلها أو حذفها.</p>
-            
             <div class="popup-buttons-group">
                 <button class="popup-btn-confirm" id="finalConfirmBtn">تأكيد الإرسال</button>
                 <button class="popup-btn-cancel" onclick="closeReviewPopup()">تعديل البيانات</button>
             </div>
         </div>
     </div>
-
+ 
+    <!-- بوب أب النجاح -->
     <div class="popup-overlay" id="successPopup">
         <div class="popup-box">
             <i class="fas fa-paper-plane"></i>
@@ -493,7 +349,8 @@
             <button class="popup-close-btn" onclick="closeSuccessPopup()">حسناً</button>
         </div>
     </div>
-
+ 
+    <!-- بوب أب قريباً -->
     <div class="popup-overlay" id="comingSoonPopup">
         <div class="popup-box">
             <i class="fas fa-link-slash" style="color: #ffb300;"></i>
@@ -502,11 +359,11 @@
             <button class="popup-close-btn" style="background: #ffb300; box-shadow: 0 4px 15px rgba(255,179,0,0.3);" onclick="closeComingSoonPopup()">حسناً</button>
         </div>
     </div>
-
+ 
+    <!-- لوحة الإعدادات -->
     <div id="settingsPanel" class="settings-panel">
         <button id="settingsToggle"><i class="fas fa-cog"></i></button>
         <h4 style="color: var(--primary); margin-bottom: 15px;">تخصيص الواجهة</h4>
-        
         <div class="setting-row">
             <label style="font-size: 0.75rem; color: var(--text-dim);">النمط العام:</label>
             <button class="setting-btn" onclick="toggleTheme()">
@@ -514,7 +371,6 @@
                 <i id="theme-icon" class="fas fa-moon"></i>
             </button>
         </div>
-
         <div class="setting-row">
             <label style="font-size: 0.75rem; color: var(--text-dim);">وضع التركيز:</label>
             <button class="setting-btn" onclick="toggleFocusMode()">
@@ -522,19 +378,17 @@
                 <i class="fas fa-eye-slash"></i>
             </button>
         </div>
-
         <div class="setting-row">
             <label style="font-size: 0.75rem; color: var(--text-dim);">لون الثيم:</label>
             <input type="color" id="fullColorPicker" style="width:100%; height:30px; border:none; background:none; cursor:pointer;" oninput="updateSiteColor(this.value)">
         </div>
-        
         <div id="desktop-only-settings">
             <label style="font-size: 0.75rem; color: var(--text-dim);">شكل الماوس:</label>
             <div onclick="setCursor('arrow')" style="cursor:pointer; padding:8px; background:rgba(160,32,240,0.05); margin-top:5px; border-radius:5px; font-size:0.8rem;">سهم نيون</div>
             <div onclick="setCursor('lens')" style="cursor:pointer; padding:8px; background:rgba(160,32,240,0.05); margin-top:5px; border-radius:5px; font-size:0.8rem;">عدسة عاكسة</div>
         </div>
     </div>
-
+ 
     <nav>
         <a href="index.html" class="logo-container">
             <img src="LAST/logo.png" alt="Kareem Logo" class="logo-img">
@@ -548,58 +402,54 @@
             <li><a href="contact.html" class="active">تواصل معي</a></li>
         </ul>
     </nav>
-
+ 
     <header class="contact-header">
         <h1 data-aos="fade-left">LET'S <span style="color: var(--primary);">TALK</span></h1>
         <p style="color: var(--text-dim); margin-top: 10px;">لديك فكرة مشروع مميزة؟ لنبدأ العمل معاً ونصنع شيئاً مذهلاً.</p>
     </header>
-
+ 
     <section class="contact-section">
         <div class="contact-card" data-aos="zoom-in">
             
             <div class="contact-methods-tabs">
-                <button type="button" class="method-tab-btn active" onclick="switchContactMethod('email')">
+                <button type="button" class="method-tab-btn active" onclick="switchContactMethod('email', this)">
                     <i class="fas fa-envelope"></i> البريد الإلكتروني
                 </button>
-                <button type="button" class="method-tab-btn" onclick="switchContactMethod('whatsapp')">
+                <button type="button" class="method-tab-btn" onclick="switchContactMethod('whatsapp', this)">
                     <i class="fab fa-whatsapp"></i> واتساب سريع
                 </button>
-                <button type="button" class="method-tab-btn" onclick="switchContactMethod('instagram')">
+                <button type="button" class="method-tab-btn" onclick="switchContactMethod('instagram', this)">
                     <i class="fab fa-instagram"></i> إنستغرام DM
                 </button>
             </div>
-
+ 
             <form id="contactForm">
-                
-                <input type="hidden" name="access_key" value="addc97b3-989a-4407-989e-d1905ea92cb8">
-                <input type="hidden" name="subject" value="رسالة جديدة من معرض أعمالك!">
-                <input type="hidden" name="from_name" value="Kareem Portfolio">
-                <input type="hidden" name="replyto" value="تم استلام طلبك بنجاح! شكراً لتواصلك معي يا فنان، لقد تلقيت تفاصيل فكرتك وسيتم الرد عليك والتواصل معك خلال 24 ساعة كحد أقصى.">
-
                 <div class="form-group" id="groupName">
                     <label>الاسم الكامل</label>
-                    <input type="text" id="inputName" name="name" placeholder="اكتب اسمك الكريم هنا..." required>
+                    <input type="text" id="inputName" placeholder="اكتب اسمك الكريم هنا...">
                     <div class="error-message" id="errorName">برجاء كتابة الاسم الكامل.</div>
                 </div>
-
+ 
                 <div id="dynamicFieldsContainer">
                     <div class="form-group dynamic-field-section" id="groupEmail">
                         <label>البريد الإلكتروني</label>
-                        <input type="email" id="inputEmail" name="email" placeholder="example@domain.com" required>
-                        <div class="error-message" id="errorEmail">يرجى إدخال بريد إلكتروني صحيح وصيغته سليمة (مثال: name@domain.com).</div>
+                        <input type="email" id="inputEmail" placeholder="example@domain.com">
+                        <div class="error-message" id="errorEmail">يرجى إدخال بريد إلكتروني صحيح (مثال: name@domain.com).</div>
                     </div>
                 </div>
-
+ 
                 <div class="form-group" id="groupMessage">
                     <label id="messageLabel">تفاصيل الرسالة أو المشروع</label>
-                    <textarea id="inputMessage" name="message" placeholder="اشرح فكرتك أو مشروعك بالتفصيل هنا..." required></textarea>
+                    <textarea id="inputMessage" placeholder="اشرح فكرتك أو مشروعك بالتفصيل هنا..."></textarea>
                     <div class="error-message" id="errorMessage">يرجى كتابة تفاصيل رسالتك أو فكرتك.</div>
                 </div>
-
-                <button type="submit" id="submitBtn" class="submit-btn">إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i></button>
+ 
+                <button type="submit" id="submitBtn" class="submit-btn">
+                    إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>
+                </button>
             </form>
         </div>
-
+ 
         <div class="social-grid" data-aos="fade-up" data-aos-delay="200">
             <div onclick="showComingSoon()" class="social-item instagram">
                 <i class="fab fa-instagram"></i>
@@ -619,394 +469,325 @@
             </div>
         </div>
     </section>
-
+ 
     <footer><p>© 2026 KAREEM DESIGN. All Rights Reserved.</p></footer>
-
+ 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     
     <script>
         AOS.init({ duration: 800, once: true });
-
-        // --- عناصر البوب أب والـ Form ---
+ 
+        const WEB3FORMS_KEY = "addc97b3-989a-4407-989e-d1905ea92cb8";
+ 
         const contactForm = document.getElementById('contactForm');
         const submitBtn = document.getElementById('submitBtn');
         const reviewPopup = document.getElementById('reviewPopup');
         const successPopup = document.getElementById('successPopup');
         const comingSoonPopup = document.getElementById('comingSoonPopup');
         const finalConfirmBtn = document.getElementById('finalConfirmBtn');
-
-        // عناصر المراجعة داخل البوب اب
         const reviewName = document.getElementById('reviewName');
         const reviewMethodLabel = document.getElementById('reviewMethodLabel');
         const reviewMethodValue = document.getElementById('reviewMethodValue');
         const reviewMessage = document.getElementById('reviewMessage');
-
-        // المتغيرات الخاصة بالتحقق والنظام الديناميكي
-        let currentMethod = 'email'; // الخيارات: email, whatsapp, instagram
-        let itiInstance = null; // لمكتبة رقم الهاتف
-
-        // قوالب الحقول الديناميكية ليتم حقنها برمجياً
+ 
+        let currentMethod = 'email';
+        let itiInstance = null;
+ 
         const fieldsTemplates = {
             email: `
                 <div class="form-group dynamic-field-section" id="groupEmail">
                     <label>البريد الإلكتروني</label>
-                    <input type="email" id="inputEmail" name="email" placeholder="example@domain.com">
-                    <div class="error-message" id="errorEmail">يرجى إدخال بريد إلكتروني صحيح وصيغته سليمة (مثال: name@domain.com).</div>
-                </div>
-            `,
+                    <input type="email" id="inputEmail" placeholder="example@domain.com">
+                    <div class="error-message" id="errorEmail">يرجى إدخال بريد إلكتروني صحيح (مثال: name@domain.com).</div>
+                </div>`,
             whatsapp: `
                 <div class="form-group dynamic-field-section" id="groupWhatsapp">
-                    <label>رقم الواتساب (اختر الدولة وسيتم التحقق من دقة الرقم تلقائياً)</label>
-                    <input type="tel" id="inputWhatsapp" name="whatsapp_phone">
-                    <div class="error-message" id="errorWhatsapp">الرقم المكتوب غير صحيح أو غير متوافق مع الدولة المختارة. يرجى مراجعته!</div>
-                </div>
-            `,
+                    <label>رقم الواتساب (اختر الدولة وسيتم التحقق من الرقم تلقائياً)</label>
+                    <input type="tel" id="inputWhatsapp">
+                    <div class="error-message" id="errorWhatsapp">الرقم غير صحيح، يرجى مراجعته!</div>
+                </div>`,
             instagram: `
                 <div class="form-group dynamic-field-section" id="groupInstagram">
                     <label>اسم مستخدم إنستغرام الخاص بك (Username)</label>
                     <div class="insta-input-wrapper">
                         <span class="insta-prefix">@</span>
-                        <input type="text" id="inputInstagram" name="instagram_user" placeholder="username">
+                        <input type="text" id="inputInstagram" placeholder="username">
                     </div>
-                    <div class="error-message" id="errorInstagram">اسم المستخدم غير صحيح! يرجى كتابة اليوزر فقط بدون @ وبدون مسافات أو رموز خاصة (مسموح بـ . و _ فقط).</div>
-                </div>
-            `
+                    <div class="error-message" id="errorInstagram">اسم المستخدم غير صحيح! اكتب اليوزر بدون @ وبدون مسافات.</div>
+                </div>`
         };
-
-        // دالة التبديل بين طرق التواصل
-        function switchContactMethod(method) {
-            if(currentMethod === method) return;
+ 
+        function switchContactMethod(method, btn) {
             currentMethod = method;
-
-            // تحديث تصميم الأزرار النشطة
-            document.querySelectorAll('.method-tab-btn').forEach(btn => btn.classList.remove('active'));
-            const clickedBtn = event.currentTarget;
-            if(clickedBtn) clickedBtn.classList.add('active');
-
-            // حقن الحقل المناسب في الفورم
-            const container = document.getElementById('dynamicFieldsContainer');
-            container.innerHTML = fieldsTemplates[method];
-
-            // تحديث مسميات ونصوص الإرسال حسب المنصة لتناسب الـ UX
+ 
+            document.querySelectorAll('.method-tab-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+ 
+            document.getElementById('dynamicFieldsContainer').innerHTML = fieldsTemplates[method];
+ 
             const messageLabel = document.getElementById('messageLabel');
             const inputMessage = document.getElementById('inputMessage');
-            
-            if(method === 'email') {
+ 
+            if (method === 'email') {
                 messageLabel.innerText = "تفاصيل الرسالة أو المشروع";
                 inputMessage.placeholder = "اشرح فكرتك أو مشروعك بالتفصيل هنا...";
-                submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>';
-            } else if(method === 'whatsapp') {
-                messageLabel.innerText = "تفاصيل طلبك السريع (سيتم إرسالها معك إلى الواتساب)";
-                inputMessage.placeholder = "اكتب تفاصيل الاستفسار أو التصميم المطلوب هنا بشكل سريع...";
-                submitBtn.innerHTML = 'فتح شات واتساب وتأكيد الطلب <i class="fab fa-whatsapp" style="margin-right: 5px;"></i>';
-            } else if(method === 'instagram') {
-                messageLabel.innerText = "تفاصيل رسالتك لـ DM إنستغرام";
-                inputMessage.placeholder = "اكتب ما تريد استفساره لفتحه مباشرة في الإنستغرام...";
-                submitBtn.innerHTML = 'مراسلة عبر إنستغرام DM <i class="fab fa-instagram" style="margin-right: 5px;"></i>';
-            }
-
-            // تفعيل مكتبة كود الدولة لو تم اختيار الواتساب
-            if(method === 'whatsapp') {
+                submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right:5px;"></i>';
+            } else if (method === 'whatsapp') {
+                messageLabel.innerText = "تفاصيل طلبك";
+                inputMessage.placeholder = "اكتب تفاصيل الاستفسار أو التصميم المطلوب...";
+                submitBtn.innerHTML = 'إرسال عبر الواتساب <i class="fab fa-whatsapp" style="margin-right:5px;"></i>';
+ 
                 const phoneInput = document.getElementById('inputWhatsapp');
                 itiInstance = window.intlTelInput(phoneInput, {
                     initialCountry: "auto",
-                    geoIpLookup: function(success, failure) {
+                    geoIpLookup: function(success) {
                         fetch("https://ipapi.co/json/")
-                        .then(res => res.json())
-                        .then(data => success(data.country_code))
-                        .catch(() => success("EG")); // مصر كخيار احتياطي
+                            .then(res => res.json())
+                            .then(data => success(data.country_code))
+                            .catch(() => success("EG"));
                     },
                     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
                 });
-            } else {
+            } else if (method === 'instagram') {
+                messageLabel.innerText = "تفاصيل رسالتك";
+                inputMessage.placeholder = "اكتب ما تريد التواصل بشأنه...";
+                submitBtn.innerHTML = 'إرسال عبر إنستغرام <i class="fab fa-instagram" style="margin-right:5px;"></i>';
                 itiInstance = null;
             }
         }
-
-        // دالة التحقق الشاملة من الحقول (Validation Logic)
+ 
         function validateForm() {
             let isValid = true;
-
-            // 1. تنظيف رسائل الخطأ السابقة
             document.querySelectorAll('.form-group').forEach(el => el.classList.remove('has-error'));
             document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
-
-            // 2. التحقق من الاسم
+ 
             const nameVal = document.getElementById('inputName').value.trim();
-            if(!nameVal) {
+            if (!nameVal) {
                 document.getElementById('groupName').classList.add('has-error');
                 document.getElementById('errorName').style.display = 'block';
                 isValid = false;
             }
-
-            // 3. التحقق من تفاصيل الرسالة
+ 
             const msgVal = document.getElementById('inputMessage').value.trim();
-            if(!msgVal) {
+            if (!msgVal) {
                 document.getElementById('groupMessage').classList.add('has-error');
                 document.getElementById('errorMessage').style.display = 'block';
                 isValid = false;
             }
-
-            // 4. التحقق الديناميكي حسب نوع المنصة المختارة
-            if(currentMethod === 'email') {
+ 
+            if (currentMethod === 'email') {
                 const emailInput = document.getElementById('inputEmail');
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if(!emailInput || !emailRegex.test(emailInput.value.trim())) {
+                if (!emailInput || !emailRegex.test(emailInput.value.trim())) {
                     document.getElementById('groupEmail').classList.add('has-error');
                     document.getElementById('errorEmail').style.display = 'block';
                     isValid = false;
                 }
-            } 
-            else if(currentMethod === 'whatsapp') {
-                const phoneInput = document.getElementById('inputWhatsapp');
-                if(!phoneInput || !itiInstance || !itiInstance.isValidNumber()) {
+            } else if (currentMethod === 'whatsapp') {
+                if (!itiInstance || !itiInstance.isValidNumber()) {
                     document.getElementById('groupWhatsapp').classList.add('has-error');
                     document.getElementById('errorWhatsapp').style.display = 'block';
                     isValid = false;
                 }
-            } 
-            else if(currentMethod === 'instagram') {
+            } else if (currentMethod === 'instagram') {
                 const instaInput = document.getElementById('inputInstagram');
-                const instaRegex = /^[a-zA-Z0-9._]{1,30}$/; // شروط يوزرات انستغرام الرسمية
-                if(!instaInput || !instaRegex.test(instaInput.value.trim())) {
+                const instaRegex = /^[a-zA-Z0-9._]{1,30}$/;
+                if (!instaInput || !instaRegex.test(instaInput.value.trim())) {
                     document.getElementById('groupInstagram').classList.add('has-error');
                     document.getElementById('errorInstagram').style.display = 'block';
                     isValid = false;
                 }
             }
-
+ 
             return isValid;
         }
-
-        // عند الضغط على زر الإرسال الرئيسي في الـ Form
+ 
         contactForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // منع الإرسال الافتراضي للمتصفح
-
-            // تنفيذ الـ Validation أولاً
-            if(!validateForm()) {
-                return; // إيقاف العملية لو وجد أي خطأ
-            }
-
-            // تجهيز البيانات وتمريرها لبوب أب المراجعة والتأكيد
+            e.preventDefault();
+            if (!validateForm()) return;
+ 
             reviewName.innerText = document.getElementById('inputName').value.trim();
             reviewMessage.innerText = document.getElementById('inputMessage').value.trim();
-
+ 
             const warningText = document.getElementById('popupWarningText');
-
-            if(currentMethod === 'email') {
+ 
+            if (currentMethod === 'email') {
                 reviewMethodLabel.innerText = "البريد الإلكتروني:";
                 reviewMethodValue.innerText = document.getElementById('inputEmail').value.trim();
-                warningText.innerHTML = '<i class="fas fa-exclamation-triangle"></i> تنبيه: بمجرد تأكيد الإرسال، سيتم إرسال الإيميل رسمياً لكريم.';
-            } 
-            else if(currentMethod === 'whatsapp') {
-                reviewMethodLabel.innerText = "رقم الواتساب الدولي:";
-                // جلب الرقم كامل مع كود الدولة بصيغة E.164 (مثال: +201000000000)
+                warningText.innerHTML = '<i class="fas fa-exclamation-triangle"></i> سيتم إرسال رسالتك عبر البريد الإلكتروني.';
+            } else if (currentMethod === 'whatsapp') {
+                reviewMethodLabel.innerText = "رقم الواتساب:";
                 reviewMethodValue.innerText = itiInstance.getNumber();
-                warningText.innerHTML = '<i class="fab fa-whatsapp" style="color:#25d366;"></i> سيتم فتح تطبيق الواتس مباشرة برسالة مجهزة ببياناتك.';
-            } 
-            else if(currentMethod === 'instagram') {
+                warningText.innerHTML = '<i class="fab fa-whatsapp" style="color:#25d366;"></i> سيتم إرسال بياناتك عبر Web3Forms ثم يصلك تنبيه.';
+            } else if (currentMethod === 'instagram') {
                 reviewMethodLabel.innerText = "حساب الإنستغرام:";
                 reviewMethodValue.innerText = "@" + document.getElementById('inputInstagram').value.trim();
-                warningText.innerHTML = '<i class="fab fa-instagram" style="color:#e1306c;"></i> سيتم توجيهك مباشرة لفتح شات الـ DM مع كريم.';
+                warningText.innerHTML = '<i class="fab fa-instagram" style="color:#e1306c;"></i> سيتم إرسال بياناتك عبر Web3Forms ثم يصلك تنبيه.';
             }
-
-            // فتح بوب أب المراجعة المطور
+ 
             reviewPopup.classList.add('active');
         });
-
-        // التأكيد النهائي داخل البوب أب (هنا يتم تنفيذ الـ Action الحقيقي لكل منصة)
+ 
+        // ===== التأكيد النهائي - كل الطرق عبر Web3Forms =====
         finalConfirmBtn.addEventListener('click', function() {
             reviewPopup.classList.remove('active');
-            
+ 
             const name = document.getElementById('inputName').value.trim();
             const message = document.getElementById('inputMessage').value.trim();
-
+ 
+            let contactLabel = '';
+            let contactValue = '';
+            let subjectLine = '';
+ 
             if (currentMethod === 'email') {
-                // --- سيناريو الإيميل الخلفي (Web3Forms) ---
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = 'جاري إرسال البريد حالياً... <i class="fas fa-spinner fa-spin" style="margin-right: 5px;"></i>';
-
-                const formData = new FormData(contactForm);
-                const formObject = Object.fromEntries(formData);
-                const jsonPayload = JSON.stringify(formObject);
-
-                fetch('https://api.web3forms.com/submit', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: jsonPayload
-                })
-                .then(async (response) => {
-                    let resultData = await response.json();
-                    if (response.status === 200) {
-                        document.getElementById('successPopupContent').innerText = "شكراً لتواصلك يا فنان. تم إرسال رسالتك عبر البريد بنجاح، وسيتم مراجعة مشروعك والرد عليك خلال 24 ساعة.";
-                        successPopup.classList.add('active');
-                        contactForm.reset();
-                        switchContactMethod('email'); // إعادة التعيين
-                    } else {
-                        alert("نعتذر منك، حدث خطأ أثناء الإرسال: " + resultData.message);
-                        resetSubmitButton();
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                    alert("تعذر الاتصال بالسيرفر، يرجى التحقق من شبكة الإنترنت لديك.");
-                    resetSubmitButton();
-                });
-
-            } 
-            else if (currentMethod === 'whatsapp') {
-                // --- سيناريو الواتساب الذكي ---
-                const fullPhoneNumber = itiInstance.getNumber();
-                const myNumber = "201015112520"; // 🌟 ضع هنا رقم الواتساب الخاص بك بالكامل بدون أصفار أو علامة + (مثال مفترض لمصر)
-                
-                // تجهيز نص الرسالة الاحترافي للعميل تلقائياً في شات الواتس
-                const textMessage = `أهلاً يا كريم، أنا ${name}.\nكنت حابب أتواصل معك بخصوص مشروع جرافيك/سوشيال ميديا.\n\nتفاصيل طلبي:\n${message}\n\nرقم تواصلي: ${fullPhoneNumber}`;
-                const encodedText = encodeURIComponent(textMessage);
-                
-                // فتح رابط الواتساب المباشر
-                window.open(`https://wa.me/${myNumber}?text=${encodedText}`, '_blank');
-                
-                // إظهار بوب أب النجاح لتنظيف الفورم
-                document.getElementById('successPopupContent').innerText = "تم توجيهك إلى الواتساب بنجاح لإرسال الرسالة المجهزة لكريم!";
-                successPopup.classList.add('active');
-                contactForm.reset();
-                switchContactMethod('email');
-            } 
-            else if (currentMethod === 'instagram') {
-                // --- سيناريو الإنستغرام DM ---
-                const instaUser = document.getElementById('inputInstagram').value.trim();
-                const myInstaAccount = "kareem.mohamed"; // 🌟 ضع هنا يوزر الإنستغرام الخاص بك أنت لتلقي الرسائل
-                
-                // فتح شات الـ DM الخاص بك مباشرة
-                window.open(`https://www.instagram.com/${myInstaAccount}/`, '_blank');
-                
-                // إظهار بوب أب النجاح
-                document.getElementById('successPopupContent').innerText = `تم فتح حساب كريم بنجاح! يمكنك الآن إرسال رسالتك عبر الـ DM. (اسمك المسجل لدينا: ${name} وحسابك: @${instaUser})`;
-                successPopup.classList.add('active');
-                contactForm.reset();
-                switchContactMethod('email');
+                contactLabel = 'البريد الإلكتروني';
+                contactValue = document.getElementById('inputEmail').value.trim();
+                subjectLine = '📧 رسالة جديدة عبر البريد الإلكتروني';
+            } else if (currentMethod === 'whatsapp') {
+                contactLabel = 'رقم الواتساب';
+                contactValue = itiInstance.getNumber();
+                subjectLine = '📱 طلب جديد عبر الواتساب';
+            } else if (currentMethod === 'instagram') {
+                contactLabel = 'حساب الإنستغرام';
+                contactValue = '@' + document.getElementById('inputInstagram').value.trim();
+                subjectLine = '📸 رسالة جديدة عبر الإنستغرام';
             }
+ 
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'جاري الإرسال... <i class="fas fa-spinner fa-spin" style="margin-right:5px;"></i>';
+ 
+            const payload = {
+                access_key: WEB3FORMS_KEY,
+                subject: subjectLine,
+                from_name: "Kareem Portfolio",
+                name: name,
+                email: "noreply@kareemportfolio.com",
+                message: `الاسم: ${name}\n${contactLabel}: ${contactValue}\n\nتفاصيل الرسالة:\n${message}`
+            };
+ 
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(async (response) => {
+                const result = await response.json();
+                if (response.status === 200) {
+                    document.getElementById('successPopupContent').innerText =
+                        "تم إرسال رسالتك بنجاح! سيتم التواصل معك قريباً يا فنان.";
+                    successPopup.classList.add('active');
+                    contactForm.reset();
+                    switchContactMethod('email', document.querySelector('.method-tab-btn'));
+                } else {
+                    alert("حدث خطأ أثناء الإرسال: " + result.message);
+                    resetSubmitButton();
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert("تعذر الاتصال، تحقق من الإنترنت وحاول مرة أخرى.");
+                resetSubmitButton();
+            });
         });
-
-        // وظائف إغلاق البوب أبس
+ 
         function closeReviewPopup() { reviewPopup.classList.remove('active'); }
         function closeSuccessPopup() { successPopup.classList.remove('active'); }
-        
-        // وظائف بوب أب الروابط (قريباً)
         function showComingSoon() { comingSoonPopup.classList.add('active'); }
         function closeComingSoonPopup() { comingSoonPopup.classList.remove('active'); }
-
-        // إعادة تعيين الزر لحالته الأصلية
+ 
         function resetSubmitButton() {
             submitBtn.disabled = false;
-            submitBtn.style.background = '';
-            submitBtn.style.boxShadow = '';
-            if(currentMethod === 'email') {
-                submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right: 5px;"></i>';
+            if (currentMethod === 'email') {
+                submitBtn.innerHTML = 'إرسال الرسالة الآن <i class="fas fa-paper-plane" style="margin-right:5px;"></i>';
+            } else if (currentMethod === 'whatsapp') {
+                submitBtn.innerHTML = 'إرسال عبر الواتساب <i class="fab fa-whatsapp" style="margin-right:5px;"></i>';
+            } else {
+                submitBtn.innerHTML = 'إرسال عبر إنستغرام <i class="fab fa-instagram" style="margin-right:5px;"></i>';
             }
         }
-
-        // --- ميزة تبديل الثيم ---
+ 
         function toggleTheme() {
             const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
+            const targetTheme = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
             html.setAttribute('data-theme', targetTheme);
             localStorage.setItem('theme', targetTheme);
             updateThemeUI(targetTheme);
         }
-
+ 
         function updateThemeUI(theme) {
             const text = document.getElementById('theme-text');
             const icon = document.getElementById('theme-icon');
             if (theme === 'light') {
-                if(text) text.innerText = "الوضع الفاتح";
-                if(icon) icon.className = "fas fa-sun";
+                if (text) text.innerText = "الوضع الفاتح";
+                if (icon) icon.className = "fas fa-sun";
             } else {
-                if(text) text.innerText = "الوضع الداكن";
-                if(icon) icon.className = "fas fa-moon";
+                if (text) text.innerText = "الوضع الداكن";
+                if (icon) icon.className = "fas fa-moon";
             }
         }
-
-        // --- وضع التركيز (Focus Mode) ---
+ 
         let isFocusActive = false;
         function toggleFocusMode() {
             isFocusActive = !isFocusActive;
             document.body.classList.toggle('focus-active');
-            const statusText = document.getElementById('focus-status');
-            statusText.innerText = isFocusActive ? "إلغاء وضع التركيز" : "تشغيل الوضع";
-            
-            if(isFocusActive) {
+            document.getElementById('focus-status').innerText = isFocusActive ? "إلغاء وضع التركيز" : "تشغيل الوضع";
+            if (isFocusActive) {
                 const escHandler = (e) => {
-                    if (e.key === 'Escape') {
-                        toggleFocusMode();
-                        document.removeEventListener('keydown', escHandler);
-                    }
+                    if (e.key === 'Escape') { toggleFocusMode(); document.removeEventListener('keydown', escHandler); }
                 };
                 document.addEventListener('keydown', escHandler);
             }
         }
-
-        // تحديث اللون الأساسي للموقع
+ 
         function updateSiteColor(color) {
             document.documentElement.style.setProperty('--primary', color);
             document.documentElement.style.setProperty('--primary-glow', color + '4d');
             localStorage.setItem('userThemeColor', color);
         }
-
-        // --- الماوس المخصص ---
+ 
         let currentCursorMode = localStorage.getItem('cursorMode') || 'arrow';
         const cursorContainer = document.getElementById('cursor-container');
         const isMobile = window.matchMedia("(max-width: 1024px)").matches;
-
+ 
         function setCursor(mode) {
             if (isMobile) return;
             currentCursorMode = mode;
             localStorage.setItem('cursorMode', mode);
             document.documentElement.classList.add('custom-cursor-active');
             cursorContainer.style.display = 'block';
-            renderCursor(mode);
-        }
-
-        function renderCursor(mode) {
             if (mode === 'lens') {
                 cursorContainer.innerHTML = '<div class="cursor-lens"></div>';
             } else {
-                cursorContainer.innerHTML = `<svg class="cursor-arrow" viewBox="0 0 24 24"><path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" /></svg>`;
+                cursorContainer.innerHTML = '<svg class="cursor-arrow" viewBox="0 0 24 24"><path id="cursor-path" d="M4.5 3V19L8.7 14.8H15.5L4.5 3Z" /></svg>';
             }
         }
-
+ 
         if (!isMobile) {
             document.addEventListener('mousemove', (e) => {
                 cursorContainer.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
             });
         }
-
-        // --- تنفيذ الإعدادات فور تحميل الصفحة ---
+ 
         window.addEventListener('DOMContentLoaded', () => {
-            resetSubmitButton();
-
             const savedTheme = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeUI(savedTheme);
-
+ 
             const savedColor = localStorage.getItem('userThemeColor');
             if (savedColor) {
                 updateSiteColor(savedColor);
-                if(document.getElementById('fullColorPicker')) document.getElementById('fullColorPicker').value = savedColor;
+                const picker = document.getElementById('fullColorPicker');
+                if (picker) picker.value = savedColor;
             }
-            
+ 
             setCursor(currentCursorMode);
+            resetSubmitButton();
         });
-
+ 
         document.getElementById('settingsToggle').onclick = () => document.getElementById('settingsPanel').classList.toggle('active');
-        document.getElementById('mobile-menu-btn').onclick = () => {
-            document.getElementById('nav-menu').classList.toggle('active');
-        };
+        document.getElementById('mobile-menu-btn').onclick = () => document.getElementById('nav-menu').classList.toggle('active');
     </script>
 </body>
 </html>
+ 
